@@ -44,23 +44,8 @@ public class MapEngineController {
 		case "editmap":
 			System.out.println("calling business file for editmap");
 			return executeMapsCommands.editOrCreateMap(splitMainMapCommand[1]);
-			
-		case "showmap":
-			
-			System.out.println("calling business file for showmap");
-			return executeMapsCommands.showMap();
-			
-			
-		case "savemap":
-			System.out.println("calling business file for savemap");
-			return executeMapsCommands.saveMap(splitMainMapCommand[1]);
-			
-
-		case "validatemap":
-			System.out.println("calling business file for validate map");
-			return executeMapsCommands.validateMap();
-			
-
+		case "exit":
+			return new ResponseWrapper(204, "Return Form current command");
 		default:
 			return new ResponseWrapper(404, "Please enter proper command"); // nothing entered please enter proper
 																			// command
@@ -68,11 +53,11 @@ public class MapEngineController {
 
 	}
 
-	public MapCommands getEditMapCommandsFromUser() {
+	public ResponseWrapper getEditMapCommandsFromUser() {
 
 		String userEnteredCommand = inputForMapCommands.nextLine();
 		if (userEnteredCommand.isEmpty()) {
-			return MapCommands.NONE;
+			return new ResponseWrapper(404, "Please enter proper command");
 		}
 		// Filter
 		String[] splittedCommands = userEnteredCommand.trim().replaceAll(" +", " ").split("\\s+");
@@ -81,28 +66,37 @@ public class MapEngineController {
 
 		// edit continents
 		case "editcontinent":
-			if (splittedCommands.length == 4) {
-				Continent continent = new Continent(splittedCommands[3], splittedCommands[4]);
+			
+				
 				switch (splittedCommands[1]) {
 
 				case "-add":
+					
 					// call business file to execute command
-					executeMapsCommands.addContinent(continent);
-
+					if (splittedCommands.length == 4) {
+						Continent continent = new Continent(splittedCommands[2], splittedCommands[3]);
+						executeMapsCommands.addContinent(continent);
+					}else {
+						return new ResponseWrapper(404, "Please enter proper command");
+					}
 					break;
 
 				case "-remove":
+					
+					if (splittedCommands.length == 3) {
+						Continent continent = new Continent(splittedCommands[2]);
+						executeMapsCommands.removeContinent(continent);
+					}else {
+						return new ResponseWrapper(404, "Please enter proper command");
+					}
 					// call business file to execute command
-					executeMapsCommands.removeContinent(continent);
+					
 					break;
 
 				default:
-					return MapCommands.NONE;
-				}
+					return new ResponseWrapper(404, "Please enter proper command");
 
-			} else {
-				return MapCommands.NONE;
-			}
+				}
 
 			break;
 
@@ -112,7 +106,7 @@ public class MapEngineController {
 			case "-add":
 
 				if (splittedCommands.length == 4) {
-					Country country = new Country(splittedCommands[3], new Continent(splittedCommands[4]));
+					Country country = new Country(splittedCommands[2], new Continent(splittedCommands[3]));
 					executeMapsCommands.addCountry(country);
 				} else {
 					// please provide proper parameters
@@ -130,12 +124,13 @@ public class MapEngineController {
 			}
 			break;
 
-		case "editneighbor":
+		case "editneighbour":
 			switch (splittedCommands[1]) {
 			case "-add":
 				if (splittedCommands.length == 4) {
-					Country country = new Country(splittedCommands[3]);
-					Country neighbourCountry = new Country(splittedCommands[4]);
+					System.out.println("calling business file editeighbour");
+					Country country = new Country(splittedCommands[2]);
+					Country neighbourCountry = new Country(splittedCommands[3]);
 					executeMapsCommands.addNeighbour(country, neighbourCountry);
 
 				} else {
@@ -155,13 +150,32 @@ public class MapEngineController {
 				break;
 			}
 			break;
+		case "showmap":
+			
+			System.out.println("calling business file for showmap");
+			return executeMapsCommands.showMap();
+			
+			
+		case "savemap":
+			System.out.println("calling business file for savemap");
+			return executeMapsCommands.saveMap(splittedCommands[1]);
+			
+
+		case "validatemap":
+			System.out.println("calling business file for validate map");
+			return executeMapsCommands.validateMap();
+			
+		case "exit":
+			return new ResponseWrapper(204, "Return Form current command");
 		
 		default:
-			return MapCommands.NONE;
+			return new ResponseWrapper(404, "Please enter proper command");
+
 
 		}
 
-		return MapCommands.NONE;
+		return new ResponseWrapper(404, "Please enter proper command");
+
 	}
 
 }

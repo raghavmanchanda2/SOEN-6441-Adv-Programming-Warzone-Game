@@ -35,6 +35,14 @@ public class Country {
 	}
 
 
+	public int getUniqueCountryId() {
+		return uniqueCountryId;
+	}
+
+	public void setUniqueCountryId(int uniqueCountryId) {
+		this.uniqueCountryId = uniqueCountryId;
+	}
+
 	public Map<Country, List<Country>> getConnectedCountries() {
 		return connectedCountries;
 	}

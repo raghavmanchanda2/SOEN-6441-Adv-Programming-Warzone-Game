@@ -1,6 +1,8 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,16 +48,32 @@ public class MapModel {
 	}
 	
 	public void addContinent(Continent continent) {
+		System.out.println("add continent");
+		if(this.continents == null) {
+			this.continents = new ArrayList<>();
+		}
+		if(this.continentCountries == null) {
+			this.continentCountries = new HashMap<>();
+		}
 		this.continents.add(continent);
 		this.continentCountries.put(continent, new ArrayList<>());
 	}
 	
 	public void addContinentCountries(Continent continent, Country country) {
+		country.setContinent(continent);
 		if (this.continentCountries.containsKey(continent)) {
 			this.continentCountries.get(continent).add(country);
+			if(this.borders == null) {
+				this.borders = new LinkedHashMap<>();
+			}
 			this.borders.put(country, new ArrayList<>());
+			if(this.countries == null) {
+				this.countries = new ArrayList<>();
+			}
 			this.countries.add(country);
+			this.borders.put(country, new ArrayList<>());
 		}
+		
 	}
 	
 	public void addBorders(Country mainCountry,Country neighbourCountry) {
@@ -63,5 +81,4 @@ public class MapModel {
 			this.borders.get(mainCountry).add(neighbourCountry);
 		}
 	}
-
 }

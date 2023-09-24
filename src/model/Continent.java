@@ -33,6 +33,14 @@ public class Continent {
 		this.continentCountries = continentCountries;
 	}
 
+	public int getUniqueContinetId() {
+		return uniqueContinetId;
+	}
+
+	public void setUniqueContinetId(int uniqueContinetId) {
+		this.uniqueContinetId = uniqueContinetId;
+	}
+
 	public List<Country> getContinentCountries() {
 		return continentCountries;
 	}
