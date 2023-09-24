@@ -3,6 +3,8 @@ package business;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -49,9 +51,76 @@ public class ExecuteMapsCommands {
 		return null;
 	}
 
-	public ResponseWrapper showMap() {
+	public void showMap(MapModel mapObject) {
 
-		return null;
+		System.out.format("\n Map Details : \n");
+		System.out.format("\n Continents of Map are : \n");
+		System.out.format("+------------------+%n");
+		System.out.format("| Continent's name |%n");
+		System.out.format("+------------------+%n");
+
+		mapObject.getContinents().stream().forEach((continent) -> {
+			String table = "|%-18s|%n";
+			System.out.format(table, continent.getContientValue());
+		});
+
+		System.out.format("+------------------+%n");
+
+		// Showing Countries in the Continent and their details
+		System.out.format("\nThe countries in this Map and their details are : \n");
+
+		System.out.format(
+				"+--------------+-----------------------+------------------+----------------------------+---------------+-%n");
+		System.out.format(
+				"     Country name     | Continent Name |   Bordering Countries                                      |%n");
+		System.out.format(
+				"+--------------+-----------------------+------------------+----------------------------+----------------+%n");
+
+		mapObject.getBorders().entrySet().stream().forEach((object) -> {
+			String tablePattern = "|%-23s|%-18s|%-60s|%n";
+			System.out.format(tablePattern, object.getKey(), object.getValue());
+		});
+
+		for (Map.Entry<Country, List<Country>> entry : mapObject.getBorders().entrySet()) {
+			String tablePattern = "|%-23s|%-18s|%-60s|%n";
+			for (Country country : entry.getValue()) {
+				System.out.format(tablePattern, entry.getKey(), country.getContinent(),
+						getCountriesList(entry.getValue()));
+			}
+		}
+
+		System.out.format(
+				"+--------------+-----------------------+------------------+----------------------------+----------------+%n");
+
+		System.out.format("\nPlayers in this game are : ");
+//		if (l_Players != null) {
+//			l_Players.forEach((key, value) -> d_Logger.log(key));
+//			d_Logger.log("");
+//		}
+
+		// Showing the Ownership of the players
+		System.out.format("The Map ownership of the players are : ");
+
+		System.out.format("+---------------+-------------------------------+%n");
+		System.out.format("| Player's name |    Continent's Controlled    |%n");
+		System.out.format("+---------------+-------------------------------+%n");
+
+		String table = "|%-15s|%-30s|%n";
+
+//		for (Player l_Player : d_GameMap.getPlayers().values()) {
+//			System.out.format(l_Table1, l_Player.getName(),
+//					l_Player.createACaptureList(l_Player.getCapturedCountries()), l_Player.getReinforcementArmies());
+//		}
+
+		System.out.format("+---------------+-------------------------------+%n");
+	}
+
+	public String getCountriesList(List<Country> countriesList) {
+		String countList = "";
+		for (Country country : countriesList) {
+			countList += country.getCountryId() + "-";
+		}
+		return countList.length() > 0 ? countList.substring(0, countList.length() - 1) : "";
 	}
 
 	public ResponseWrapper saveMap(String mapFileName) {
@@ -107,8 +176,8 @@ public class ExecuteMapsCommands {
 			return new ResponseWrapper(404, " Countries Border Missing ");
 		}
 
-		return new ResponseWrapper(200, " VALIDATION SUCCESSFUL ");	
-		}
+		return new ResponseWrapper(200, " VALIDATION SUCCESSFUL ");
+	}
 
 	public ResponseWrapper editOrCreateMap(String mapFileName) {
 
