@@ -1,4 +1,4 @@
-package com.concordia.warzone;
+package logger;
 
 import java.util.Observable;
 

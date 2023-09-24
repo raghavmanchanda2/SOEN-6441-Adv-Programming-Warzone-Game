@@ -1,4 +1,4 @@
-package com.concordia.warzone.log;
+package logger;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -8,17 +8,17 @@ import java.util.logging.SimpleFormatter;
 
 public class LogGenerator {
 
-	public static final Logger SYSTEM_LOG = Logger.getLogger("systemLogFile");
-	public static final String LOG_FILE_PATH = System.getProperty("user.dir") + "\\src\\logFiles\\" + "systemLog.log";
+	private static final Logger SYSTEM_LOG = Logger.getLogger("systemLogFile");
+	private static final String LOG_FILE_PATH = System.getProperty("user.dir") + "\\src\\logFiles\\" + "systemLog.log";
 
 	
-	public  void createFile(Logger systemLog, String filePath) {
+	public  void createFile() {
 		FileHandler sytsemLogFileHandler;
 
 		try {
 			
-			sytsemLogFileHandler = new FileHandler(filePath, true);
-			systemLog.addHandler(sytsemLogFileHandler);
+			sytsemLogFileHandler = new FileHandler(LOG_FILE_PATH, true);
+			SYSTEM_LOG.addHandler(sytsemLogFileHandler);
 			SimpleFormatter formatter = new SimpleFormatter();
 			sytsemLogFileHandler.setFormatter(formatter);
 		}
@@ -31,23 +31,23 @@ public class LogGenerator {
 		systemLog.setUseParentHandlers(logOnCnsole);
 	}
 
-	public void logInfoMsg(Logger systemLog, String msg, char logType) {
+	public void logInfoMsg(String msg, char logType) {
 		switch (logType) {
 		case 'I':
-			systemLog.info(msg);
+			SYSTEM_LOG.info(msg);
 			break;
 		case 'W':
-			systemLog.warning(msg);
+			SYSTEM_LOG.warning(msg);
 			break;
 		case 'S':
-			systemLog.severe(msg);
+			SYSTEM_LOG.severe(msg);
 			break;
 		default:
-			systemLog.fine(msg);
+			SYSTEM_LOG.fine(msg);
 			break;
 
 		}
-		systemLog.info(msg);
+		SYSTEM_LOG.info(msg);
 	}
 
 	public void clearLogs(Logger systemLog, String filePath) {
@@ -56,7 +56,7 @@ public class LogGenerator {
 			raf.setLength(0);
 
 		} catch (IOException e) {
-			logInfoMsg(systemLog, "Failed to truncate file: " + e.getMessage(), 'W');
+			logInfoMsg( "Failed to truncate file: " + e.getMessage(), 'W');
 		}
 	}
 

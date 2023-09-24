@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class WarzoneEngineController {
 	
 	private Scanner inputForFeatureSelection;
+	
 
 	
 	public WarzoneEngineController(){
@@ -16,6 +17,7 @@ public class WarzoneEngineController {
 		int selectedFeature;
 		try {
 			selectedFeature = inputForFeatureSelection.nextInt();
+			
 		
 		}catch(InputMismatchException inputMismatchException){
 			// throws global exception

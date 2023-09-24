@@ -1,4 +1,4 @@
-package com.concordia.warzone;
+package logger;
 
 public class GeneralException extends Exception {
 
