@@ -85,13 +85,13 @@ public class MapEngineController {
 					
 					if (splittedCommands.length == 3) {
 						Continent continent = new Continent(splittedCommands[2]);
-						executeMapsCommands.removeContinent(continent);
+						return executeMapsCommands.removeContinent(continent);
 					}else {
 						return new ResponseWrapper(404, "Please enter proper command");
 					}
 					// call business file to execute command
 					
-					break;
+					
 
 				default:
 					return new ResponseWrapper(404, "Please enter proper command");
