@@ -202,32 +202,30 @@ public class MapFileAlteration {
 		System.out.format("\n Map Details : \n");
 		System.out.format("\n Continents of Map are : \n");
 		System.out.format("+------------------+%n");
-		System.out.format("| Continent's name |%n");
+		System.out.format("| Continent's Name |%n");
 		System.out.format("+------------------+%n");
 
 		this.mapModel.getContinents().stream().forEach((continent) -> {
-			String table = "|%-18s|%n";
+			String table = "|%-20s|%n";
 			System.out.format(table, continent.getContinentId());
 		});
 
 		System.out.format("+------------------+%n");
 
 		// Showing Countries in the Continent and their details
-		System.out.format("\nThe countries in this Map and their details are : \n");
+		System.out.format("\n Countries in this Map and their details are : \n");
 
 		System.out.format(
 				"+--------------+-----------------------+------------------+----------------------------+---------------+-%n");
 		System.out.format(
-				"     Country name     | Continent Name |   Bordering Countries                                      |%n");
+				"     Country Name     |    Continent Name    |   Bordering Countries                                      |%n");
 		System.out.format(
 				"+--------------+-----------------------+------------------+----------------------------+----------------+%n");
 
 		for (Map.Entry<Country, List<Country>> entry : this.mapModel.getBorders().entrySet()) {
-			String tablePattern = "|%-23s|%-18s|%-60s|%n";
-			for (Country country : entry.getValue()) {
-				System.out.format(tablePattern, entry.getKey().getCountryId(), country.getContinent().getContinentId(),
-						this.getCountriesList(entry.getValue()));
-			}
+			String tablePattern = "|%-25s|%-20s|%-70s|%n";
+			System.out.format(tablePattern, entry.getKey().getCountryId(), entry.getKey().getContinent().getContinentId(),
+					this.getCountriesList(entry.getValue()));
 		}
 
 		System.out.format(
@@ -243,7 +241,7 @@ public class MapFileAlteration {
 		System.out.format("The Map ownership of the players are : ");
 
 		System.out.format("+---------------+-------------------------------+%n");
-		System.out.format("| Player's name |    Continent's Controlled    |%n");
+		System.out.format("| Player's Name |    Continent's Controlled    |%n");
 		System.out.format("+---------------+-------------------------------+%n");
 
 		String table = "|%-15s|%-30s|%n";
@@ -255,7 +253,7 @@ public class MapFileAlteration {
 
 		System.out.format("+---------------+-------------------------------+%n");
 		
-		return new ResponseWrapper(200,"show map done successfully");
+		return new ResponseWrapper(200," Show Map Done Successfully");
 
 	}
 	
