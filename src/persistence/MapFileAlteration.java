@@ -205,12 +205,9 @@ public class MapFileAlteration {
 		System.out.format("| Continent's name |%n");
 		System.out.format("+------------------+%n");
 
-		this.mapModel.getContinents().stream().forEach((continent)-> {System.out.println(continent.getContientValue());});
-		
-		
 		this.mapModel.getContinents().stream().forEach((continent) -> {
 			String table = "|%-18s|%n";
-			System.out.format(table, continent.getContientValue());
+			System.out.format(table, continent.getContinentId());
 		});
 
 		System.out.format("+------------------+%n");
@@ -228,7 +225,7 @@ public class MapFileAlteration {
 		for (Map.Entry<Country, List<Country>> entry : this.mapModel.getBorders().entrySet()) {
 			String tablePattern = "|%-23s|%-18s|%-60s|%n";
 			for (Country country : entry.getValue()) {
-				System.out.format(tablePattern, entry.getKey().getCountryId(), country.getContinent().getContientValue(),
+				System.out.format(tablePattern, entry.getKey().getCountryId(), country.getContinent().getContinentId(),
 						this.getCountriesList(entry.getValue()));
 			}
 		}
