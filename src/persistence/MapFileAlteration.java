@@ -379,6 +379,9 @@ public class MapFileAlteration {
 						|| country.getContinent().getContientValue() == null
 						|| "".equals(country.getContinent().getContinentId())
 						|| "".equals(country.getContinent().getContientValue()));
+		// to be removed
+		this.mapModel.getCountries().stream().forEach((country)-> {System.out.println(country.getCountryId() + " - " + country.getContinent().getContientValue());});
+		
 		Boolean countryContinentExistsInContinentsList = this.mapModel.getCountries().stream()
 				.allMatch((country) -> continents.contains(country.getContinent().getContientValue()));
 		Boolean countryBorderNotExists = this.mapModel.getBorders().entrySet().stream()
@@ -391,7 +394,7 @@ public class MapFileAlteration {
 			return new ResponseWrapper(404, "Map is not created Properly");
 
 		} else if (continents.size() != this.mapModel.getContinents().size()
-				|| countries.size() != this.mapModel.getContinents().size()) {
+				|| countries.size() != this.mapModel.getCountries().size()) {
 			return new ResponseWrapper(404, "Duplicate Continent or Country Found in map");
 
 		} else if (Boolean.TRUE.equals(countryContinentNotExists)) {

@@ -1,7 +1,8 @@
 package logger;
 
+import java.io.File;
 import java.io.IOException;
-import java.io.RandomAccessFile;
+import java.nio.file.Paths;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -9,20 +10,18 @@ import java.util.logging.SimpleFormatter;
 public class LogGenerator {
 
 	private static final Logger SYSTEM_LOG = Logger.getLogger("systemLogFile");
-	private static final String LOG_FILE_PATH = System.getProperty("user.dir") + "\\src\\logFiles\\" + "systemLog.log";
-
+	private static final String LOG_FILE_PATH = Paths.get("").toAbsolutePath() + "/src/logger/" + "/systemLog.log";
+	private static FileHandler sytsemLogFileHandler;
 	
-	public  void createFile() {
-		FileHandler sytsemLogFileHandler;
-
+	public void createFile() {
+		
 		try {
-			
 			sytsemLogFileHandler = new FileHandler(LOG_FILE_PATH, true);
 			SYSTEM_LOG.addHandler(sytsemLogFileHandler);
 			SimpleFormatter formatter = new SimpleFormatter();
 			sytsemLogFileHandler.setFormatter(formatter);
-		}
-		catch (SecurityException | IOException exception) {
+			clearLogs();
+		} catch (SecurityException | IOException exception) {
 			exception.printStackTrace();
 		}
 	}
@@ -50,13 +49,16 @@ public class LogGenerator {
 		SYSTEM_LOG.info(msg);
 	}
 
-	public void clearLogs(Logger systemLog, String filePath) {
+	public void clearLogs() {
 
-		try (RandomAccessFile raf = new RandomAccessFile(filePath, "rw")) {
-			raf.setLength(0);
-
-		} catch (IOException e) {
-			logInfoMsg( "Failed to truncate file: " + e.getMessage(), 'W');
+		sytsemLogFileHandler.close();
+		File logFile = new File(LOG_FILE_PATH);
+		if (logFile.exists()) {
+			if (logFile.delete()) {
+				System.out.println("Log file deleted successfully.");
+			} else {
+				System.err.println("Failed to delete the log file.");
+			}
 		}
 	}
 
