@@ -225,12 +225,6 @@ public class MapFileAlteration {
 		System.out.format(
 				"+--------------+-----------------------+------------------+----------------------------+----------------+%n");
 
-		/*
-		 * this.mapModel.getBorders().entrySet().stream().forEach((object) -> { String
-		 * tablePattern = "|%-23s|%-18s|%-60s|%n"; System.out.format(tablePattern,
-		 * object.getKey(), object.getValue()); });
-		 */
-
 		for (Map.Entry<Country, List<Country>> entry : this.mapModel.getBorders().entrySet()) {
 			String tablePattern = "|%-23s|%-18s|%-60s|%n";
 			for (Country country : entry.getValue()) {

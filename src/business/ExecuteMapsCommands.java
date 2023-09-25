@@ -6,7 +6,6 @@ import Constants.ProjectConfig;
 import GamePhase.MapPhaseState;
 import model.Continent;
 import model.Country;
-import model.MapModel;
 import model.ResponseWrapper;
 import persistence.MapFileAlteration;
 
@@ -35,7 +34,7 @@ public class ExecuteMapsCommands {
 
 	public ResponseWrapper removeCountry(Country country) {
 
-		return this.removeCountry(country);
+		return this.mapFileAlteration.removeCountry(country);
 	}
 
 	public ResponseWrapper addNeighbour(Country mainCountry, Country neighbourCountry) {

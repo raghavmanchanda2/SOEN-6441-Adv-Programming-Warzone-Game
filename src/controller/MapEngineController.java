@@ -61,9 +61,8 @@ public class MapEngineController {
 		}
 		// Filter
 		String[] splittedCommands = userEnteredCommand.trim().replaceAll(" +", " ").split("\\s+");
-
+		
 		switch (splittedCommands[0]) {
-
 		// edit continents
 		case "editcontinent":
 			
@@ -75,14 +74,13 @@ public class MapEngineController {
 					// call business file to execute command
 					if (splittedCommands.length == 4) {
 						Continent continent = new Continent(splittedCommands[2], splittedCommands[3]);
-						executeMapsCommands.addContinent(continent);
+						return executeMapsCommands.addContinent(continent);
 					}else {
 						return new ResponseWrapper(404, "Please enter proper command");
 					}
-					break;
 
 				case "-remove":
-					
+					System.out.println("jj" + splittedCommands.length);
 					if (splittedCommands.length == 3) {
 						Continent continent = new Continent(splittedCommands[2]);
 						return executeMapsCommands.removeContinent(continent);
@@ -98,8 +96,6 @@ public class MapEngineController {
 
 				}
 
-			break;
-
 		// edit country
 		case "editcountry":
 			switch (splittedCommands[1]) {
@@ -107,7 +103,7 @@ public class MapEngineController {
 
 				if (splittedCommands.length == 4) {
 					Country country = new Country(splittedCommands[2], new Continent(splittedCommands[3]));
-					executeMapsCommands.addCountry(country);
+					return executeMapsCommands.addCountry(country);
 				} else {
 					// please provide proper parameters
 				}
@@ -115,8 +111,8 @@ public class MapEngineController {
 				break;
 			case "-remove":
 				if (splittedCommands.length == 3) {
-					Country country = new Country(splittedCommands[3]);
-					executeMapsCommands.removeCountry(country);
+					Country country = new Country(splittedCommands[2]);
+					return executeMapsCommands.removeCountry(country);
 				} else {
 					// please provide proper parameters
 				}
@@ -131,7 +127,7 @@ public class MapEngineController {
 					System.out.println("calling business file editeighbour");
 					Country country = new Country(splittedCommands[2]);
 					Country neighbourCountry = new Country(splittedCommands[3]);
-					executeMapsCommands.addNeighbour(country, neighbourCountry);
+					return executeMapsCommands.addNeighbour(country, neighbourCountry);
 
 				} else {
 					// please provide proper parameters
@@ -141,7 +137,7 @@ public class MapEngineController {
 				if (splittedCommands.length == 4) {
 					Country country = new Country(splittedCommands[3]);
 					Country neighbourCountry = new Country(splittedCommands[4]);
-					executeMapsCommands.removeNeighbour(country, neighbourCountry);
+					return executeMapsCommands.removeNeighbour(country, neighbourCountry);
 
 				} else {
 					// please provide proper parameters
