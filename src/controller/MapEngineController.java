@@ -80,7 +80,6 @@ public class MapEngineController {
 					}
 
 				case "-remove":
-					System.out.println("jj" + splittedCommands.length);
 					if (splittedCommands.length == 3) {
 						Continent continent = new Continent(splittedCommands[2]);
 						return executeMapsCommands.removeContinent(continent);
@@ -135,8 +134,8 @@ public class MapEngineController {
 				break;
 			case "-remove":
 				if (splittedCommands.length == 4) {
-					Country country = new Country(splittedCommands[3]);
-					Country neighbourCountry = new Country(splittedCommands[4]);
+					Country country = new Country(splittedCommands[2]);
+					Country neighbourCountry = new Country(splittedCommands[3]);
 					return executeMapsCommands.removeNeighbour(country, neighbourCountry);
 
 				} else {
