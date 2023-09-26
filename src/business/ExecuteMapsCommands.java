@@ -44,7 +44,7 @@ public class ExecuteMapsCommands {
 
 	public ResponseWrapper removeNeighbour(Country country, Country neighbourCountry) {
 
-		return null;
+		return this.mapFileAlteration.removeNeighbour(country,neighbourCountry);
 	}
 
 	public ResponseWrapper showMap() {

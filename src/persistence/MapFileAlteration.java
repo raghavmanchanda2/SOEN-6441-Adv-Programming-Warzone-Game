@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +28,7 @@ public class MapFileAlteration {
 	private FileWriter mapFileWriter;
 	private BufferedWriter bufferWriter;
 	
-	private  MapModel mapModel;
+	private MapModel mapModel;
 	
 	public MapFileAlteration() {
 		mapModel = new MapModel();
@@ -269,96 +269,124 @@ public class MapFileAlteration {
 	public ResponseWrapper removeContinent(Continent continent) {
 
 		// Deleting Continents
-		// Check if this works
-		mapModel.getContinents().remove(continent);
 
 		for (int contIndex = 0; contIndex < mapModel.getContinents().size(); contIndex++) {
 			if (mapModel.getContinents().get(contIndex).getContinentId().equals(continent.getContinentId())) {
 				mapModel.getContinents().remove(contIndex);
 			}
 		}
+		
 		// Deleting Countries
-		List<Country> deletedCountriesList = new ArrayList<Country>();
-		for (int countryIndex = 0; countryIndex < mapModel.getCountries().size(); countryIndex++) {
-			if (mapModel.getCountries().get(countryIndex).getContinent().equals(continent.getContinentId())) {
-				deletedCountriesList.add(mapModel.getCountries().get(countryIndex));
-				mapModel.getCountries().remove(countryIndex);
-			}
-		}
+		List<Country> deletedCountriesList = mapModel.getCountries();
+		
+		mapModel.getCountries().stream().filter((conti)-> ! conti.getContinent().getContinentId().equals(continent.getContinentId()));
+		deletedCountriesList.removeIf((cont)-> !cont.getContinent().getContinentId().equals(continent.getContinentId()));
+		
 		// Removing Continents from Map
-		for (Map.Entry<Continent, List<Country>> mapEntry : mapModel.getContinentCountries().entrySet()) {
-			if (mapEntry.getKey().getContinentId().equals(continent.getContinentId())) {
-				mapModel.getContinentCountries().entrySet().remove(continent);
+		
+		mapModel.getContinentCountries().entrySet().removeIf((map)-> map.getKey().getContinentId().equals(continent.getContinentId()));
+	
+		// Remove it
+		deletedCountriesList.stream().forEach((count)->{System.out.println("Removed Country - " + count.getCountryId());});
+		
+		// Removing countries from Borders
+		Map<Country, List<Country>> tempMap = new HashMap<Country, List<Country>>(mapModel.getBorders());
+		
+		for (Map.Entry<Country, List<Country>> mapEntry : tempMap.entrySet()) {
+			Boolean countExists= deletedCountriesList.stream().anyMatch((cont)-> cont.getCountryId().equals(mapEntry.getKey().getCountryId()));
+			if (Boolean.TRUE.equals(countExists)) {
+				for (Country country : deletedCountriesList) {
+					mapModel.getBorders().entrySet().removeIf((map)-> map.getKey().getCountryId().equals(country.getCountryId()));
+				}				
 			}
-		}
-		// removing countries from Borders
-		for (Map.Entry<Country, List<Country>> mapEntry : mapModel.getBorders().entrySet()) {
-			if (deletedCountriesList.contains(mapEntry.getKey())) {
-				mapModel.getBorders().entrySet().remove(mapEntry.getKey());
-			}
-		}
+		}	
 
-		// removing neighboring countries from borders
-		List<Country> countriesUpdatedBorderList = new ArrayList<Country>();
+		// Removing neighboring countries from Borders
+		List<Country> countriesUpdatedBorderList;
 		for (Map.Entry<Country, List<Country>> mapEntry : mapModel.getBorders().entrySet()) {
+			countriesUpdatedBorderList = mapEntry.getValue();
 			for (Country country : deletedCountriesList) {
-				if (mapEntry.getValue().contains(country)) {
-					countriesUpdatedBorderList = mapModel.getBorders().get(mapEntry.getKey());
-					countriesUpdatedBorderList.remove(country);
-				}
+				countriesUpdatedBorderList = countriesUpdatedBorderList.stream()
+						.filter((cont) -> !cont.getCountryId().equals(country.getCountryId()))
+						.collect(Collectors.toList());
 			}
 			mapModel.getBorders().put(mapEntry.getKey(), countriesUpdatedBorderList);
-			countriesUpdatedBorderList.clear();
 		}
 		
-		return new ResponseWrapper(200,"Remove Continent Successfully");
+		return new ResponseWrapper(200,"Removed Continent Successfully");
 
 	}
 
 	public ResponseWrapper removeCountry(Country country) {
 		// Deleting Countries
-		List<Country> deletedCountriesList = new ArrayList<Country>();
-		for (int countryIndex = 0; countryIndex < mapModel.getCountries().size(); countryIndex++) {
-			if (mapModel.getCountries().get(countryIndex).getCountryId().equals(country.getCountryId())) {
-				deletedCountriesList.add(mapModel.getCountries().get(countryIndex));
-				mapModel.getCountries().remove(countryIndex);
-			}
-		}
-
+		List<Country> deletedCountriesList = mapModel.getCountries();
+		
+		mapModel.getCountries().stream().filter((conti)-> ! conti.getCountryId().equals(country.getCountryId()));
+		deletedCountriesList.removeIf((conti)-> ! conti.getCountryId().equals(country.getCountryId()));	
+		
 		// Removing countries from ContinentCountries map
-		List<Country> countriesUpdatedContinentsList = new ArrayList<Country>();
+		
+		List<Country> continentCountriesList;
 		for (Map.Entry<Continent, List<Country>> mapEntry : mapModel.getContinentCountries().entrySet()) {
-			for (Country contr : deletedCountriesList) {
-				if (mapEntry.getValue().contains(contr)) {
-					countriesUpdatedContinentsList = mapModel.getContinentCountries().get(mapEntry.getKey());
-					countriesUpdatedContinentsList.remove(contr);
-				}
+			continentCountriesList = mapEntry.getValue();
+			for (Country conti : deletedCountriesList) {
+				continentCountriesList = continentCountriesList.stream()
+						.filter((cont) -> !cont.getCountryId().equals(conti.getCountryId()))
+						.collect(Collectors.toList());
 			}
-			mapModel.getContinentCountries().put(mapEntry.getKey(), countriesUpdatedContinentsList);
-			countriesUpdatedContinentsList.clear();
+			continentCountriesList.stream().forEach((conti)->System.out.print(conti.getCountryId() + "-"));			
+			mapModel.getContinentCountries().put(mapEntry.getKey(), continentCountriesList);
 		}
-
+		
 		// Removing countries from Borders
-		for (Map.Entry<Country, List<Country>> mapEntry : mapModel.getBorders().entrySet()) {
-			if (deletedCountriesList.contains(mapEntry.getKey())) {
-				mapModel.getBorders().entrySet().remove(mapEntry.getKey());
+		Map<Country, List<Country>> tempMap = new HashMap<Country, List<Country>>(mapModel.getBorders());
+		
+		for (Map.Entry<Country, List<Country>> mapEntry : tempMap.entrySet()) {
+			Boolean countExists= deletedCountriesList.stream().anyMatch((cont)-> cont.getCountryId().equals(mapEntry.getKey().getCountryId()));
+			if (Boolean.TRUE.equals(countExists)) {
+				for (Country cont : deletedCountriesList) {
+					mapModel.getBorders().entrySet().removeIf((map)-> map.getKey().getCountryId().equals(cont.getCountryId()));
+				}				
 			}
-		}
-
+		}	
+		
 		// Removing neighboring countries from borders
-		List<Country> countriesUpdatedBorderList = new ArrayList<Country>();
+				
+		List<Country> countriesUpdatedBorderList;
 		for (Map.Entry<Country, List<Country>> mapEntry : mapModel.getBorders().entrySet()) {
-			for (Country contr : deletedCountriesList) {
-				if (mapEntry.getValue().contains(contr)) {
-					countriesUpdatedBorderList = mapModel.getBorders().get(mapEntry.getKey());
-					countriesUpdatedBorderList.remove(contr);
-				}
+			countriesUpdatedBorderList = mapEntry.getValue();
+			for (Country conti : deletedCountriesList) {
+				countriesUpdatedBorderList = countriesUpdatedBorderList.stream()
+						.filter((cont) -> !cont.getCountryId().equals(conti.getCountryId()))
+						.collect(Collectors.toList());
 			}
+			countriesUpdatedBorderList.stream().forEach((conti)->System.out.print(conti.getCountryId() + "-"));			
 			mapModel.getBorders().put(mapEntry.getKey(), countriesUpdatedBorderList);
-			countriesUpdatedBorderList.clear();
 		}
-		return new ResponseWrapper(200, "Remove country successfully");
+	
+		return new ResponseWrapper(200, "Removed Country Successfully");
 	}
+	
+	public ResponseWrapper removeNeighbour(Country mainCountry,Country neighbourCountry) {	
+		
+		List<Country> neighbouringCountriesList;
+		for (Map.Entry<Country, List<Country>> mapEntry : mapModel.getBorders().entrySet()) {
+			if(!mapEntry.getKey().getCountryId().equals(mainCountry.getCountryId()))
+			{
+				continue;
+			}
+			neighbouringCountriesList = mapEntry.getValue();			
+			neighbouringCountriesList = neighbouringCountriesList.stream()
+						.filter((cont) -> !cont.getCountryId().equals(neighbourCountry.getCountryId()))
+						.collect(Collectors.toList());			
+			neighbouringCountriesList.stream().forEach((conti)->System.out.print(conti.getCountryId() + "-"));			
+			mapModel.getBorders().put(mapEntry.getKey(), neighbouringCountriesList);
+		}
+		
+		return new ResponseWrapper(200, "Removed Neighbouring Country Successfully");
+		
+	}
+	
 	public ResponseWrapper validateMap() {
 		
 		Set<Continent> continents = new HashSet<Continent>(this.mapModel.getContinents());
