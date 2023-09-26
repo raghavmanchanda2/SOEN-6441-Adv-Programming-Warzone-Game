@@ -13,6 +13,15 @@ public class MapModel {
 	private List<Country> countries;
 	private Map<Continent,List<Country>> continentCountries;
 	private Map<Country,List<Country>> borders;
+
+	private static MapModel d_MapModel;
+
+	public static MapModel getInstance() {
+		if (Objects.isNull(d_MapModel)) {
+			d_MapModel = new MapModel();
+		}
+		return d_MapModel;
+	}
 	
 	
 	public List<Country> getCountries() {
