@@ -5,20 +5,20 @@ import java.util.Observer;
 
 public class ConsoleWriter implements Observer {
 
-	private String logMsg;
+	private String d_logMsg;
 
 	@Override
-	public void update(Observable observable, Object logObject) {
-		this.setLogMsg((String) logObject);
-		System.out.println(logMsg);
+	public void update(Observable p_observable, Object p_logObject) {
+		this.setLogMsg((String) p_logObject);
+		System.out.println(d_logMsg);
 	}
 	
 	public String getLogMsg() {
-		return logMsg;
+		return d_logMsg;
 	}
 
 	public void setLogMsg(String logMsg) {
-		this.logMsg = logMsg;
+		this.d_logMsg = logMsg;
 	}
 	
 }

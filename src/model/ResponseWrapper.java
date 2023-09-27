@@ -1,24 +1,24 @@
 package model;
 
 public class ResponseWrapper {
-	private int statusValue;
-	private String description;
+	private int d_statusValue;
+	private String d_description;
 	public int getStatusValue() {
-		return statusValue;
+		return d_statusValue;
 	}
-	public ResponseWrapper(int statusValue, String description) {
-		this.statusValue = statusValue;
-		this.description = description;
+	public ResponseWrapper(int p_statusValue, String p_description) {
+		this.d_statusValue = p_statusValue;
+		this.d_description = p_description;
 	}
 	
-	public void setStatusValue(int statusValue) {
-		this.statusValue = statusValue;
+	public void setStatusValue(int p_statusValue) {
+		this.d_statusValue = p_statusValue;
 	}
 	public String getDescription() {
-		return description;
+		return d_description;
 	}
 	public void setDescription(String description) {
-		this.description = description;
+		this.d_description = description;
 	}
 	
 	

@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import controller.*;
 
 public enum GamePhaseEnum {
     EditMapPhase{

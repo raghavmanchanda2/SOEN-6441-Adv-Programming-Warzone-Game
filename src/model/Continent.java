@@ -3,63 +3,63 @@ package model;
 import java.util.List;
 
 public class Continent {
-	private int uniqueContinetId;
-	private String continentId;
-	private String contientValue;
-	private List<Country> continentCountries;
+	private int d_uniqueContinetId;
+	private String d_continentId;
+	private String d_contientValue;
+	private List<Country> d_continentCountries;
 	
 	
 	
-	public Continent(int uniqueContinetId, String continentId) {
+	public Continent(int p_uniqueContinetId, String p_continentId) {
 		super();
-		this.uniqueContinetId = uniqueContinetId;
-		this.continentId = continentId;
+		this.d_uniqueContinetId = p_uniqueContinetId;
+		this.d_continentId = p_continentId;
 	}
 
-	public Continent(String continentId) {
+	public Continent(String p_continentId) {
 		super();
-		this.continentId = continentId;
+		this.d_continentId = p_continentId;
 	}
 
-	public Continent(String continentId, String contientValue) {
+	public Continent(String p_continentId, String p_contientValue) {
 		super();
-		this.continentId = continentId;
-		this.contientValue = contientValue;
+		this.d_continentId = p_continentId;
+		this.d_contientValue = p_contientValue;
 	}
 		
-	public Continent(String continentId, List<Country> continentCountries) {
+	public Continent(String p_continentId, List<Country> p_continentCountries) {
 		super();
-		this.continentId = continentId;
-		this.continentCountries = continentCountries;
+		this.d_continentId = p_continentId;
+		this.d_continentCountries = p_continentCountries;
 	}
 
 	public int getUniqueContinetId() {
-		return uniqueContinetId;
+		return d_uniqueContinetId;
 	}
 
-	public void setUniqueContinetId(int uniqueContinetId) {
-		this.uniqueContinetId = uniqueContinetId;
+	public void setUniqueContinetId(int p_uniqueContinetId) {
+		this.d_uniqueContinetId = p_uniqueContinetId;
 	}
 
 	public List<Country> getContinentCountries() {
-		return continentCountries;
+		return d_continentCountries;
 	}
 
-	public void setContinentCountries(List<Country> continentCountries) {
-		this.continentCountries = continentCountries;
+	public void setContinentCountries(List<Country> p_continentCountries) {
+		this.d_continentCountries = p_continentCountries;
 	}
 
 	public String getContinentId() {
-		return continentId;
+		return d_continentId;
 	}
-	public void setContinentId(String continentId) {
-		this.continentId = continentId;
+	public void setContinentId(String p_continentId) {
+		this.d_continentId = p_continentId;
 	}
 	public String getContientValue() {
-		return contientValue;
+		return d_contientValue;
 	}
-	public void setContientValue(String contientValue) {
-		this.contientValue = contientValue;
+	public void setContientValue(String p_contientValue) {
+		this.d_contientValue = p_contientValue;
 	}
 	
 

@@ -4,9 +4,9 @@ import java.util.Observable;
 
 public class Logger extends Observable {
 
-	public void setLogMessage(String logMsg) {
+	public void setLogMessage(String p_logMsg) {
 		setChanged();
-		notifyObservers(logMsg);
+		notifyObservers(p_logMsg);
 	}
 
 }

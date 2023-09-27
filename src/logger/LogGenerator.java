@@ -9,52 +9,52 @@ import java.util.logging.SimpleFormatter;
 
 public class LogGenerator {
 
-	private static final Logger SYSTEM_LOG = Logger.getLogger("systemLogFile");
-	private static final String LOG_FILE_PATH = Paths.get("").toAbsolutePath() + "/src/logger/" + "/systemLog.log";
-	private static FileHandler sytsemLogFileHandler;
+	private static final Logger D_SYSTEM_LOG = Logger.getLogger("systemLogFile");
+	private static final String D_LOG_FILE_PATH = Paths.get("").toAbsolutePath() + "/src/logger/" + "/systemLog.log";
+	private static FileHandler d_sytsemLogFileHandler;
 	
 	public void createFile() {
 		
 		try {
-			sytsemLogFileHandler = new FileHandler(LOG_FILE_PATH, true);
-			SYSTEM_LOG.addHandler(sytsemLogFileHandler);
-			SimpleFormatter formatter = new SimpleFormatter();
-			sytsemLogFileHandler.setFormatter(formatter);
+			d_sytsemLogFileHandler = new FileHandler(D_LOG_FILE_PATH, true);
+			D_SYSTEM_LOG.addHandler(d_sytsemLogFileHandler);
+			SimpleFormatter l_formatter = new SimpleFormatter();
+			d_sytsemLogFileHandler.setFormatter(l_formatter);
 			clearLogs();
-		} catch (SecurityException | IOException exception) {
-			exception.printStackTrace();
+		} catch (SecurityException | IOException l_exception) {
+			l_exception.printStackTrace();
 		}
 	}
 
-	public void writeLogOnConsole(Logger systemLog, Boolean logOnCnsole) {
-		systemLog.setUseParentHandlers(logOnCnsole);
+	public void writeLogOnConsole(Logger p_systemLog, Boolean p_logOnCnsole) {
+		p_systemLog.setUseParentHandlers(p_logOnCnsole);
 	}
 
-	public void logInfoMsg(String msg, char logType) {
-		switch (logType) {
+	public void logInfoMsg(String p_msg, char p_logType) {
+		switch (p_logType) {
 		case 'I':
-			SYSTEM_LOG.info(msg);
+			D_SYSTEM_LOG.info(p_msg);
 			break;
 		case 'W':
-			SYSTEM_LOG.warning(msg);
+			D_SYSTEM_LOG.warning(p_msg);
 			break;
 		case 'S':
-			SYSTEM_LOG.severe(msg);
+			D_SYSTEM_LOG.severe(p_msg);
 			break;
 		default:
-			SYSTEM_LOG.fine(msg);
+			D_SYSTEM_LOG.fine(p_msg);
 			break;
 
 		}
-		SYSTEM_LOG.info(msg);
+		D_SYSTEM_LOG.info(p_msg);
 	}
 
 	public void clearLogs() {
 
-		sytsemLogFileHandler.close();
-		File logFile = new File(LOG_FILE_PATH);
-		if (logFile.exists()) {
-			if (logFile.delete()) {
+		d_sytsemLogFileHandler.close();
+		File l_logFile = new File(D_LOG_FILE_PATH);
+		if (l_logFile.exists()) {
+			if (l_logFile.delete()) {
 				System.out.println("Log file deleted successfully.");
 			} else {
 				System.err.println("Failed to delete the log file.");
