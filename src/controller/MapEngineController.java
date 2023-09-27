@@ -9,41 +9,41 @@ import model.ResponseWrapper;
 
 public class MapEngineController {
 
-	private Scanner inputForMapCommands;
-	private ExecuteMapsCommands executeMapsCommands;
+	private Scanner d_inputForMapCommands;
+	private ExecuteMapsCommands d_executeMapsCommands;
 
 	enum MapCommands {
 		EDIT_CONTINENT("editcontinent"), EDIT_COUNTRY("editcountry"), EDIT_NEIGHBOR("editneighbor"),
 		SHOW_MAP("showmap"), SAVE_MAP("savemap"), EDIT_MAP("editmap"), VALIDATE_MAP("validatemap"), NONE("nothing");
 
-		public final String exactCommand;
+		public final String l_exactCommand;
 
-		MapCommands(String exactCommand) {
-			this.exactCommand = exactCommand;
+		MapCommands(String p_exactCommand) {
+			this.l_exactCommand = p_exactCommand;
 		}
 	}
 
 	public MapEngineController() {
-		inputForMapCommands = new Scanner(System.in);
-		executeMapsCommands = new ExecuteMapsCommands();
+		d_inputForMapCommands = new Scanner(System.in);
+		d_executeMapsCommands = new ExecuteMapsCommands();
 	}
 
 	public ResponseWrapper getMainMapCommandsFromUser() {
 		System.out.println("Getting input from user");
-		String userEnteredMainMapCommands = inputForMapCommands.nextLine();
+		String l_userEnteredMainMapCommands = d_inputForMapCommands.nextLine();
 
-		if (userEnteredMainMapCommands.trim().isEmpty()) {
+		if (l_userEnteredMainMapCommands.trim().isEmpty()) {
 			System.out.println("No input from the user");
 			return new ResponseWrapper(404, "Please enter proper command"); // nothing entered please enter proper
 																			// command
 		}
-		String[] splitMainMapCommand = userEnteredMainMapCommands.trim().replaceAll(" +", " ").split("\\s+");
+		String[] l_splitMainMapCommand = l_userEnteredMainMapCommands.trim().replaceAll(" +", " ").split("\\s+");
 
-		switch (splitMainMapCommand[0]) {
+		switch (l_splitMainMapCommand[0]) {
 
 		case "editmap":
 			System.out.println("calling business file for editmap");
-			return executeMapsCommands.editOrCreateMap(splitMainMapCommand[1]);
+			return d_executeMapsCommands.editOrCreateMap(l_splitMainMapCommand[1]);
 		case "exit":
 			return new ResponseWrapper(204, "Return Form current command");
 		default:
@@ -55,41 +55,39 @@ public class MapEngineController {
 
 	public ResponseWrapper getEditMapCommandsFromUser() {
 
-		String userEnteredCommand = inputForMapCommands.nextLine();
-		if (userEnteredCommand.isEmpty()) {
+		String l_userEnteredCommand = d_inputForMapCommands.nextLine();
+		if (l_userEnteredCommand.isEmpty()) {
 			return new ResponseWrapper(404, "Please enter proper command");
 		}
 		// Filter
-		String[] splittedCommands = userEnteredCommand.trim().replaceAll(" +", " ").split("\\s+");
+		String[] l_splittedCommands = l_userEnteredCommand.trim().replaceAll(" +", " ").split("\\s+");
 		
-		switch (splittedCommands[0]) {
+		switch (l_splittedCommands[0]) {
 		// edit continents
 		case "editcontinent":
 			
 				
-				switch (splittedCommands[1]) {
+				switch (l_splittedCommands[1]) {
 
 				case "-add":
 					
 					// call business file to execute command
-					if (splittedCommands.length == 4) {
-						Continent continent = new Continent(splittedCommands[2], splittedCommands[3]);
-						return executeMapsCommands.addContinent(continent);
+					if (l_splittedCommands.length == 4) {
+						Continent l_continent = new Continent(l_splittedCommands[2], l_splittedCommands[3]);
+						return d_executeMapsCommands.addContinent(l_continent);
 					}else {
 						return new ResponseWrapper(404, "Please enter proper command");
 					}
 
 				case "-remove":
-					if (splittedCommands.length == 3) {
-						Continent continent = new Continent(splittedCommands[2]);
-						return executeMapsCommands.removeContinent(continent);
+					if (l_splittedCommands.length == 3) {
+						Continent l_continent = new Continent(l_splittedCommands[2]);
+						return d_executeMapsCommands.removeContinent(l_continent);
 					}else {
 						return new ResponseWrapper(404, "Please enter proper command");
 					}
 					// call business file to execute command
 					
-					
-
 				default:
 					return new ResponseWrapper(404, "Please enter proper command");
 
@@ -97,21 +95,21 @@ public class MapEngineController {
 
 		// edit country
 		case "editcountry":
-			switch (splittedCommands[1]) {
+			switch (l_splittedCommands[1]) {
 			case "-add":
 
-				if (splittedCommands.length == 4) {
-					Country country = new Country(splittedCommands[2], new Continent(splittedCommands[3]));
-					return executeMapsCommands.addCountry(country);
+				if (l_splittedCommands.length == 4) {
+					Country l_country = new Country(l_splittedCommands[2], new Continent(l_splittedCommands[3]));
+					return d_executeMapsCommands.addCountry(l_country);
 				} else {
 					// please provide proper parameters
 				}
 
 				break;
 			case "-remove":
-				if (splittedCommands.length == 3) {
-					Country country = new Country(splittedCommands[2]);
-					return executeMapsCommands.removeCountry(country);
+				if (l_splittedCommands.length == 3) {
+					Country l_country = new Country(l_splittedCommands[2]);
+					return d_executeMapsCommands.removeCountry(l_country);
 				} else {
 					// please provide proper parameters
 				}
@@ -120,23 +118,23 @@ public class MapEngineController {
 			break;
 
 		case "editneighbour":
-			switch (splittedCommands[1]) {
+			switch (l_splittedCommands[1]) {
 			case "-add":
-				if (splittedCommands.length == 4) {
+				if (l_splittedCommands.length == 4) {
 					System.out.println("calling business file editeighbour");
-					Country country = new Country(splittedCommands[2]);
-					Country neighbourCountry = new Country(splittedCommands[3]);
-					return executeMapsCommands.addNeighbour(country, neighbourCountry);
+					Country l_country = new Country(l_splittedCommands[2]);
+					Country l_neighbourCountry = new Country(l_splittedCommands[3]);
+					return d_executeMapsCommands.addNeighbour(l_country, l_neighbourCountry);
 
 				} else {
 					// please provide proper parameters
 				}
 				break;
 			case "-remove":
-				if (splittedCommands.length == 4) {
-					Country country = new Country(splittedCommands[2]);
-					Country neighbourCountry = new Country(splittedCommands[3]);
-					return executeMapsCommands.removeNeighbour(country, neighbourCountry);
+				if (l_splittedCommands.length == 4) {
+					Country l_country = new Country(l_splittedCommands[2]);
+					Country l_neighbourCountry = new Country(l_splittedCommands[3]);
+					return d_executeMapsCommands.removeNeighbour(l_country, l_neighbourCountry);
 
 				} else {
 					// please provide proper parameters
@@ -148,17 +146,17 @@ public class MapEngineController {
 		case "showmap":
 			
 			System.out.println("calling business file for showmap");
-			return executeMapsCommands.showMap();
+			return d_executeMapsCommands.showMap();
 			
 			
 		case "savemap":
 			System.out.println("calling business file for savemap");
-			return executeMapsCommands.saveMap(splittedCommands[1]);
+			return d_executeMapsCommands.saveMap(l_splittedCommands[1]);
 			
 
 		case "validatemap":
 			System.out.println("calling business file for validate map");
-			return executeMapsCommands.validateMap();
+			return d_executeMapsCommands.validateMap();
 			
 		case "exit":
 			return new ResponseWrapper(204, "Return Form current command");

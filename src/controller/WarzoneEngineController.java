@@ -5,27 +5,25 @@ import java.util.Scanner;
 
 public class WarzoneEngineController {
 	
-	private Scanner inputForFeatureSelection;
-	
-
+	private Scanner d_inputForFeatureSelection;
 	
 	public WarzoneEngineController(){
-		inputForFeatureSelection = new Scanner(System.in);
+		d_inputForFeatureSelection = new Scanner(System.in);
 	}
 	
 	public int getGameFeatureInputs() {
-		int selectedFeature;
+		int l_selectedFeature;
 		try {
-			selectedFeature = inputForFeatureSelection.nextInt();
+			l_selectedFeature = d_inputForFeatureSelection.nextInt();
 			
 		
-		}catch(InputMismatchException inputMismatchException){
+		}catch(InputMismatchException p_inputMismatchException){
 			// throws global exception
 			return -1;
 		}
 		
-		if (selectedFeature > 0  && selectedFeature < 4)
-		return selectedFeature;
+		if (l_selectedFeature > 0  && l_selectedFeature < 4)
+		return l_selectedFeature;
 		
 		else
 			return -1;
