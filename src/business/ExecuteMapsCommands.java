@@ -11,78 +11,77 @@ import persistence.MapFileAlteration;
 
 public class ExecuteMapsCommands {
 	
-	private MapFileAlteration mapFileAlteration;
+	private MapFileAlteration d_mapFileAlteration;
 
 	public ExecuteMapsCommands() {
-		mapFileAlteration = new MapFileAlteration();
+		d_mapFileAlteration = new MapFileAlteration();
 	}
 
-	public ResponseWrapper addContinent(Continent continent) {
-		this.mapFileAlteration.addContinent(continent);
+	public ResponseWrapper addContinent(Continent p_continent) {
+		this.d_mapFileAlteration.addContinent(p_continent);
 		return null;
 	}
 
-	public ResponseWrapper removeContinent(Continent continent) {
+	public ResponseWrapper removeContinent(Continent p_continent) {
 
-		return this.mapFileAlteration.removeContinent(continent);
+		return this.d_mapFileAlteration.removeContinent(p_continent);
 	}
 
-	public ResponseWrapper addCountry(Country country) {
-		this.mapFileAlteration.addCountry(country);
+	public ResponseWrapper addCountry(Country p_country) {
+		this.d_mapFileAlteration.addCountry(p_country);
 		return null;
 	}
 
-	public ResponseWrapper removeCountry(Country country) {
+	public ResponseWrapper removeCountry(Country p_country) {
 
-		return this.mapFileAlteration.removeCountry(country);
+		return this.d_mapFileAlteration.removeCountry(p_country);
 	}
 
-	public ResponseWrapper addNeighbour(Country mainCountry, Country neighbourCountry) {
-		this.mapFileAlteration.addNeighbour(mainCountry, neighbourCountry);
-		return null;
+	public ResponseWrapper addNeighbour(Country p_mainCountry, Country p_neighbourCountry) {
+		return this.d_mapFileAlteration.addNeighbour(p_mainCountry, p_neighbourCountry);
 	}
 
-	public ResponseWrapper removeNeighbour(Country country, Country neighbourCountry) {
+	public ResponseWrapper removeNeighbour(Country p_country, Country p_neighbourCountry) {
 
-		return this.mapFileAlteration.removeNeighbour(country,neighbourCountry);
+		return this.d_mapFileAlteration.removeNeighbour(p_country,p_neighbourCountry);
 	}
 
 	public ResponseWrapper showMap() {
-		return this.mapFileAlteration.showmap();
+		return this.d_mapFileAlteration.showmap();
 		
 	}
 	
-	public ResponseWrapper saveMap(String mapFileName) {
-		return this.mapFileAlteration.saveMap(mapFileName);
+	public ResponseWrapper saveMap(String p_mapFileName) {
+		return this.d_mapFileAlteration.saveMap(p_mapFileName);
 	}
 	public ResponseWrapper validateMap() {
 		
-		return this.mapFileAlteration.validateMap();
+		return this.d_mapFileAlteration.validateMap();
 	}
 
-	public ResponseWrapper editOrCreateMap(String mapFileName) {
+	public ResponseWrapper editOrCreateMap(String p_mapFileName) {
 
-		if (new File(ProjectConfig.MAP_FILES_PATH + mapFileName).exists()) {
+		if (new File(ProjectConfig.D_MAP_FILES_PATH + p_mapFileName).exists()) {
 			// load map to the game and show as well for better understanding
-			MapPhaseState.CURRENT_MAP = mapFileName;
+			MapPhaseState.D_CURRENT_MAP = p_mapFileName;
 			System.out.println("map exists");
-			this.mapFileAlteration.readMapFile();
+			this.d_mapFileAlteration.readMapFile();
 			return new ResponseWrapper(200, "Map exists");
 
 		} else {
 			// create new map in map folder
 			System.out.println("creating new map");
 			try {
-				if (new File(ProjectConfig.MAP_FILES_PATH + mapFileName).createNewFile()) {
+				if (new File(ProjectConfig.D_MAP_FILES_PATH + p_mapFileName).createNewFile()) {
 					System.out.println("map created successfully");
-					MapPhaseState.CURRENT_MAP = mapFileName;
-					this.mapFileAlteration.readMapFile();
+					MapPhaseState.D_CURRENT_MAP = p_mapFileName;
+					this.d_mapFileAlteration.readMapFile();
 					return new ResponseWrapper(200, "Map created successfully ");
 					// map file created successfully
 				}
-			} catch (IOException exception) {
+			} catch (IOException p_exception) {
 				// error occured in creating new map and please check with adminstrator
-				System.out.println(exception);
+				System.out.println(p_exception);
 				return new ResponseWrapper(500, "Internal ERROR OCCURED .... PLEASE CONNECT WITH ADMIN");
 			}
 

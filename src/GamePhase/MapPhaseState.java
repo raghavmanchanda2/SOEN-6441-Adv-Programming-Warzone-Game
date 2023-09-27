@@ -2,10 +2,10 @@ package GamePhase;
 
 public class MapPhaseState {
 	
-	public static String CURRENT_MAP;
+	public static String D_CURRENT_MAP;
 	
 	public static void clearMapPhaseStates() {
-		CURRENT_MAP = null;
+		D_CURRENT_MAP = null;
 	}
 
 }
