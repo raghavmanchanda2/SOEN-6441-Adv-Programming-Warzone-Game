@@ -1,10 +1,10 @@
 
 public class GameEngine {
 
-	private static WarzoneEngine warzoneEngine = new WarzoneEngine();
+	private static WarzoneEngine d_warzoneEngine = new WarzoneEngine();
 
 	public static void main(String[] args) throws Exception{
-		warzoneEngine.gameStarts();
+		d_warzoneEngine.gameStarts();
 	}
 	
 }

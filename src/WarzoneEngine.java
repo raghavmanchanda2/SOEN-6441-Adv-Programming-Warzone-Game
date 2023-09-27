@@ -4,17 +4,17 @@ import logger.LogGenerator;
 
 public class WarzoneEngine {
 
-	  private WarzoneEngineController warzoneEngineController;
-	  private LogGenerator logGenrator ;
-	  private MapEngine mapEngine;
+	  private WarzoneEngineController d_warzoneEngineController;
+	  private LogGenerator d_logGenrator ;
+	  private MapEngine d_mapEngine;
 	  
 	
 	  
 	  public WarzoneEngine() {
-		  warzoneEngineController = new WarzoneEngineController();
-		  mapEngine = new MapEngine();
-		  logGenrator = new LogGenerator();
-		  logGenrator.createFile();
+		  d_warzoneEngineController = new WarzoneEngineController();
+		  d_mapEngine = new MapEngine();
+		  d_logGenrator = new LogGenerator();
+		  d_logGenrator.createFile();
 		  
 	  }
 	  
@@ -29,22 +29,22 @@ public class WarzoneEngine {
 	  
 	  
 	  public synchronized void gameStarts() {
-		  logGenrator.logInfoMsg("WAR ZONE GAME STARTS", 'I');
+		  d_logGenrator.logInfoMsg("WAR ZONE GAME STARTS", 'I');
 		  this.printAvailableWarZoneCommands();
 		  
 		  
 		  // get commands input from warZone controller file 
 		  
-		  switch(this.warzoneEngineController.getGameFeatureInputs()) {
+		  switch(this.d_warzoneEngineController.getGameFeatureInputs()) {
 		  case 1:
-			  logGenrator.logInfoMsg("MAP ENGINE STARTS", 'I');
+			  d_logGenrator.logInfoMsg("MAP ENGINE STARTS", 'I');
 			  //  sends to map engine 
-			  mapEngine.startMapEngine();
+			  d_mapEngine.startMapEngine();
 			  
 			  // clear Map states
 			  MapPhaseState.clearMapPhaseStates();
 			  
-			  logGenrator.logInfoMsg("MAP ENGINE ENDS", 'I');
+			  d_logGenrator.logInfoMsg("MAP ENGINE ENDS", 'I');
 			  
 			  break;
 		  case 2: 

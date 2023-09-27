@@ -4,23 +4,23 @@ import logger.Logger;
 import model.ResponseWrapper;
 public class MapEngine {
 	
-	public static String CURRENT_MAP ;
-	private MapEngineController mapEngineController;
+	public static String D_CURRENT_MAP ;
+	private MapEngineController d_mapEngineController;
 	
-	private Logger logger;
-	private ConsoleWriter consoleWriter;
+	private Logger d_logger;
+	private ConsoleWriter d_consoleWriter;
 	
 	
 	
 	public MapEngine() {
-		mapEngineController = new MapEngineController();
-		logger = new Logger();
-		consoleWriter = new ConsoleWriter();
-		logger.addObserver(consoleWriter);
+		d_mapEngineController = new MapEngineController();
+		d_logger = new Logger();
+		d_consoleWriter = new ConsoleWriter();
+		d_logger.addObserver(d_consoleWriter);
 	}
 	
 	private void printAvailableMapCommands() {
-		logger.setLogMessage("Main Commands Available\n "
+		d_logger.setLogMessage("Main Commands Available\n "
 				+ "1. editmap filename \n "
 				+ "2. exit \n"
 				+ "Enter Command");
@@ -28,7 +28,7 @@ public class MapEngine {
 	
 	private void printEditMapCommands() {
 		System.out.println("Print Available Commands OF EDIT MAP commands");
-		logger.setLogMessage("Commands available in edit map \n"
+		d_logger.setLogMessage("Commands available in edit map \n"
 				+ "1.  editcontinent -add continentID continentvalue \n"
 				+ "2.  editcontinent -remove continentID \n"
 				+ "3.  editcountry -add countryID continentID \n"
@@ -47,15 +47,15 @@ public class MapEngine {
 		
 		while(true) {
 			this.printAvailableMapCommands();
-			ResponseWrapper mainMapCommandResponse = mapEngineController.getMainMapCommandsFromUser();
-			logger.setLogMessage(mainMapCommandResponse.getDescription());
+			ResponseWrapper mainMapCommandResponse = d_mapEngineController.getMainMapCommandsFromUser();
+			d_logger.setLogMessage(mainMapCommandResponse.getDescription());
 				if (mainMapCommandResponse.getStatusValue() == 204){
 					break;
 				}else if(mainMapCommandResponse.getStatusValue() == 200) {
 					while(true) {
 						this.printEditMapCommands();
-						ResponseWrapper editMapCommandResponse = mapEngineController.getEditMapCommandsFromUser();
-						logger.setLogMessage(editMapCommandResponse.getDescription());
+						ResponseWrapper editMapCommandResponse = d_mapEngineController.getEditMapCommandsFromUser();
+						d_logger.setLogMessage(editMapCommandResponse.getDescription());
 						if(editMapCommandResponse.getStatusValue() == 204) {
 							break;
 						}
