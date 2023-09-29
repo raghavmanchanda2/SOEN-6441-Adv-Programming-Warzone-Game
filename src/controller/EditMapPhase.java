@@ -8,6 +8,10 @@ import model.GamePhaseEnum;
 import model.MapModel;
 import model.WarzoneController;
 
+
+/**
+ *
+ */
 public class EditMapPhase implements WarzoneController{
     private Scanner s = new Scanner(System.in);
     

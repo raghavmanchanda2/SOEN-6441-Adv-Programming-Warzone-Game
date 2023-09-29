@@ -29,12 +29,12 @@ public class MapEngineController {
 	}
 
 	public ResponseWrapper getMainMapCommandsFromUser() {
-		System.out.println("Getting input from user");
+		System.out.println("Getting input from the user");
 		String l_userEnteredMainMapCommands = d_inputForMapCommands.nextLine();
 
 		if (l_userEnteredMainMapCommands.trim().isEmpty()) {
 			System.out.println("No input from the user");
-			return new ResponseWrapper(404, "Please enter proper command"); // nothing entered please enter proper
+			return new ResponseWrapper(404, "Please enter the correct command"); // nothing entered please enter proper
 																			// command
 		}
 		String[] l_splitMainMapCommand = l_userEnteredMainMapCommands.trim().replaceAll(" +", " ").split("\\s+");
@@ -45,9 +45,9 @@ public class MapEngineController {
 			System.out.println("calling business file for editmap");
 			return d_executeMapsCommands.editOrCreateMap(l_splitMainMapCommand[1]);
 		case "exit":
-			return new ResponseWrapper(204, "Return Form current command");
+			return new ResponseWrapper(204, "Return from current command");
 		default:
-			return new ResponseWrapper(404, "Please enter proper command"); // nothing entered please enter proper
+			return new ResponseWrapper(404, "Please enter the correct command"); // nothing entered please enter proper
 																			// command
 		}
 
@@ -57,7 +57,7 @@ public class MapEngineController {
 
 		String l_userEnteredCommand = d_inputForMapCommands.nextLine();
 		if (l_userEnteredCommand.isEmpty()) {
-			return new ResponseWrapper(404, "Please enter proper command");
+			return new ResponseWrapper(404, "Please enter the correct command");
 		}
 		// Filter
 		String[] l_splittedCommands = l_userEnteredCommand.trim().replaceAll(" +", " ").split("\\s+");
