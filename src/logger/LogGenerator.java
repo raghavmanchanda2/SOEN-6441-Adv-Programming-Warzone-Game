@@ -20,7 +20,6 @@ public class LogGenerator {
 			D_SYSTEM_LOG.addHandler(d_sytsemLogFileHandler);
 			SimpleFormatter l_formatter = new SimpleFormatter();
 			d_sytsemLogFileHandler.setFormatter(l_formatter);
-			clearLogs();
 		} catch (SecurityException | IOException l_exception) {
 			l_exception.printStackTrace();
 		}

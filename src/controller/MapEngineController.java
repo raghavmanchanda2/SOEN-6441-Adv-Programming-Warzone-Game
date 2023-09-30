@@ -3,6 +3,8 @@ package controller;
 import java.util.Scanner;
 
 import business.ExecuteMapsCommands;
+import logger.GeneralException;
+import logger.LogGenerator;
 import model.Continent;
 import model.Country;
 import model.ResponseWrapper;
@@ -11,6 +13,9 @@ public class MapEngineController {
 
 	private Scanner d_inputForMapCommands;
 	private ExecuteMapsCommands d_executeMapsCommands;
+	private LogGenerator d_logGenrator;
+	public static final String INCORRECT_COMMAND="Please enter proper command";
+	private GeneralException gException=new GeneralException();
 
 	enum MapCommands {
 		EDIT_CONTINENT("editcontinent"), EDIT_COUNTRY("editcountry"), EDIT_NEIGHBOR("editneighbor"),
@@ -28,39 +33,43 @@ public class MapEngineController {
 		d_executeMapsCommands = new ExecuteMapsCommands();
 	}
 
-	public ResponseWrapper getMainMapCommandsFromUser() {
+	public ResponseWrapper getMainMapCommandsFromUser() throws GeneralException {
 		System.out.println("Getting input from the user");
 		String l_userEnteredMainMapCommands = d_inputForMapCommands.nextLine();
 
 		if (l_userEnteredMainMapCommands.trim().isEmpty()) {
 			System.out.println("No input from the user");
-			return new ResponseWrapper(404, "Please enter the correct command"); // nothing entered please enter proper
+			return new ResponseWrapper(404, INCORRECT_COMMAND); // nothing entered please enter proper
 																			// command
 		}
 		String[] l_splitMainMapCommand = l_userEnteredMainMapCommands.trim().replaceAll(" +", " ").split("\\s+");
-
+		
+		gException.validateCommand(l_userEnteredMainMapCommands);
+		
 		switch (l_splitMainMapCommand[0]) {
 
 		case "editmap":
 			System.out.println("calling business file for editmap");
 			return d_executeMapsCommands.editOrCreateMap(l_splitMainMapCommand[1]);
 		case "exit":
+			d_logGenrator.clearLogs();
 			return new ResponseWrapper(204, "Return from current command");
 		default:
-			return new ResponseWrapper(404, "Please enter the correct command"); // nothing entered please enter proper
+			return new ResponseWrapper(404, INCORRECT_COMMAND); // nothing entered please enter proper
 																			// command
 		}
 
 	}
 
-	public ResponseWrapper getEditMapCommandsFromUser() {
+	public ResponseWrapper getEditMapCommandsFromUser() throws GeneralException {
 
 		String l_userEnteredCommand = d_inputForMapCommands.nextLine();
 		if (l_userEnteredCommand.isEmpty()) {
-			return new ResponseWrapper(404, "Please enter the correct command");
+			return new ResponseWrapper(404, INCORRECT_COMMAND);
 		}
 		// Filter
 		String[] l_splittedCommands = l_userEnteredCommand.trim().replaceAll(" +", " ").split("\\s+");
+		gException.validateCommand(l_userEnteredCommand);
 		
 		switch (l_splittedCommands[0]) {
 		// edit continents
@@ -76,7 +85,7 @@ public class MapEngineController {
 						Continent l_continent = new Continent(l_splittedCommands[2], l_splittedCommands[3]);
 						return d_executeMapsCommands.addContinent(l_continent);
 					}else {
-						return new ResponseWrapper(404, "Please enter proper command");
+						return new ResponseWrapper(404, INCORRECT_COMMAND);
 					}
 
 				case "-remove":
@@ -84,12 +93,12 @@ public class MapEngineController {
 						Continent l_continent = new Continent(l_splittedCommands[2]);
 						return d_executeMapsCommands.removeContinent(l_continent);
 					}else {
-						return new ResponseWrapper(404, "Please enter proper command");
+						return new ResponseWrapper(404, INCORRECT_COMMAND);
 					}
 					// call business file to execute command
 					
 				default:
-					return new ResponseWrapper(404, "Please enter proper command");
+					return new ResponseWrapper(404, INCORRECT_COMMAND);
 
 				}
 
@@ -159,15 +168,16 @@ public class MapEngineController {
 			return d_executeMapsCommands.validateMap();
 			
 		case "exit":
+			d_logGenrator.clearLogs();
 			return new ResponseWrapper(204, "Return Form current command");
 		
 		default:
-			return new ResponseWrapper(404, "Please enter proper command");
+			return new ResponseWrapper(404, INCORRECT_COMMAND);
 
 
 		}
 
-		return new ResponseWrapper(404, "Please enter proper command");
+		return new ResponseWrapper(404, INCORRECT_COMMAND);
 
 	}
 

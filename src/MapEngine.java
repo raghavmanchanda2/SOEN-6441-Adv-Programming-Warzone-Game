@@ -1,5 +1,6 @@
 import controller.MapEngineController;
 import logger.ConsoleWriter;
+import logger.GeneralException;
 import logger.Logger;
 import model.ResponseWrapper;
 public class MapEngine {
@@ -47,14 +48,24 @@ public class MapEngine {
 		
 		while(true) {
 			this.printAvailableMapCommands();
-			ResponseWrapper mainMapCommandResponse = d_mapEngineController.getMainMapCommandsFromUser();
+			ResponseWrapper mainMapCommandResponse;
+			try {
+				mainMapCommandResponse = d_mapEngineController.getMainMapCommandsFromUser();
+			} catch (GeneralException exception) {
+				mainMapCommandResponse=new ResponseWrapper(404, exception.getMessage());
+			}
 			d_logger.setLogMessage(mainMapCommandResponse.getDescription());
 				if (mainMapCommandResponse.getStatusValue() == 204){
 					break;
 				}else if(mainMapCommandResponse.getStatusValue() == 200) {
 					while(true) {
 						this.printEditMapCommands();
-						ResponseWrapper editMapCommandResponse = d_mapEngineController.getEditMapCommandsFromUser();
+						ResponseWrapper editMapCommandResponse;
+						try {
+							editMapCommandResponse = d_mapEngineController.getEditMapCommandsFromUser();
+						} catch (GeneralException exception) {
+							editMapCommandResponse=new ResponseWrapper(404, exception.getMessage());
+						}
 						d_logger.setLogMessage(editMapCommandResponse.getDescription());
 						if(editMapCommandResponse.getStatusValue() == 204) {
 							break;

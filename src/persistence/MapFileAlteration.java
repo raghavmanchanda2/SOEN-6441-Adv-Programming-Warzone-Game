@@ -199,7 +199,7 @@ public class MapFileAlteration {
 	
 	public ResponseWrapper showmap() {
 
-		System.out.format("\n Map Details : \n");
+		System.out.format("\n Map Details are : \n");
 		System.out.format("\n Continents of Map are : \n");
 		System.out.format("+------------------+%n");
 		System.out.format("| Continent's Name |%n");
@@ -215,12 +215,9 @@ public class MapFileAlteration {
 		// Showing Countries in the Continent and their details
 		System.out.format("\n Countries in this Map and their details are : \n");
 
-		System.out.format(
-				"+--------------+-----------------------+------------------+----------------------------+---------------+-%n");
-		System.out.format(
-				"     Country Name     |    Continent Name    |   Bordering Countries                                      |%n");
-		System.out.format(
-				"+--------------+-----------------------+------------------+----------------------------+----------------+%n");
+		System.out.format("+--------------+-----------------------+------------------+----------------------------+---------------+-%n");
+		System.out.format("     Country Name     |    Continent Name    |   Bordering Countries                                      |%n");
+		System.out.format("+--------------+-----------------------+------------------+----------------------------+----------------+%n");
 
 		for (Map.Entry<Country, List<Country>> entry : this.d_mapModel.getBorders().entrySet()) {
 			String l_tablePattern = "|%-25s|%-20s|%-70s|%n";
@@ -228,8 +225,7 @@ public class MapFileAlteration {
 					this.getCountriesList(entry.getValue()));
 		}
 
-		System.out.format(
-				"+--------------+-----------------------+------------------+----------------------------+----------------+%n");
+		System.out.format("+--------------+-----------------------+------------------+----------------------------+----------------+%n");
 
 		System.out.format("\nPlayers in this game are : ");
 //		if (l_Players != null) {
@@ -244,7 +240,7 @@ public class MapFileAlteration {
 		System.out.format("| Player's Name |    Continent's Controlled    |%n");
 		System.out.format("+---------------+-------------------------------+%n");
 
-		String table = "|%-15s|%-30s|%n";
+		//String table = "|%-15s|%-30s|%n";
 
 //		for (Player l_Player : d_GameMap.getPlayers().values()) {
 //			System.out.format(l_Table1, l_Player.getName(),
@@ -286,9 +282,6 @@ public class MapFileAlteration {
 		
 		d_mapModel.getContinentCountries().entrySet().removeIf((map)-> map.getKey().getContinentId().equals(p_continent.getContinentId()));
 	
-		// Remove it
-		l_deletedCountriesList.stream().forEach((count)->{System.out.println("Removed Country - " + count.getCountryId());});
-		
 		// Removing countries from Borders
 		Map<Country, List<Country>> l_tempMap = new HashMap<Country, List<Country>>(d_mapModel.getBorders());
 		
@@ -334,7 +327,6 @@ public class MapFileAlteration {
 						.filter((cont) -> !cont.getCountryId().equals(conti.getCountryId()))
 						.collect(Collectors.toList());
 			}
-			l_continentCountriesList.stream().forEach((conti)->System.out.print(conti.getCountryId() + "-"));			
 			d_mapModel.getContinentCountries().put(mapEntry.getKey(), l_continentCountriesList);
 		}
 		
@@ -360,7 +352,6 @@ public class MapFileAlteration {
 						.filter((cont) -> !cont.getCountryId().equals(conti.getCountryId()))
 						.collect(Collectors.toList());
 			}
-			l_countriesUpdatedBorderList.stream().forEach((conti)->System.out.print(conti.getCountryId() + "-"));			
 			d_mapModel.getBorders().put(mapEntry.getKey(), l_countriesUpdatedBorderList);
 		}
 	
@@ -379,7 +370,6 @@ public class MapFileAlteration {
 			l_neighbouringCountriesList = l_neighbouringCountriesList.stream()
 						.filter((cont) -> !cont.getCountryId().equals(neighbourCountry.getCountryId()))
 						.collect(Collectors.toList());			
-			l_neighbouringCountriesList.stream().forEach((conti)->System.out.print(conti.getCountryId() + "-"));			
 			d_mapModel.getBorders().put(mapEntry.getKey(), l_neighbouringCountriesList);
 		}
 		
@@ -400,9 +390,7 @@ public class MapFileAlteration {
 						|| country.getContinent().getContientValue() == null
 						|| "".equals(country.getContinent().getContinentId())
 						|| "".equals(country.getContinent().getContientValue()));
-		// to be removed
-		this.d_mapModel.getCountries().stream().forEach((country)-> {System.out.println(country.getCountryId() + " - " + country.getContinent().getContientValue());});
-		
+	
 		Boolean l_countryContinentExistsInContinentsList=false;
 		for(Country count : this.d_mapModel.getCountries()) 
 		{
