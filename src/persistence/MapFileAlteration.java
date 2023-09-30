@@ -75,7 +75,7 @@ public class MapFileAlteration {
 				}else if(l_isContinentTableContent) {
 					String[] l_continentRow = l_mapFileLine.trim().split("\\s+");
 					System.out.println("M"+l_continentRow[0]);
-					this.d_mapModel.addContinent(new Continent(Integer.parseInt(l_continentRow[0]),l_continentRow[1]));
+					this.d_mapModel.addContinent(new Continent(Integer.parseInt(l_continentRow[0]),l_continentRow[1],l_continentRow[2]));
 				}else if(l_isCountriesTableContent) {
 					String[] l_countryRow = l_mapFileLine.trim().split("\\s+");
 					Country l_country = new Country(Integer.parseInt(l_countryRow[0]), l_countryRow[1]);
@@ -403,8 +403,24 @@ public class MapFileAlteration {
 		// to be removed
 		this.d_mapModel.getCountries().stream().forEach((country)-> {System.out.println(country.getCountryId() + " - " + country.getContinent().getContientValue());});
 		
-		Boolean l_countryContinentExistsInContinentsList = this.d_mapModel.getCountries().stream()
-				.allMatch((country) -> l_continents.contains(country.getContinent().getContientValue()));
+		Boolean l_countryContinentExistsInContinentsList=false;
+		for(Country count : this.d_mapModel.getCountries()) 
+		{
+			for(Continent conti : l_continents)
+			{
+				if(count.getContinent().getContinentId().contains(conti.getContinentId()))
+				{
+					l_countryContinentExistsInContinentsList=true;
+					break;
+				}				
+			}
+			if(Boolean.FALSE.equals(l_countryContinentExistsInContinentsList))
+			{
+				break;
+			}
+			
+		}
+				
 		Boolean l_countryBorderNotExists = this.d_mapModel.getBorders().entrySet().stream()
 				.anyMatch(borderMap -> borderMap.getValue().size() == 0) ? true : false;
 
@@ -419,7 +435,7 @@ public class MapFileAlteration {
 			return new ResponseWrapper(404, "Duplicate Continent or Country Found in map");
 
 		} else if (Boolean.TRUE.equals(l_countryContinentNotExists)) {
-			return new ResponseWrapper(404, "Country Continent is missing");
+			return new ResponseWrapper(404, "Country Continent Data is inappropriate");
 
 		} else if (l_countries.size() < 2) {
 			return new ResponseWrapper(404, " Countries Should be Atleast 2 in map ");
@@ -431,10 +447,7 @@ public class MapFileAlteration {
 		} else if (Boolean.FALSE.equals(l_countryContinentExistsInContinentsList)) {
 			return new ResponseWrapper(404, " Countries Continents Mismatch ");
 
-		} else if (Boolean.FALSE.equals(l_countryContinentExistsInContinentsList)) {
-			return new ResponseWrapper(404, " Countries Continents Mismatch ");
-
-		} else if (Boolean.TRUE.equals(l_countryBorderNotExists)) {
+		}  else if (Boolean.TRUE.equals(l_countryBorderNotExists)) {
 			return new ResponseWrapper(404, " Countries Border Missing ");
 		}
 

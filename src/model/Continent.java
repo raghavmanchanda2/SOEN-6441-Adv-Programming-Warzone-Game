@@ -10,6 +10,13 @@ public class Continent {
 	
 	
 	
+	public Continent(int p_uniqueContinetId, String p_continentId, String p_contientValue) {
+		super();
+		this.d_uniqueContinetId = p_uniqueContinetId;
+		this.d_continentId = p_continentId;
+		this.d_contientValue= p_contientValue;
+	}
+	
 	public Continent(int p_uniqueContinetId, String p_continentId) {
 		super();
 		this.d_uniqueContinetId = p_uniqueContinetId;
