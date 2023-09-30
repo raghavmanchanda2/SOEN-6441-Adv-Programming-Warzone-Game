@@ -50,7 +50,18 @@ public class MapEngineController {
 
 		case "editmap":
 			System.out.println("calling business file for editmap");
-			return d_executeMapsCommands.editOrCreateMap(l_splitMainMapCommand[1]);
+			ResponseWrapper mapResponse = d_executeMapsCommands.editOrCreateMap(l_splitMainMapCommand[1]);
+			ResponseWrapper l_response= d_executeMapsCommands.validateMap();
+			if(l_response.getStatusValue()==404)
+			{
+				System.out.println("Validation Failed : " + l_response.getDescription());
+			}
+			else
+			{
+				System.out.println(l_response.getDescription());
+
+			}
+			return mapResponse;
 		case "exit":
 			d_logGenrator.clearLogs();
 			return new ResponseWrapper(204, "Return from current command");
