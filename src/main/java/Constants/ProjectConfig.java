@@ -9,7 +9,7 @@ public class ProjectConfig {
 	
 	static {
 		Path currentPathPosition = Paths.get("");
-		D_MAP_FILES_PATH = currentPathPosition.toAbsolutePath()+"/src/map/";
+		D_MAP_FILES_PATH = currentPathPosition.toAbsolutePath()+"/src/main/java/map/";
 	}
 
 }

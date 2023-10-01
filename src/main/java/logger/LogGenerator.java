@@ -10,7 +10,7 @@ import java.util.logging.SimpleFormatter;
 public class LogGenerator {
 
 	private static final Logger D_SYSTEM_LOG = Logger.getLogger("systemLogFile");
-	private static final String D_LOG_FILE_PATH = Paths.get("").toAbsolutePath() + "/src/logger/" + "/systemLog.log";
+	private static final String D_LOG_FILE_PATH = Paths.get("").toAbsolutePath() + "/src/main/java/logger/" + "/systemLog.log";
 	private static FileHandler d_sytsemLogFileHandler;
 	
 	public void createFile() {

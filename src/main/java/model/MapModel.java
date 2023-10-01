@@ -60,13 +60,13 @@ public class MapModel {
 	public void addContinent(Continent continent) {
 		
 		if(this.continents == null) {
-			this.continents = new ArrayList<>();
+			this.continents = new ArrayList<Continent>();
 		}
 		if(this.continentCountries == null) {
-			this.continentCountries = new HashMap<>();
+			this.continentCountries = new HashMap<Continent, List<Country>>();
 		}
 		this.continents.add(continent);
-		this.continentCountries.put(continent, new ArrayList<>());
+		this.continentCountries.put(continent, new ArrayList<Country>());
 	}
 	
 	public void addContinentCountries(Continent continent, Country country) {
@@ -74,14 +74,14 @@ public class MapModel {
 		if (this.continentCountries.containsKey(continent)) {
 			this.continentCountries.get(continent).add(country);
 			if(this.borders == null) {
-				this.borders = new LinkedHashMap<>();
+				this.borders = new LinkedHashMap<Country, List<Country>>();
 			}
-			this.borders.put(country, new ArrayList<>());
+			this.borders.put(country, new ArrayList<Country>());
 			if(this.countries == null) {
-				this.countries = new ArrayList<>();
+				this.countries = new ArrayList<Country>();
 			}
 			this.countries.add(country);
-			this.borders.put(country, new ArrayList<>());
+			this.borders.put(country, new ArrayList<Country>());
 		}
 		
 	}
