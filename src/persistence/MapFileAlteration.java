@@ -74,16 +74,38 @@ public class MapFileAlteration {
 					this.d_mapModel.setMapName(l_mapFileLine);
 				}else if(l_isContinentTableContent) {
 					String[] l_continentRow = l_mapFileLine.trim().split("\\s+");
-					this.d_mapModel.addContinent(new Continent(Integer.parseInt(l_continentRow[0]),l_continentRow[1],l_continentRow[2]));
+					try {
+						this.d_mapModel.addContinent(new Continent(Integer.parseInt(l_continentRow[0]),l_continentRow[1],l_continentRow[2]));
+					}catch(IndexOutOfBoundsException ex) {
+						
+					}
+					
 				}else if(l_isCountriesTableContent) {
 					String[] l_countryRow = l_mapFileLine.trim().split("\\s+");
-					Country l_country = new Country(Integer.parseInt(l_countryRow[0]), l_countryRow[1]);
-					this.d_mapModel.addContinentCountries(this.d_mapModel.getContinents().get(Integer.parseInt(l_countryRow[2])), l_country);
+					try {
+						Country l_country = new Country(Integer.parseInt(l_countryRow[0]), l_countryRow[1]);
+						this.d_mapModel.addContinentCountries(this.d_mapModel.getContinents().get(Integer.parseInt(l_countryRow[2])), l_country);
+					}catch(IndexOutOfBoundsException ex) {
+						
+					}
+					
+					
 				}else if(l_isBorderTableContent) {
 					String[] l_borderRow = l_mapFileLine.trim().split("\\s+");
-					Country l_mainCountry = this.d_mapModel.getCountries().get(Integer.parseInt(l_borderRow[0]));
+					Country l_mainCountry = null ;
+					try {
+						l_mainCountry = this.d_mapModel.getCountries().get(Integer.parseInt(l_borderRow[0]));
+					}catch(IndexOutOfBoundsException ex) {
+						
+					}
+					
 					for(int counter = 1; counter<l_borderRow.length; counter++) {
-						this.d_mapModel.addBorders(l_mainCountry, this.d_mapModel.getCountries().get(Integer.parseInt(l_borderRow[counter])));	
+						try {
+							this.d_mapModel.addBorders(l_mainCountry, this.d_mapModel.getCountries().get(Integer.parseInt(l_borderRow[counter])));
+						}catch(IndexOutOfBoundsException | NullPointerException ex) {
+							
+						}
+							
 					}
 				}
 				
