@@ -58,7 +58,7 @@ public class MapModel {
 	}
 	
 	public void addContinent(Continent continent) {
-		System.out.println("add continent");
+		
 		if(this.continents == null) {
 			this.continents = new ArrayList<>();
 		}

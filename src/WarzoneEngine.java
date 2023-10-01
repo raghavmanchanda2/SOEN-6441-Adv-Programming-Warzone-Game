@@ -45,7 +45,7 @@ public class WarzoneEngine {
 		d_logger.setLogMessage("M M    1. New Game");
 		d_logger.setLogMessage("A E    2. Single Game Mode");
 		d_logger.setLogMessage("I N    3. Tournament Mode");
-		d_logger.setLogMessage("N U    3. Quit Game");
+		d_logger.setLogMessage("N U    4. Quit Game");
 		d_logger.setLogMessage("");
 		d_logger.setLogMessage("Input one option to get started");
 		d_logger.setLogMessage("(Getting input from user...)");
@@ -53,32 +53,31 @@ public class WarzoneEngine {
 	}
 
 	public synchronized void gameStarts() {
-		d_logGenrator.logInfoMsg("WAR ZONE GAME STARTS", 'I');
-		this.printAvailableWarZoneCommands();
+		while (true) {
+			d_logGenrator.logInfoMsg("WAR ZONE GAME STARTS", 'I');
+			this.printAvailableWarZoneCommands();
 
-		// get commands input from warZone controller file
-
-		switch (this.d_warzoneEngineController.getGameFeatureInputs()) {
-		case 1:
-			d_logGenrator.logInfoMsg("MAP ENGINE STARTS", 'I');
-			// sends to map engine
-			d_mapEngine.startMapEngine();
-
-			// clear Map states
-			MapPhaseState.clearMapPhaseStates();
-
-			d_logGenrator.logInfoMsg("MAP ENGINE ENDS", 'I');
-
+			// get commands input from warZone controller file
+			int  userInput = this.d_warzoneEngineController.getGameFeatureInputs();
+			if(userInput == 1) {
+				d_logGenrator.logInfoMsg("MAP ENGINE STARTS", 'I');
+				// sends to map engine
+				d_mapEngine.startMapEngine();
+				// clear Map states
+				MapPhaseState.clearMapPhaseStates();
+				d_logGenrator.logInfoMsg("MAP ENGINE ENDS", 'I');
+			}else if(userInput == 2) {
+				
+			}else if(userInput == 3) {
+				
+			}else if(userInput == 4) {
+				System.out.println("Game ENDED GRACEFULLY....");
+				break;
+			}else if(userInput == 404) {
+				continue;
+			}
+			
 			break;
-		case 2:
-			// single game mode engines
-			break;
-		case 3:
-			// tournament game mode engine
-			break;
-		case -1:
-			// restart the game
-
 		}
 
 	}

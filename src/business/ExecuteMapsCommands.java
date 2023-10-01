@@ -18,8 +18,8 @@ public class ExecuteMapsCommands {
 	}
 
 	public ResponseWrapper addContinent(Continent p_continent) {
-		this.d_mapFileAlteration.addContinent(p_continent);
-		return null;
+		return this.d_mapFileAlteration.addContinent(p_continent);
+		 
 	}
 
 	public ResponseWrapper removeContinent(Continent p_continent) {
@@ -28,8 +28,8 @@ public class ExecuteMapsCommands {
 	}
 
 	public ResponseWrapper addCountry(Country p_country) {
-		this.d_mapFileAlteration.addCountry(p_country);
-		return null;
+		return this.d_mapFileAlteration.addCountry(p_country);
+		
 	}
 
 	public ResponseWrapper removeCountry(Country p_country) {
@@ -64,7 +64,7 @@ public class ExecuteMapsCommands {
 		if (new File(ProjectConfig.D_MAP_FILES_PATH + p_mapFileName).exists()) {
 			// load map to the game and show as well for better understanding
 			MapPhaseState.D_CURRENT_MAP = p_mapFileName;
-			System.out.println("map exists");
+			
 			this.d_mapFileAlteration.readMapFile();
 			return new ResponseWrapper(200, "Map exists");
 

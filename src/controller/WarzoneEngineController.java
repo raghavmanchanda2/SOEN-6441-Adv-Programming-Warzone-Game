@@ -12,21 +12,22 @@ public class WarzoneEngineController {
 	}
 	
 	public int getGameFeatureInputs() {
-		int l_selectedFeature;
+		int l_selectedFeature = 404;
 		try {
 			l_selectedFeature = d_inputForFeatureSelection.nextInt();
 			
 		
 		}catch(InputMismatchException p_inputMismatchException){
 			// throws global exception
-			return -1;
+			System.out.println("Please provide proper input");
+			return 404;
 		}
 		
-		if (l_selectedFeature > 0  && l_selectedFeature < 4)
+		if (l_selectedFeature > 0  && l_selectedFeature <= 4)
 		return l_selectedFeature;
 		
 		else
-			return -1;
+			return 404;
 	}
 	
 	

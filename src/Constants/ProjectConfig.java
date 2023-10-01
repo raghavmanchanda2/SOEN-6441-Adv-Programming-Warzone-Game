@@ -9,7 +9,6 @@ public class ProjectConfig {
 	
 	static {
 		Path currentPathPosition = Paths.get("");
-		System.out.println(currentPathPosition.toAbsolutePath());
 		D_MAP_FILES_PATH = currentPathPosition.toAbsolutePath()+"/src/map/";
 	}
 

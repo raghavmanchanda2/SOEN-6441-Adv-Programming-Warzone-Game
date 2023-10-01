@@ -37,7 +37,7 @@ public class MapFileAlteration {
 	public void readMapFile() {
 		
 		try {
-			System.out.println(ProjectConfig.D_MAP_FILES_PATH+MapPhaseState.D_CURRENT_MAP);
+			
 			d_mapFileReader = new FileReader(ProjectConfig.D_MAP_FILES_PATH+MapPhaseState.D_CURRENT_MAP);
 			d_bufferReader = new BufferedReader(d_mapFileReader);
 			
@@ -74,21 +74,15 @@ public class MapFileAlteration {
 					this.d_mapModel.setMapName(l_mapFileLine);
 				}else if(l_isContinentTableContent) {
 					String[] l_continentRow = l_mapFileLine.trim().split("\\s+");
-					System.out.println("M"+l_continentRow[0]);
 					this.d_mapModel.addContinent(new Continent(Integer.parseInt(l_continentRow[0]),l_continentRow[1],l_continentRow[2]));
 				}else if(l_isCountriesTableContent) {
 					String[] l_countryRow = l_mapFileLine.trim().split("\\s+");
 					Country l_country = new Country(Integer.parseInt(l_countryRow[0]), l_countryRow[1]);
-					System.out.println("R"+l_countryRow[2]);
 					this.d_mapModel.addContinentCountries(this.d_mapModel.getContinents().get(Integer.parseInt(l_countryRow[2])), l_country);
 				}else if(l_isBorderTableContent) {
 					String[] l_borderRow = l_mapFileLine.trim().split("\\s+");
-					System.out.println("qwe" + l_borderRow[0] + l_borderRow[1]);
 					Country l_mainCountry = this.d_mapModel.getCountries().get(Integer.parseInt(l_borderRow[0]));
-					System.out.println("T"+l_mainCountry.getCountryId());
 					for(int counter = 1; counter<l_borderRow.length; counter++) {
-						System.out.println("N1"+counter);
-						System.out.println(this.d_mapModel.getCountries().get(counter).getCountryId());
 						this.d_mapModel.addBorders(l_mainCountry, this.d_mapModel.getCountries().get(Integer.parseInt(l_borderRow[counter])));	
 					}
 				}
@@ -102,31 +96,27 @@ public class MapFileAlteration {
 	
 	private void writeMapFile() {
 		try {
-			System.out.println(ProjectConfig.D_MAP_FILES_PATH+MapPhaseState.D_CURRENT_MAP);
-			System.out.println("Write Map File");
+			
 			d_mapFileWriter = new FileWriter(ProjectConfig.D_MAP_FILES_PATH+MapPhaseState.D_CURRENT_MAP);
 			d_bufferWriter = new BufferedWriter(d_mapFileWriter);
 			
 			String l_mapFileData = "MAP\n" + MapPhaseState.D_CURRENT_MAP+"\nCONTINENTS_TABLE\n";
-			System.out.println(this.d_mapModel.getContinents().size());
+			
 			for(Continent continent : this.d_mapModel.getContinents()) {
-				l_mapFileData += continent.getUniqueContinetId() + " " + continent.getContinentId() + "\n";
+				l_mapFileData += continent.getUniqueContinetId() + " " + continent.getContinentId() + " " + continent.getContientValue() + "\n";
 			}
 			
 			if(this.d_mapModel.getCountries() != null){
 				l_mapFileData += "COUNTRIES_TABLE\n";
 				for(Country country : this.d_mapModel.getCountries()) {
-					
-					l_mapFileData += country.getUniqueCountryId() + " " +country.getCountryId() + " " + country.getContinent().getUniqueContinetId()+"\n";
+					l_mapFileData += country.getUniqueCountryId() + " " +country.getCountryId() + " " + country.getContinent().getUniqueContinetId() + "\n";
 				}
 			}
 			if(this.d_mapModel.getBorders() != null) {
 				l_mapFileData += "BORDERS_TABLE";
 				for(Map.Entry<Country, List<Country>> border: this.d_mapModel.getBorders().entrySet()) {
-					System.out.println(border.getKey().getCountryId() + " Q ");
 					l_mapFileData += "\n"+border.getKey().getUniqueCountryId();
 					for(Country country : border.getValue()) {
-						System.out.println(country.getCountryId() + " W ");
 						l_mapFileData += " " + country.getUniqueCountryId();
 					
 					}
@@ -143,7 +133,7 @@ public class MapFileAlteration {
 	}
 	
 	public ResponseWrapper addContinent(Continent p_continent) {
-		System.out.println("read map file");
+		
 		if(this.d_mapModel.getContinents() == null) {
 			p_continent.setUniqueContinetId(0);
 		}else {
@@ -179,11 +169,9 @@ public class MapFileAlteration {
 		for(Country country : this.d_mapModel.getCountries()) {
 			if(country.getCountryId().equals(p_mainCountry.getCountryId())) {
 				p_mainCountry = country;
-				System.out.println(p_mainCountry.getUniqueCountryId()+p_mainCountry.getCountryId());
 			}
 			if(country.getCountryId().equals(p_neighbourCountry.getCountryId())) {
 				p_neighbourCountry = country;
-				System.out.println(p_neighbourCountry.getUniqueCountryId()+p_neighbourCountry.getCountryId());
 			}
 		}
 		this.d_mapModel.addBorders(p_mainCountry, p_neighbourCountry);
@@ -192,7 +180,6 @@ public class MapFileAlteration {
 	}
 	
 	public ResponseWrapper saveMap(String p_mapFileName) {
-		System.out.println("savemap");
 		this.writeMapFile();
 		return new ResponseWrapper(200, "Save Map successfully ");
 	}
