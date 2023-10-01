@@ -1,42 +1,76 @@
-MAP
-asia
+;Map world.map
+name world.map Map
+
 CONTINENTS_TABLE
-0 ASIA
-1 AFRICA
-2 EUROPE
+Atlantic_Provinces 3 00000
+Western_Provinces-South 3 00000
+Nunavut 3 00000
+Western_Provinces-North 2 00000
+Ontario_and_Quebec 4 00000
+Northwestern_Territories 2 00000
+
 COUNTRIES_TABLE
-0 INDIA 0
-1 PAKISTAN 0
-2 AFGHANISTAN 0
-3 NEPAL 0
-4 SRI-LANKA 0
-5 EGYPT 1
-6 NIGERIA 1
-7 ALGERIA 1
-8 KENYA 1
-9 LIBYA 1
-10 GERMANY 2
-11 ITALY 2 
-12 UNITED-KINGDOM 2
-13 FRANCE 2
-14 NEITHERLANDS 2
-15 GREECE 2
-16 POLAND 2
+1 NU-Northern_Islands 3
+2 Yukon_Territory 6
+3 NU-Ellesmere_Island 3
+4 Quebec-North 5
+5 N&L-Labrador 1
+6 Quebec-South 5
+7 BC-Vancouver_Island 2
+8 N&L-Newfoundland 1
+9 NU-Southern_Islands 3
+10 Quebec-Central 5
+11 NT-Northern_Islands 6
+12 NT-Victoria_Island-West 6
+13 Nunavut-Continental 3
+14 NU-Baffin_Island 3
+15 Nova_Scotia 1
+16 Ontario-West 5
+17 Saskatchewan-South 2
+18 NU-Victoria_Island-East 3
+19 Manitoba-North 4
+20 British_Columbia-South 2
+21 Alberta-North 4
+22 Ontario-North 5
+23 Saskatchewan-North 4
+24 Northwest_Territories-Continental 6
+25 New_Brunswick 1
+26 NT-Banks_Island 6
+27 Manitoba-South 2
+28 Alberta-South 2
+29 Ontario-South 5
+30 British_Columbia-North 4
+31 Prince_Edward_Island 1
+
 BORDERS_TABLE
-0 1 2 3 4 5
-1 0 2
-2 0 1
-3 0
-4 0 10
-5 6 7 8 9 10 0
-6 5 10 11 12 13
-7 5 14 15 16
-8 5 9 11 16
-9 5 8 12
-10 4 5 6
-11 6 8
-12 6 9 15
-13 6
-14 7
-15 7 12
-16 7 8
+1 14 18 11 3 13
+2 30 24
+3 14 1
+4 10 5 14 9
+5 10 8 4
+6 10 25 29
+7 20
+8 15 10 5
+9 14 13 22 4
+10 5 8 22 4 6
+11 12 1 26
+12 18 11 26 24
+13 14 18 9 19 1 24
+14 9 3 13 4 1
+15 25 8 31
+16 29 22 27
+17 28 23 27
+18 13 12 1
+19 13 22 23 27
+20 28 30 7
+21 28 30 23 24
+22 10 9 29 16 19
+23 21 19 17 24
+24 30 2 21 13 23 12 26
+25 15 31 6
+26 11 12 24
+27 16 19 17
+28 21 20 17
+29 22 16 6
+30 2 21 20 24
+31 15 25

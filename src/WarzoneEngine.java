@@ -1,14 +1,17 @@
 import GamePhase.MapPhaseState;
+import controller.CurrentGamePlay;
 import controller.WarzoneEngineController;
 import logger.ConsoleWriter;
 import logger.LogGenerator;
 import logger.Logger;
+import model.GamePhaseEnum;
 
 public class WarzoneEngine {
 
 	private WarzoneEngineController d_warzoneEngineController;
 	private LogGenerator d_logGenrator;
 	private MapEngine d_mapEngine;
+	private CurrentGamePlay d_currentGamePlay;
 
 	private Logger d_logger;
 	private ConsoleWriter d_consoleWriter;
@@ -16,6 +19,7 @@ public class WarzoneEngine {
 	public WarzoneEngine() {
 		d_warzoneEngineController = new WarzoneEngineController();
 		d_mapEngine = new MapEngine();
+		d_currentGamePlay = new CurrentGamePlay();
 		d_logGenrator = new LogGenerator();
 		d_logGenrator.createFile();
 		d_consoleWriter = new ConsoleWriter();
@@ -52,7 +56,7 @@ public class WarzoneEngine {
 
 	}
 
-	public synchronized void gameStarts() {
+	public synchronized void gameStarts() throws Exception {
 		d_logGenrator.logInfoMsg("WAR ZONE GAME STARTS", 'I');
 		this.printAvailableWarZoneCommands();
 
@@ -67,7 +71,11 @@ public class WarzoneEngine {
 			// clear Map states
 			MapPhaseState.clearMapPhaseStates();
 
-			d_logGenrator.logInfoMsg("MAP ENGINE ENDS", 'I');
+			//d_logGenrator.logInfoMsg("MAP ENGINE ENDS", 'I');
+			//d_logGenrator.logInfoMsg("STARTUP PHASE STARTS", 'I');
+			d_currentGamePlay.startStartup();
+
+
 
 			break;
 		case 2:

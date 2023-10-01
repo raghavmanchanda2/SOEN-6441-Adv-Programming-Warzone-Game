@@ -20,26 +20,28 @@ public class MapEngine {
 	}
 	
 	private void printAvailableMapCommands() {
-		d_logger.setLogMessage("Main Commands Available\n "
-				+ "1. editmap filename \n "
-				+ "2. exit \n"
-				+ "Enter Command");
+		d_logger.setLogMessage("\n******** Map Engine ********");
+		d_logger.setLogMessage("->Map Commands Available:\n "
+				+ "To edit an existing map or create a new map file : editmap filename(filename.map) \n "
+				+ "To exit : exit \n"
+				+ "**************************** \n"
+				+ "->Enter Command to proceed");
 	}
 	
 	private void printEditMapCommands() {
-		System.out.println("Print Available Commands OF EDIT MAP commands");
-		d_logger.setLogMessage("Commands available in edit map \n"
-				+ "1.  editcontinent -add continentID continentvalue \n"
-				+ "2.  editcontinent -remove continentID \n"
-				+ "3.  editcountry -add countryID continentID \n"
-				+ "4.  editcountry -remove countryID \n"
-				+ "5.  editneighbour -add countryID neighborcountryID \n"
-				+ "6.  editneighbour -remove countryID neighborcountryID \n"
-				+ "7.  showmap \n"
-				+ "8.  savemap filename \n"
-				+ "9.  validatemap \n"
-				+ "10. exit \n"
-				+ "Enter Command");
+		//System.out.println("Print Available Commands OF EDIT MAP commands");
+		d_logger.setLogMessage("->Commands available in edit map: \n"
+				+ "  To add a continent : editcontinent -add continentID continentvalue \n"
+				+ "  To remove a continent : editcontinent -remove continentID \n"
+				+ "  To add a country : editcountry -add countryID continentID \n"
+				+ "  To remove a country : editcountry -remove countryID \n"
+				+ "  To add a neighbour : editneighbour -add countryID neighborcountryID \n"
+				+ "  To remove a neighbour : editneighbour -remove countryID neighborcountryID \n"
+				+ "  To show the map : showmap \n"
+				+ "  To save the map : savemap filename \n"
+				+ "  To validate the map : validatemap \n"
+				+ "  To exit map engine : exit \n"
+				+ "->Enter Command to proceed");
 		
 	}
 	

@@ -24,7 +24,7 @@ public enum GamePhaseEnum {
 		@Override
 		public WarzoneController getController() {
 			// TODO Auto-generated method stub
-			return new EditMapPhase();
+			return null;
 		}
 
     },
@@ -55,7 +55,7 @@ public enum GamePhaseEnum {
 		 */
 		@Override
 		public WarzoneController getController() {
-			return new CurrentGamePlay();
+			return null;
 		}
 	},
 	GameExitPhase{

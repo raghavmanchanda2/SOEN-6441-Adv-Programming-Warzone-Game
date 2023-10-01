@@ -194,64 +194,64 @@ public class MapFileAlteration {
 	public ResponseWrapper saveMap(String p_mapFileName) {
 		System.out.println("savemap");
 		this.writeMapFile();
-		return new ResponseWrapper(200, "Save Map successfully ");
+		return new ResponseWrapper(200, "Saved Map successfully! ");
 	}
 	
 	public ResponseWrapper showmap() {
 
 		System.out.format("\n Map Details : \n");
 		System.out.format("\n Continents of Map are : \n");
-		System.out.format("+------------------+%n");
-		System.out.format("| Continent's Name |%n");
-		System.out.format("+------------------+%n");
+		System.out.format("********************%n");
+		System.out.format("  Continent's Name %n");
+		System.out.format("********************%n");
 
 		this.d_mapModel.getContinents().stream().forEach((continent) -> {
-			String l_table = "|%-20s|%n";
+			String l_table = "- %-20s%n";
 			System.out.format(l_table, continent.getContinentId());
 		});
 
-		System.out.format("+------------------+%n");
+		System.out.format("********************%n");
 
 		// Showing Countries in the Continent and their details
-		System.out.format("\n Countries in this Map and their details are : \n");
+		System.out.format("\n Countries in this Map : \n");
 
 		System.out.format(
-				"+--------------+-----------------------+------------------+----------------------------+---------------+-%n");
+				"*********************************************************************************************************%n");
 		System.out.format(
-				"     Country Name     |    Continent Name    |   Bordering Countries                                      |%n");
+				"     Country Name     !    Continent Name    !   Bordering Countries                                     %n");
 		System.out.format(
-				"+--------------+-----------------------+------------------+----------------------------+----------------+%n");
+				"*********************************************************************************************************%n");
 
 		for (Map.Entry<Country, List<Country>> entry : this.d_mapModel.getBorders().entrySet()) {
-			String l_tablePattern = "|%-25s|%-20s|%-70s|%n";
+			String l_tablePattern = "- %-25s- %-20s - %-70s%n";
 			System.out.format(l_tablePattern, entry.getKey().getCountryId(), entry.getKey().getContinent().getContinentId(),
 					this.getCountriesList(entry.getValue()));
 		}
 
 		System.out.format(
-				"+--------------+-----------------------+------------------+----------------------------+----------------+%n");
+				"*********************************************************************************************************%n");
 
-		System.out.format("\nPlayers in this game are : ");
+		System.out.format("\nPlayers in this game : ");
 //		if (l_Players != null) {
 //			l_Players.forEach((key, value) -> d_Logger.log(key));
 //			d_Logger.log("");
 //		}
 
 		// Showing the Ownership of the players
-		System.out.format("The Map ownership of the players are : ");
+		System.out.format("\nThe Map ownership of the players are :\n");
 
-		System.out.format("+---------------+-------------------------------+%n");
-		System.out.format("| Player's Name |    Continent's Controlled    |%n");
-		System.out.format("+---------------+-------------------------------+%n");
+		System.out.format("*************************************************%n");
+		System.out.format("! Player's Name !    Continent's Controlled    %n");
+		System.out.format("*************************************************%n");
 
-		String table = "|%-15s|%-30s|%n";
+		String table = "- %-15s- %-30s%n";
 
 //		for (Player l_Player : d_GameMap.getPlayers().values()) {
 //			System.out.format(l_Table1, l_Player.getName(),
 //					l_Player.createACaptureList(l_Player.getCapturedCountries()), l_Player.getReinforcementArmies());
 //		}
 
-		System.out.format("+---------------+-------------------------------+%n");
+		System.out.format("*************************************************%n");
 		
 		return new ResponseWrapper(200," Show Map Done Successfully");
 

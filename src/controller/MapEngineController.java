@@ -34,7 +34,7 @@ public class MapEngineController {
 
 		if (l_userEnteredMainMapCommands.trim().isEmpty()) {
 			System.out.println("No input from the user");
-			return new ResponseWrapper(404, "Please enter the correct command"); // nothing entered please enter proper
+			return new ResponseWrapper(404, "->Please enter the correct command"); // nothing entered please enter proper
 																			// command
 		}
 		String[] l_splitMainMapCommand = l_userEnteredMainMapCommands.trim().replaceAll(" +", " ").split("\\s+");
@@ -42,12 +42,12 @@ public class MapEngineController {
 		switch (l_splitMainMapCommand[0]) {
 
 		case "editmap":
-			System.out.println("calling business file for editmap");
+			System.out.println("->Calling business file for editmap");
 			return d_executeMapsCommands.editOrCreateMap(l_splitMainMapCommand[1]);
 		case "exit":
-			return new ResponseWrapper(204, "Return from current command");
+			return new ResponseWrapper(204, "->Return from current command");
 		default:
-			return new ResponseWrapper(404, "Please enter the correct command"); // nothing entered please enter proper
+			return new ResponseWrapper(404, "->Please enter the correct command"); // nothing entered please enter proper
 																			// command
 		}
 
@@ -57,7 +57,7 @@ public class MapEngineController {
 
 		String l_userEnteredCommand = d_inputForMapCommands.nextLine();
 		if (l_userEnteredCommand.isEmpty()) {
-			return new ResponseWrapper(404, "Please enter the correct command");
+			return new ResponseWrapper(404, "->Please enter the correct command!");
 		}
 		// Filter
 		String[] l_splittedCommands = l_userEnteredCommand.trim().replaceAll(" +", " ").split("\\s+");
@@ -76,7 +76,7 @@ public class MapEngineController {
 						Continent l_continent = new Continent(l_splittedCommands[2], l_splittedCommands[3]);
 						return d_executeMapsCommands.addContinent(l_continent);
 					}else {
-						return new ResponseWrapper(404, "Please enter proper command");
+						return new ResponseWrapper(404, "->Please enter the correct command");
 					}
 
 				case "-remove":
@@ -84,12 +84,12 @@ public class MapEngineController {
 						Continent l_continent = new Continent(l_splittedCommands[2]);
 						return d_executeMapsCommands.removeContinent(l_continent);
 					}else {
-						return new ResponseWrapper(404, "Please enter proper command");
+						return new ResponseWrapper(404, "->Please enter the correct command");
 					}
 					// call business file to execute command
 					
 				default:
-					return new ResponseWrapper(404, "Please enter proper command");
+					return new ResponseWrapper(404, "->Please enter the correct command");
 
 				}
 
@@ -121,7 +121,7 @@ public class MapEngineController {
 			switch (l_splittedCommands[1]) {
 			case "-add":
 				if (l_splittedCommands.length == 4) {
-					System.out.println("calling business file editeighbour");
+					System.out.println("->Calling business file editeighbour");
 					Country l_country = new Country(l_splittedCommands[2]);
 					Country l_neighbourCountry = new Country(l_splittedCommands[3]);
 					return d_executeMapsCommands.addNeighbour(l_country, l_neighbourCountry);
@@ -145,29 +145,29 @@ public class MapEngineController {
 			break;
 		case "showmap":
 			
-			System.out.println("calling business file for showmap");
+			System.out.println("->Calling business file for showmap");
 			return d_executeMapsCommands.showMap();
 			
 			
 		case "savemap":
-			System.out.println("calling business file for savemap");
+			System.out.println("->Calling business file for savemap");
 			return d_executeMapsCommands.saveMap(l_splittedCommands[1]);
 			
 
 		case "validatemap":
-			System.out.println("calling business file for validate map");
+			System.out.println("->Calling business file for validate map");
 			return d_executeMapsCommands.validateMap();
 			
 		case "exit":
-			return new ResponseWrapper(204, "Return Form current command");
+			return new ResponseWrapper(204, "Return From current command");
 		
 		default:
-			return new ResponseWrapper(404, "Please enter proper command");
+			return new ResponseWrapper(404, "->Please enter the correct command!");
 
 
 		}
 
-		return new ResponseWrapper(404, "Please enter proper command");
+		return new ResponseWrapper(404, "->Please enter the correct command!");
 
 	}
 
