@@ -36,8 +36,8 @@ public class CreateOrder implements Serializable {
         l_orderDetails.setD_Player(p_Player);
         l_orderDetails.setD_Country(l_Country);
         l_orderDetails.setD_Armies(l_NumberOfArmies);
-        if(p_Player.getReinforcementArmies() > 0 && l_NumberOfArmies <= p_Player.getIssuedArmies() && l_NumberOfArmies > 0){
-            p_Player.setIssuedArmies(p_Player.getIssuedArmies() - l_NumberOfArmies);
+        if(p_Player.getReinforcementArmies() > 0 && l_NumberOfArmies <= p_Player.getD_ArmiesToIssue() && l_NumberOfArmies > 0){
+            p_Player.setIssuedArmies(p_Player.getD_ArmiesToIssue() - l_NumberOfArmies);
         }
         return l_orderDetails;
     }

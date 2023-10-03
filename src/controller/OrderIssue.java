@@ -9,7 +9,9 @@ import model.orders.Order;
 
 import java.util.*;
 
-public class IssueOrder {
+import static javafx.application.Platform.exit;
+
+public class OrderIssue {
 
     private static Set<Player> skipPlayers = new HashSet<>();
 
@@ -19,12 +21,14 @@ public class IssueOrder {
 
     private Logger d_logger;
     private ConsoleWriter d_consoleWriter;
+    private OrderExecute d_orderExecute;
 
-    public IssueOrder() {
+    public OrderIssue() {
         d_MapModel = MapModel.getInstance();
         d_logger = new Logger();
         d_consoleWriter = new ConsoleWriter();
         d_logger.addObserver(d_consoleWriter);
+        d_orderExecute = new OrderExecute();
     }
 
     public void issue_order(){
@@ -55,10 +59,7 @@ public class IssueOrder {
                     if (PlayerCommands.equals("pass")) {
                         break;
                     }
-                    if (PlayerCommands.split(" ")[0].equals("savegame") && l_IssueCommand) {
-                        /*d_MapModel.setGamePhase(d_MapEditorPhase);
-                        return d_MapEditorPhase;*/
-                    }
+
                 }
                 if (!PlayerCommands.equals("pass")) {
                     d_logger.setLogMessage(l_Player.getName() + " has issued this order :- " + PlayerCommands);
@@ -70,8 +71,10 @@ public class IssueOrder {
             d_MapModel.setD_GameLoaded(false);
         }
         skipPlayers.clear();
-        /*d_MapModel.setGamePhase(d_ExecutePhase);
-        return d_ExecutePhase;*/
+        d_orderExecute.orderExecute();
+        d_logger.setLogMessage("All phases executes as per Build 1 requirements. Ending game...");
+        System.exit(0);
+
     }
 
     public boolean checkInput(String p_Commands, Player p_User){
@@ -141,11 +144,11 @@ public class IssueOrder {
         d_logger.setLogMessage(" To deploy the armies : deploy countryID numarmies");
         d_logger.setLogMessage(" To skip: pass");
         d_logger.setLogMessage("**********************************************************");
-        String l_Table = "|%-15s|%-19s|%-22s|%n";
+        String l_Table = "- %-15s- %-19s- %-22s %n";
         System.out.format("**********************************************************%n");
         System.out.format("  Player   !  Initial Assigned  !  Left Armies       %n");
         System.out.format("**********************************************************%n");
-        System.out.format(l_Table, p_Player.getName(), p_Player.getReinforcementArmies(), p_Player.getIssuedArmies());
+        System.out.format(l_Table, p_Player.getName(), p_Player.getReinforcementArmies(), p_Player.getD_ArmiesToIssue());
         System.out.format("**********************************************************%n");
 
         d_logger.setLogMessage("The countries assigned to the player are: ");

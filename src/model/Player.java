@@ -1,6 +1,6 @@
 package model;
 
-import controller.IssueOrder;
+import controller.OrderIssue;
 import logger.ConsoleWriter;
 import logger.Logger;
 import model.orders.CreateOrder;
@@ -55,7 +55,7 @@ public class Player {
      *
      * @return issues armies
      */
-    public int getIssuedArmies() {
+    public int getD_ArmiesToIssue() {
         return d_ArmiesToIssue;
     }
 
@@ -262,7 +262,7 @@ public class Player {
      * A function to get the issue order from player and add to the order list
      */
     public void issueOrder() {
-        Order l_Order = CreateOrder.createOrder(IssueOrder.PlayerCommands.split(" "), this);
+        Order l_Order = CreateOrder.createOrder(OrderIssue.PlayerCommands.split(" "), this);
         addOrder(l_Order);
     }
 

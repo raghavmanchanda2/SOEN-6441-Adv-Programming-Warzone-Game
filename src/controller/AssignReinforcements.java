@@ -11,11 +11,11 @@ public class AssignReinforcements {
     Player d_Player;
     GamePhaseEnum d_GamePhaseEnum;
 
-    private IssueOrder d_issueOrder;
+    private OrderIssue d_issueOrder;
 
     public AssignReinforcements() {
         d_MapModel = MapModel.getInstance();
-        d_issueOrder = new IssueOrder();
+        d_issueOrder = new OrderIssue();
     }
 
     public void assignReinforcements() throws Exception {

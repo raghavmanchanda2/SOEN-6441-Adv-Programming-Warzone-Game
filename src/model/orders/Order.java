@@ -2,7 +2,7 @@ package model.orders;
 
 import java.io.Serializable;
 
-public class Order implements Serializable {
+public abstract class Order implements Serializable {
     private String d_Type;
 
 
@@ -55,7 +55,7 @@ public class Order implements Serializable {
      *
      * @return false as there is not order to be executed
      */
-    //public abstract boolean execute();
+    public abstract boolean startExecute();
 
     /**
      * A function to validate each command.
@@ -67,7 +67,7 @@ public class Order implements Serializable {
     /**
      * Print the command that is executed successfully
      */
-    //public abstract void printOrderCommand();
+    public abstract void print();
 
 }
 

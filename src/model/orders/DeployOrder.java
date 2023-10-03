@@ -7,6 +7,8 @@ import model.Player;
 
 import java.io.Serializable;
 
+import static javafx.application.Platform.exit;
+
 public class DeployOrder extends Order implements Serializable {
 
     private Logger d_logger;
@@ -20,7 +22,7 @@ public class DeployOrder extends Order implements Serializable {
         setType("deploy");
     }
 
-    public boolean start() {
+    public boolean startExecute() {
         Country l_Country = getD_orderDetails().getD_Country();
         int l_Armies = getD_orderDetails().getD_Armies();
         d_logger.setLogMessage("************************");
@@ -53,5 +55,6 @@ public class DeployOrder extends Order implements Serializable {
     public void print() {
         d_logger.setLogMessage("\nDeployed" + getD_orderDetails().getD_Armies() + "armies at" + getD_orderDetails().getD_Country().getD_countryName());
         d_logger.setLogMessage("*******************");
+
     }
 }
