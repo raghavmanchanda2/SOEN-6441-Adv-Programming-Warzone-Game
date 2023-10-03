@@ -2,6 +2,7 @@ package model;
 
 import logger.ConsoleWriter;
 import logger.Logger;
+import model.player.PlayerStrategy;
 
 import javax.xml.bind.ValidationException;
 import java.util.*;
@@ -19,6 +20,8 @@ public class MapModel {
 	private HashMap<String, Country> d_Countries = new HashMap<>();
 
 	private HashMap<String, Player> d_Players = new HashMap<>();
+
+	private Boolean d_GameLoaded = false;
 
 	private Logger d_logger;
 	private ConsoleWriter d_consoleWriter;
@@ -42,7 +45,13 @@ public class MapModel {
 		return countries;
 	}
 
+	public Boolean getD_GameLoaded() {
+		return d_GameLoaded;
+	}
 
+	public void setD_GameLoaded(Boolean d_GameLoaded) {
+		this.d_GameLoaded = d_GameLoaded;
+	}
 
 	public Country getCountry(String p_Id) {
 		return d_Countries.get(p_Id);
@@ -110,7 +119,7 @@ public class MapModel {
 		l_Continent.setD_continentName(p_ContinentName);
 		l_Continent.setD_AwardArmies(Integer.parseInt(p_ControlValue));
 		this.getD_Continents().put(p_ContinentName, l_Continent);
-		d_logger.setLogMessage("Successfully added Continent: " + p_ContinentName);
+		d_logger.setLogMessage("Continent " + p_ContinentName + " added.");
 	}
 
 	public void p_addCountry(String p_CountryName, String p_ContinentName) throws Exception{
@@ -123,17 +132,17 @@ public class MapModel {
 		l_Country.setD_Continent(p_ContinentName);
 		this.getD_Countries().put(p_CountryName, l_Country);
 		this.getContinent(p_ContinentName).getCountries().add(l_Country);
-		d_logger.setLogMessage("Successfully added Country: " + p_CountryName);
+		d_logger.setLogMessage("Country " + p_CountryName + " added.");
 	}
 
 	public void p_addNeighbor(String p_CountryName, String p_NeighborCountryName) throws ValidationException {
 		Country l_Country1 = this.getCountry(p_CountryName);
 		Country l_Country2 = this.getCountry(p_NeighborCountryName);
 		if (Objects.isNull(l_Country1) || Objects.isNull(l_Country2)) {
-			throw new ValidationException("Atleast one of the mentioned Countries does not exist");
+			throw new ValidationException("At least one of the mentioned Countries does not exist");
 		}
 		l_Country1.getNeighbors().add(l_Country2);
-		d_logger.setLogMessage(String.format("Successfully connected routes between mentioned Countries: %s - %s", p_CountryName, p_NeighborCountryName));
+		d_logger.setLogMessage(String.format("Route added between : %s - %s", p_CountryName, p_NeighborCountryName));
 	}
 
 	/**
@@ -141,7 +150,7 @@ public class MapModel {
 	 *
 	 * @return player
 	 */
-	public Player getCurrentPlayer() {
+	public Player getD_CurrentPlayer() {
 		return d_CurrentPlayer;
 	}
 
@@ -150,7 +159,7 @@ public class MapModel {
 	 *
 	 * @param d_CurrentPlayer player
 	 */
-	public void setCurrentPlayer(Player d_CurrentPlayer) {
+	public void setD_CurrentPlayer(Player d_CurrentPlayer) {
 		this.d_CurrentPlayer = d_CurrentPlayer;
 	}
 	
@@ -186,17 +195,15 @@ public class MapModel {
 	}
 
 	public void showMap() {
-		d_logger.setLogMessage("\nShowing the Map Details : \n");
 
-		// Showing Continents in Map
 		d_logger.setLogMessage("Continents:");
 		Iterator<Map.Entry<String, Continent>> l_IteratorForContinents = d_MapModel.getD_Continents().entrySet()
 				.iterator();
 
-		String l_Table = "|%-18s|%n";
+		String l_Table = "- %-18s%n";
 
 		System.out.format("********************%n");
-		System.out.format("  Continent's name  %n");
+		System.out.format("     Continents  %n");
 		System.out.format("********************%n");
 
 		while (l_IteratorForContinents.hasNext()) {
@@ -220,7 +227,7 @@ public class MapModel {
 		System.out.format(
 				"****************************************************************************************************%n");
 		System.out.format(
-				"     Country's name   !   Continent's Name  !  Neighbour Countries                                  %n");
+				"        Country   !     Continent    !     Neighbours                                  %n");
 		System.out.format(
 				"****************************************************************************************************%n");
 
@@ -250,11 +257,11 @@ public class MapModel {
 		}
 
 		//Showing the Ownership of the players
-		d_logger.setLogMessage("Continents assigned to players: ");
+		d_logger.setLogMessage("Continents allotted to players: ");
 
 
 		System.out.format("**************************************************%n");
-		System.out.format("  Player's name  !   Continent's Controlled       %n");
+		System.out.format("     Players     !     Allotted Continents       %n");
 		System.out.format("**************************************************%n");
 
 		String l_Table1 = "- %-15s- %-30s- %n";
@@ -270,24 +277,24 @@ public class MapModel {
 
 	public void addPlayer(String p_PlayerName) throws Exception {
 		if (this.getPlayers().containsKey(p_PlayerName)) {
-			throw new Exception("Player already exists");
+			throw new Exception(p_PlayerName  + "exists already.");
 		}
-		Player l_Player = new Player();
+		Player l_Player = new Player(PlayerStrategy.getStrategy("human"));
 		l_Player.setName(p_PlayerName);
 		this.getPlayers().put(p_PlayerName, l_Player);
-		d_logger.setLogMessage("Successfully added Player: " + p_PlayerName);
+		d_logger.setLogMessage(p_PlayerName + " added successfully");
 	}
 
 	public void removePlayer(String p_PlayerName) throws Exception {
 		Player l_Player = this.getPlayer(p_PlayerName);
 		if (Objects.isNull(l_Player)) {
-			throw new Exception("Player does not exist: " + p_PlayerName);
+			throw new Exception("No player with name: " + p_PlayerName);
 		}
 		this.getPlayers().remove(l_Player.getName());
-		d_logger.setLogMessage("Successfully deleted the player: " + p_PlayerName);
+		d_logger.setLogMessage(p_PlayerName + " removed successfully");
 	}
 
-	public void assign() {
+	public void allot() {
 		int l_Index = 0;
 		List<Player> l_Players = d_MapModel.getPlayers().values().stream().collect(Collectors.toList());
 
@@ -297,7 +304,7 @@ public class MapModel {
 			Player l_Player = l_Players.get(l_Index);
 			l_Player.getCapturedCountries().add(l_Country);
 			l_Country.setPlayer(l_Player);
-			d_logger.setLogMessage(l_Country.getD_countryName() + " Assigned to " + l_Player.getName());
+			d_logger.setLogMessage(l_Country.getD_countryName() + " Allotted to " + l_Player.getName());
 
 			if (l_Index < d_MapModel.getPlayers().size() - 1) {
 				l_Index++;

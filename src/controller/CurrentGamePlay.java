@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import static javafx.application.Platform.exit;
+
 /**
  * class to execute current GamePhase and implement WarZoneController
  */
@@ -33,6 +35,8 @@ public class CurrentGamePlay {
 
     private ExecuteMapsCommands d_executeMapsCommands;
 
+    private AssignReinforcements d_AssignReinforcements;
+
 
     /**
      * Default Constructor
@@ -43,6 +47,7 @@ public class CurrentGamePlay {
         d_consoleWriter = new ConsoleWriter();
         d_logger.addObserver(d_consoleWriter);
         d_executeMapsCommands = new ExecuteMapsCommands();
+        d_AssignReinforcements = new AssignReinforcements();
     }
 
     private void loadMap(String p_Filename) throws Exception {
@@ -77,6 +82,8 @@ public class CurrentGamePlay {
             d_logger.setLogMessage("To assign countries to players: assigncountries");
             d_logger.setLogMessage("To exit the game : exit");
             d_logger.setLogMessage("*****************************************");
+            d_logger.setLogMessage("-> Enter Command to proceed");
+            d_logger.setLogMessage("(Getting input from the user....)");
             String l_Input = s.nextLine();
             List<String> l_InputList;
             if (l_Input.contains("-")) {
@@ -136,7 +143,7 @@ public class CurrentGamePlay {
 
                     case "assigncountries": {
                         if (d_MapModel.getPlayers().size() > 1) {
-                            d_MapModel.assign();
+                            d_MapModel.allot();
                         } else {
                             d_logger.setLogMessage("Game ended as the minimum players are not there.");
                             throw new ValidationException("Create atleast two players");
@@ -149,26 +156,11 @@ public class CurrentGamePlay {
                         d_MapModel.showMap();
                         break;
                     }
-                    case "savegame": {
-                        /*if (l_CommandArray.length == 1) {
-                            GameProgress.SaveGameProgress(d_GameMap, l_CommandArray[0]);
-                            d_GameMap.setGamePhase(d_MapEditorPhase);
-                            return d_MapEditorPhase;
-                        }
-                        break;*/
-                    }
-                    case "loadgame": {
-                        /*if (l_CommandArray.length == 1) {
-                            GamePhase l_GameLoaded = GameProgress.LoadGameProgress(l_CommandArray[0]);
-                            if (!l_GameLoaded.equals(GamePhase.StartUp)) {
-                                return l_GameLoaded;
-                            }
-                        }
-                        break;*/
-                    }
+
                     case "exit": {
-                       /* d_GameMap.setGamePhase(d_ReinforcementPhase);
-                        return p_GamePhase.nextState(d_ReinforcementPhase);*/
+                        d_AssignReinforcements.assignReinforcements();
+                        exit();
+                        break;
                     }
                     //Print the commands for help
                     default: {

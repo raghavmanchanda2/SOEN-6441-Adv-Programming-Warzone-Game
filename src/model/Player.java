@@ -5,6 +5,7 @@ import logger.ConsoleWriter;
 import logger.Logger;
 import model.orders.CreateOrder;
 import model.orders.Order;
+import model.player.PlayerStrategy;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -36,14 +37,18 @@ public class Player {
     private Logger d_logger;
     private ConsoleWriter d_consoleWriter;
 
+    private final PlayerStrategy d_PlayerStrategy;
+
     /**
      * the constructor for player class
      */
-    public Player() {
+    public Player(PlayerStrategy dPlayerStrategy) {
+        d_PlayerStrategy = dPlayerStrategy;
         d_logger = new Logger();
         d_consoleWriter = new ConsoleWriter();
         d_logger.addObserver(d_consoleWriter);
     }
+
 
     /**
      * method to get armies issued
@@ -310,7 +315,7 @@ public class Player {
             setReinforcementArmies(3);
         }
         d_ArmiesToIssue = getReinforcementArmies();
-        d_logger.setLogMessage("Player " + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
+        d_logger.setLogMessage("The Player " + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
     }
 
     /**
@@ -333,7 +338,7 @@ public class Player {
     }
 
     public String readFromPlayer() {
-        return null;
+        return this.d_PlayerStrategy.createCommand();
     }
 
     public String createACaptureList(List<Country> p_Capture) {

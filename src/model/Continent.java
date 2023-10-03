@@ -16,8 +16,7 @@ public class Continent {
 
 	private int d_AwardArmies;
 
-	public Continent() {
-	}
+
 
 	public Continent(int p_uniqueContinetId, String p_continentId) {
 		super();
@@ -40,6 +39,10 @@ public class Continent {
 		super();
 		this.d_continentId = p_continentId;
 		this.d_continentCountries = p_continentCountries;
+	}
+
+	public Continent() {
+
 	}
 
 	public String getD_continentName() {

@@ -29,7 +29,7 @@ public class MapEngineController {
 	}
 
 	public ResponseWrapper getMainMapCommandsFromUser() {
-		System.out.println("Getting input from the user");
+		System.out.println("(Getting input from the user...)");
 		String l_userEnteredMainMapCommands = d_inputForMapCommands.nextLine();
 
 		if (l_userEnteredMainMapCommands.trim().isEmpty()) {

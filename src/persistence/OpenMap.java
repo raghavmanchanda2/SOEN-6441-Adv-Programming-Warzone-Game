@@ -40,8 +40,8 @@ public class OpenMap {
 
             d_Buffer = new BufferedReader(l_FileReader);
             while ((d_line = d_Buffer.readLine()) != null) {
-                if (d_line.contains("CONTINENTS_TABLE")) {
-                    while ((d_line = d_Buffer.readLine()) != null && !d_line.contains("[")) {
+                if (d_line.contains("[continents]")) {
+                    while ((d_line = d_Buffer.readLine()) != null  && !d_line.contains("[")) {
                         if (d_line.isEmpty()) {
                             continue;
                         }
@@ -50,9 +50,9 @@ public class OpenMap {
                         d_Continents.add(l_ContinentDetails[0]);
                     }
                 }
-                if (d_line.contains("COUNTRIES_TABLE")) {
-                    while ((d_line = d_Buffer.readLine()) != null && !d_line.contains("[")) {
-                        if (d_line.length() == 0) {
+                if (d_line.contains("[countries]")) {
+                    while ((d_line = d_Buffer.readLine()) != null  && !d_line.contains("[")) {
+                        if (d_line.isEmpty()) {
                             continue;
                         }
                         String[] l_CountryDetails = d_line.split(" ");
@@ -60,9 +60,9 @@ public class OpenMap {
                         d_Country.put(l_CountryDetails[0], l_CountryDetails[1]);
                     }
                 }
-                if (d_line.contains("BORDERS_TABLE")) {
-                    while ((d_line = d_Buffer.readLine()) != null && !d_line.contains("[")) {
-                        if (d_line.length() == 0) {
+                if (d_line.contains("[borders]")) {
+                    while ((d_line = d_Buffer.readLine()) != null  && !d_line.contains("[")) {
+                        if (d_line.isEmpty()) {
                             continue;
                         }
                         String[] l_NeighbourDetails = d_line.split(" ");

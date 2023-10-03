@@ -28,20 +28,20 @@ public class IssueOrder {
     }
 
     public void issue_order(){
-        if (d_MapModel.getCurrentPlayer() == null) {
-            d_MapModel.setCurrentPlayer(d_MapModel.getPlayers().entrySet().iterator().next().getValue());
+        if (d_MapModel.getD_CurrentPlayer() == null) {
+            d_MapModel.setD_CurrentPlayer(d_MapModel.getPlayers().entrySet().iterator().next().getValue());
         }
-
+        //d_GamePhase = p_GamePhase;
         while (!(skipPlayers.size() == d_MapModel.getPlayers().size())) {
             for (Player l_Player : d_MapModel.getPlayers().values()) {
-                if (!(l_Player.getName().equalsIgnoreCase(d_MapModel.getCurrentPlayer().getName()))) {
+                if ((d_MapModel.getD_GameLoaded() && !(l_Player.getName().equalsIgnoreCase(d_MapModel.getD_CurrentPlayer().getName())))) {
                     continue;
                 }
                 if (!skipPlayers.isEmpty() && skipPlayers.contains(l_Player)) {
                     continue;
                 }
-                //d_MapModel.setGameLoaded(false);
-                d_MapModel.setCurrentPlayer(l_Player);
+                d_MapModel.setD_GameLoaded(false);
+                d_MapModel.setD_CurrentPlayer(l_Player);
                 boolean l_IssueCommand = false;
                 while (!l_IssueCommand) {
                     gameProgress(l_Player);
@@ -50,12 +50,15 @@ public class IssueOrder {
                         PlayerCommands = "";
                     }
                     if (!PlayerCommands.isEmpty()) {
-                        l_IssueCommand = checkCommand(PlayerCommands, l_Player);
+                        l_IssueCommand = checkInput(PlayerCommands, l_Player);
                     }
                     if (PlayerCommands.equals("pass")) {
                         break;
                     }
-
+                    if (PlayerCommands.split(" ")[0].equals("savegame") && l_IssueCommand) {
+                        /*d_MapModel.setGamePhase(d_MapEditorPhase);
+                        return d_MapEditorPhase;*/
+                    }
                 }
                 if (!PlayerCommands.equals("pass")) {
                     d_logger.setLogMessage(l_Player.getName() + " has issued this order :- " + PlayerCommands);
@@ -64,24 +67,28 @@ public class IssueOrder {
                     d_logger.setLogMessage("=============================================================================");
                 }
             }
-
+            d_MapModel.setD_GameLoaded(false);
         }
         skipPlayers.clear();
-
+        /*d_MapModel.setGamePhase(d_ExecutePhase);
+        return d_ExecutePhase;*/
     }
 
-    public boolean checkCommand(String p_CommandArr, Player p_Player) {
+    public boolean checkInput(String p_Commands, Player p_User){
         List<String> l_Commands = Arrays.asList("deploy", "advance", "bomb", "blockade", "airlift", "negotiate", "savegame");
-        String[] l_CommandArr = p_CommandArr.split(" ");
-        if (p_CommandArr.toLowerCase().contains("pass")) {
-            AddToSetOfPlayers(p_Player);
+        String[] l_CommandArr = p_Commands.split(" ");
+        if (p_Commands.toLowerCase().contains("pass")) {
+            AddToSetOfPlayers(p_User);
             return false;
         }
         if (!l_Commands.contains(l_CommandArr[0].toLowerCase())) {
-            d_logger.setLogMessage("The command syntax is invalid." + p_CommandArr);
+            d_logger.setLogMessage("The command syntax is invalid." + p_Commands);
             return false;
         }
-
+        if (!CheckLengthOfCommand(l_CommandArr[0], l_CommandArr.length)) {
+            d_logger.setLogMessage("The command syntax is invalid." + p_Commands);
+            return false;
+        }
         switch (l_CommandArr[0].toLowerCase()) {
             case "deploy":
                 try {
@@ -103,7 +110,6 @@ public class IssueOrder {
                     return false;
                 }
                 break;
-            case "savegame":
 
             default:
                 break;
@@ -112,40 +118,52 @@ public class IssueOrder {
         return true;
     }
 
+
     private static void AddToSetOfPlayers(Player p_Player) {
         skipPlayers.add(p_Player);
     }
 
+    private static boolean CheckLengthOfCommand(String p_Command, int p_Length) {
+        if (p_Command.contains("deploy")) {
+            return p_Length == 3;
+        } else if (p_Command.contains("bomb") || p_Command.contains("blockade") || p_Command.contains("negotiate") || p_Command.contains("savegame")) {
+            return (p_Length == 2);
+        } else if (p_Command.contains("airlift") || p_Command.contains("advance")) {
+            return (p_Length == 4);
+        }
+        return false;
+    }
+
 
     public void gameProgress(Player p_Player) {
-        d_logger.setLogMessage("*****************************");
-        d_logger.setLogMessage("List of game loop commands");
-        d_logger.setLogMessage("To deploy the armies : deploy countryID numarmies");
-        d_logger.setLogMessage("To skip: pass");
-        d_logger.setLogMessage("*****************************");
+        d_logger.setLogMessage("******************* Issue Orders Phase *******************");
+        d_logger.setLogMessage("-> Commands Available:");
+        d_logger.setLogMessage(" To deploy the armies : deploy countryID numarmies");
+        d_logger.setLogMessage(" To skip: pass");
+        d_logger.setLogMessage("**********************************************************");
         String l_Table = "|%-15s|%-19s|%-22s|%n";
-        System.out.format("+--------------+-----------------------+------------------+%n");
-        System.out.format("| Current Player   | Initial Assigned  | Left Armies      | %n");
-        System.out.format("+---------------+------------------  +---------------------+%n");
+        System.out.format("**********************************************************%n");
+        System.out.format("  Player   !  Initial Assigned  !  Left Armies       %n");
+        System.out.format("**********************************************************%n");
         System.out.format(l_Table, p_Player.getName(), p_Player.getReinforcementArmies(), p_Player.getIssuedArmies());
-        System.out.format("+--------------+-----------------------+------------------+%n");
+        System.out.format("**********************************************************%n");
 
         d_logger.setLogMessage("The countries assigned to the player are: ");
-        System.out.format("+--------------+-----------------------+------------------+---------+%n");
+        System.out.format("**********************************************************%n");
 
         System.out.format(
-                "|Country name  |Country Armies  | Neighbors                         |%n");
+                " Country name  ! Country Armies  ! Neighbors                         %n");
         System.out.format(
-                "+--------------+-----------------------+------------------+---------+%n");
+                "**********************************************************%n");
         for (Country l_Country : p_Player.getCapturedCountries()) {
-            String l_TableCountry = "|%-15s|%-15s|%-35s|%n";
+            String l_TableCountry = "- %-15s- %-15s- %-35s%n";
             String l_NeighborList = "";
             for (Country l_Neighbor : l_Country.getNeighbors()) {
                 l_NeighborList += l_Neighbor.getD_countryName() + "-";
             }
             System.out.format(l_TableCountry, l_Country.getD_countryName(), l_Country.getArmies(), l_Country.createNeighboursList(l_Country.getNeighbors()));
         }
-        System.out.format("+--------------+-----------------------+------------------+---------+\n");
+        System.out.format("**********************************************************\n");
 
 
         if (!p_Player.getOrders().isEmpty()) {

@@ -23,7 +23,7 @@ public class MapEngine {
 		d_logger.setLogMessage("\n******** Map Engine ********");
 		d_logger.setLogMessage("->Map Commands Available:\n "
 				+ "To edit an existing map or create a new map file : editmap filename(filename.map) \n "
-				+ "To exit : exit \n"
+				+ "To exit the Map Phase : exit \n"
 				+ "**************************** \n"
 				+ "->Enter Command to proceed");
 	}
