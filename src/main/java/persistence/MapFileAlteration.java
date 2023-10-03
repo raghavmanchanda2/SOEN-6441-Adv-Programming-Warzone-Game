@@ -356,7 +356,7 @@ public class MapFileAlteration {
 		
 		// Deleting Countries
 		List<Country> l_deletedCountriesList = d_mapModel.getCountries();
-		d_mapModel.setCountries(d_mapModel.getCountries().stream().filter((conti)-> ! conti.getContinent().getContinentId().equals(p_continent.getContinentId())).toList());
+		d_mapModel.setCountries(d_mapModel.getCountries().stream().filter((conti)-> ! conti.getContinent().getContinentId().equals(p_continent.getContinentId())).collect(Collectors.toList()));
 		l_deletedCountriesList.removeIf((cont)-> !cont.getContinent().getContinentId().equals(p_continent.getContinentId()));
 		
 		// Removing Continents from Map
@@ -407,7 +407,7 @@ public class MapFileAlteration {
 		// Deleting Countries
 		List<Country> l_deletedCountriesList = d_mapModel.getCountries();
 		
-		d_mapModel.setCountries(d_mapModel.getCountries().stream().filter((conti)-> !conti.getCountryId().equals(country.getCountryId())).toList());	
+		d_mapModel.setCountries(d_mapModel.getCountries().stream().filter((conti)-> !conti.getCountryId().equals(country.getCountryId())).collect(Collectors.toList()));	
 		l_deletedCountriesList.removeIf((conti)-> ! conti.getCountryId().equals(country.getCountryId()));	
 		
 		// Removing countries from ContinentCountries map
