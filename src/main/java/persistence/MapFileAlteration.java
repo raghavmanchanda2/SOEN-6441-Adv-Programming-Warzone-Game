@@ -20,6 +20,11 @@ import model.Country;
 import model.MapModel;
 import model.ResponseWrapper;
 
+/**
+ * class that defines creating, saving, reading and loading map files into the game
+ * @author Rohit, Raghav
+ * @version build 1
+ */
 public class MapFileAlteration {
 	
 	private FileReader d_mapFileReader;
@@ -30,10 +35,24 @@ public class MapFileAlteration {
 	
 	private MapModel d_mapModel;
 	
+	/**
+	 * method for creating a new MapModel object 
+	 */
 	public MapFileAlteration() {
 		d_mapModel = new MapModel();
 	}
 	
+	/**
+	 * Reads a map file from the map package.
+	 * Data is extracted in the following manner:
+	 * 1. When it reads the line "MAP": extracts name of the map
+	 * 2. When it reads the line "CONTINENTS_TABLE": data below are the continents and their associated id
+	 * 3. When it reads the line "COUNTRIES_TABLE": data below are the countries, their associated id and which continent
+	 * they belong to using continent id.
+	 * 4. When it reads the line "BORDERS_TABLE" data below are: first number is the country's id and every number after it
+	 * are the countries that border it using their id.
+	 * 
+	 */
 	public void readMapFile() {
 		
 		try {
@@ -116,6 +135,12 @@ public class MapFileAlteration {
 		}
 	}
 	
+	/**
+	 * With an already create map by the player.  The map can be saved in the following format.
+	 * Data is extracted from the list of continents, countries, map of continent countries and map of borders
+	 * with the following tags: MAP, CONTINENTS_TABLE, COUNTRIES_TABLE, BORDERS_TABLE respectively.
+	 * Use buffer variable to efficiently transfer data
+	 */
 	private void writeMapFile() {
 		try {
 			
@@ -154,6 +179,11 @@ public class MapFileAlteration {
 		
 	}
 	
+	/**
+	 * Method to add a continent in the map and returns alert of successful operation
+	 * @param p_continent a continent object to be added to the map
+	 * @return ReponseWrapper temp object to alert player of the status after adding the continent
+	 */
 	public ResponseWrapper addContinent(Continent p_continent) {
 		
 		if(this.d_mapModel.getContinents() == null) {
@@ -167,6 +197,11 @@ public class MapFileAlteration {
 		return new ResponseWrapper(200, "Add continent successfully ");
 	}
 	
+	/**
+	 * Method to add a country in the map and returns alert of successful operation
+	 * @param p_country a country object to be added to the map
+	 * @return ReponseWrapper temp object to alert player of the status after adding the country
+	 */
 	public ResponseWrapper addCountry(Country p_country) {
 		
 		for(Continent continent : this.d_mapModel.getContinents()) {
@@ -186,6 +221,12 @@ public class MapFileAlteration {
 		return new ResponseWrapper(200, "add country successfully ");
 	}
 	
+	/**
+	 * Method for adding a specific country as a neighbor of another country
+	 * @param p_mainCountry the key country
+	 * @param p_neighbourCountry the neighboring country to the key country
+	 * @return ReponseWrapper temp object to alert player of the status after adding a neighboring country
+	 */
 	public ResponseWrapper addNeighbour(Country p_mainCountry, Country p_neighbourCountry) {
 		
 		for(Country country : this.d_mapModel.getCountries()) {
@@ -201,11 +242,26 @@ public class MapFileAlteration {
 		return new ResponseWrapper(200, "add neighbour successfully ");
 	}
 	
+	/**
+	 * Method for saving a map in the event of creation or editing
+	 * @param p_mapFileName
+	 * @return alert to show map has been successfully saved
+	 */
 	public ResponseWrapper saveMap(String p_mapFileName) {
 		this.writeMapFile();
 		return new ResponseWrapper(200, "Save Map successfully ");
 	}
 	
+	/**
+	 * Method for outputting in table format, the complete details of the current map in play
+	 * Information about the map include:
+	 * 1. Country Name
+	 * 2. Continent Name
+	 * 3. Bordering Countries
+	 * 4. Player information
+	 * 5. Continents controlled by player
+	 * @return alert for successful showing of map
+	 */
 	public ResponseWrapper showmap() {
 
 		System.out.format("\n Map Details are : \n");
@@ -262,6 +318,11 @@ public class MapFileAlteration {
 
 	}
 	
+	/**
+	 * method to get countries list in the form of a string
+	 * @param countriesList
+	 * @return list of countries as a string if the string length is greater than 0, else return empty
+	 */
 	private String getCountriesList(List<Country> countriesList) {
 		String l_countList = "";
 		for (Country country : countriesList) {
@@ -270,7 +331,19 @@ public class MapFileAlteration {
 		return l_countList.length() > 0 ? l_countList.substring(0, l_countList.length() - 1) : "";
 	}
 
-	
+	/**
+	 * Method to remove continent from the map, it should be removed from the following:
+	 * 1. continents list
+	 * 2. countries list (all countries that belong to the deleted continent must also be deleted)
+	 * 3. continentsCountries map: a mapping key/value pair of continent and list of countries that belong to that continent
+	 * 4. borders map: a mapping key/value pair of country and list of countries that borders the key
+	 * 
+	 * When deleting a continent we need to ensure that all countries in that continent is deleted
+	 * and ensure that the remaining countries do not share a border with the deleted countries.
+	 * 
+	 * @param p_continent
+	 * @return alert to player to show successful deletion of continent
+	 */
 	public ResponseWrapper removeContinent(Continent p_continent) {
 
 		// Deleting Continents
@@ -318,6 +391,18 @@ public class MapFileAlteration {
 
 	}
 
+	/**
+	 * Method to remove country from the map, it should be removed from the following:
+	 * 1. countries list
+	 * 2. continentsCountries map: a mapping key/value pair of continent and list of countries that belong to that continent
+	 * 3. borders map: a mapping key/value pair of country and list of countries that borders the key
+	 * 
+	 * When deleting a country, we should ensure that other countries that used to border that country reflect
+	 * that change and also delete that country from their borders list.
+	 * 
+	 * @param country
+	 * @return alert to player to show successful deletion of country
+	 */
 	public ResponseWrapper removeCountry(Country country) {
 		// Deleting Countries
 		List<Country> l_deletedCountriesList = d_mapModel.getCountries();
@@ -366,6 +451,17 @@ public class MapFileAlteration {
 		return new ResponseWrapper(200, "Removed Country Successfully");
 	}
 	
+	/**
+	 * Method for removing a country from another country's list of neighbors.
+	 * That change should be reflected in borders map.
+	 * 
+	 * The borders map is searched by the country key, its neighbor list is access and search
+	 * until param: neighbourCountry is found in the list and deleted
+	 * 
+	 * @param mainCountry key value in the borders map
+	 * @param neighbourCountry country to be removed in the list of countries in borders map
+	 * @return alert that neighboring country has been successfully removed
+	 */
 	public ResponseWrapper removeNeighbour(Country mainCountry,Country neighbourCountry) {	
 		
 		List<Country> l_neighbouringCountriesList;
@@ -385,6 +481,13 @@ public class MapFileAlteration {
 		
 	}
 	
+	/**
+	 * Method to validate the map once a change has been made.
+	 * For example we want to add a country into a map with a continent that does not exist, then it's
+	 * an error that should not occur.
+	 * 
+	 * @return alert either the map is validated or alert a specific error message
+	 */
 	public ResponseWrapper validateMap() {
 		
 		Set<Continent> l_continents = new HashSet<Continent>(this.d_mapModel.getContinents());
@@ -448,6 +551,10 @@ public class MapFileAlteration {
 		}
 
 		return new ResponseWrapper(200, " VALIDATION SUCCESSFUL ");
+	}
+	
+	public MapModel getMapModel() {
+		return d_mapModel;
 	}
 
 }

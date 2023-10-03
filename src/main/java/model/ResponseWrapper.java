@@ -1,8 +1,18 @@
 package model;
 
+/**
+ * class for managing responses with status values and descriptions
+ * @author Rohit
+ * @version build 1
+ */
 public class ResponseWrapper {
 	private int d_statusValue;
 	private String d_description;
+	
+	/**
+	 * getter method for status value
+	 * @return d_statusValue
+	 */
 	public int getStatusValue() {
 		return d_statusValue;
 	}
@@ -11,12 +21,26 @@ public class ResponseWrapper {
 		this.d_description = p_description;
 	}
 	
+	/**
+	 * setter method for status value
+	 * @param p_statusValue
+	 */
 	public void setStatusValue(int p_statusValue) {
 		this.d_statusValue = p_statusValue;
 	}
+	
+	/**
+	 * getter method for description
+	 * @return d_description
+	 */
 	public String getDescription() {
 		return d_description;
 	}
+	
+	/**
+	 * setter method for description
+	 * @param description
+	 */
 	public void setDescription(String description) {
 		this.d_description = description;
 	}

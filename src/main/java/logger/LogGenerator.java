@@ -7,12 +7,21 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+
+/**
+ * class for log generation, file creation and log manipulation
+ * @author Raghav
+ * @version build 1
+ */
 public class LogGenerator {
 
 	private static final Logger D_SYSTEM_LOG = Logger.getLogger("systemLogFile");
 	private static final String D_LOG_FILE_PATH = Paths.get("").toAbsolutePath() + "/src/main/java/logger/" + "/systemLog.log";
 	private static FileHandler d_sytsemLogFileHandler;
 	
+	/**
+	 * Method for setting up file creation using class Logger and FileHandler
+	 */
 	public void createFile() {
 		
 		try {
@@ -24,11 +33,22 @@ public class LogGenerator {
 			l_exception.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * Method to allow display of log messages on the console with use of parent handlers method
+	 * @param p_systemLog Logger variable 
+	 * @param p_logOnCnsole boolean variable that specifies whether log messages should be displayed on the console
+	 */
 	public void writeLogOnConsole(Logger p_systemLog, Boolean p_logOnCnsole) {
 		p_systemLog.setUseParentHandlers(p_logOnCnsole);
 	}
-
+	
+	
+	/**
+	 * Method for handling multiple message types with the use of a switch statement and initializes D_SYSTEM_LOG
+	 * @param p_msg log message
+	 * @param p_logType type of message
+	 */
 	public void logInfoMsg(String p_msg, char p_logType) {
 		switch (p_logType) {
 		case 'I':
@@ -47,7 +67,10 @@ public class LogGenerator {
 		}
 		D_SYSTEM_LOG.info(p_msg);
 	}
-
+	
+	/**
+	 * Method for deleting log file.
+	 */
 	public void clearLogs() {
 
 		d_sytsemLogFileHandler.close();

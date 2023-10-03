@@ -3,16 +3,37 @@ package logger;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * class for handling exceptions based on the messages passed to its method
+ * @author Raghav
+ * @version build 1
+ */
 public class GeneralException extends Exception {
 
 	public GeneralException() {
 	}
 
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * constructor to initialize p_message
+	 * @param p_message exception message
+	 */
 	public GeneralException(String p_message) {
 		super(p_message);
 	}
 	
+	
+	/**
+	 * 
+	 * Method to validate the input command.
+	 * The input command cannot be null, empty string or contain a special character
+	 * 
+	 * @param p_message input command
+	 * @return validated input command
+	 * @throws GeneralException if input command is invalid
+	 */
 	public String validateCommand(String p_message) throws GeneralException {
 		
 		if (p_message == null || "".equals(p_message)) {
