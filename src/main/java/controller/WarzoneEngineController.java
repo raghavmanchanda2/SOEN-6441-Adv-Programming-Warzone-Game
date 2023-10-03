@@ -7,13 +7,12 @@ public class WarzoneEngineController {
 	
 	private Scanner d_inputForFeatureSelection;
 	
-	public WarzoneEngineController(){
-		d_inputForFeatureSelection = new Scanner(System.in);
-	}
 	
 	public int getGameFeatureInputs() {
 		int l_selectedFeature = 404;
 		try {
+			
+			d_inputForFeatureSelection = new Scanner(System.in);
 			l_selectedFeature = d_inputForFeatureSelection.nextInt();
 			
 		
