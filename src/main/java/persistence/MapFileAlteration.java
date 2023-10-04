@@ -39,7 +39,7 @@ public class MapFileAlteration {
 	 * method for creating a new MapModel object 
 	 */
 	public MapFileAlteration() {
-		d_mapModel = new MapModel();
+		d_mapModel = MapModel.getInstance();
 	}
 	
 	/**
@@ -54,7 +54,7 @@ public class MapFileAlteration {
 	 * 
 	 */
 	public void readMapFile() {
-		
+		this.d_mapModel.clearMap();
 		try {
 			
 			d_mapFileReader = new FileReader(ProjectConfig.D_MAP_FILES_PATH+MapPhaseState.D_CURRENT_MAP);
@@ -122,16 +122,26 @@ public class MapFileAlteration {
 					String[] l_borderRow = l_mapFileLine.trim().split("\\s+");
 					Country l_mainCountry = null ;
 					try {
-						l_mainCountry = this.d_mapModel.getCountries().get(Integer.parseInt(l_borderRow[0]));
-					}catch(IndexOutOfBoundsException ex) {
+						if(this.d_mapModel.getCountries().size() > Integer.parseInt(l_borderRow[0])){
+							l_mainCountry = this.d_mapModel.getCountries().get(Integer.parseInt(l_borderRow[0]));
+						}else {
+							
+						}
 						
+					}catch(IndexOutOfBoundsException ex) {
+						System.out.println(ex+"nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
 					}
 					
 					for(int counter = 1; counter<l_borderRow.length; counter++) {
 						try {
-							this.d_mapModel.addBorders(l_mainCountry, this.d_mapModel.getCountries().get(Integer.parseInt(l_borderRow[counter])));
-						}catch(IndexOutOfBoundsException | NullPointerException ex) {
+							if(this.d_mapModel.getCountries().size() <= Integer.parseInt(l_borderRow[counter])) {
+								this.d_mapModel.addBorders(l_mainCountry,null);
+							}else {
+								this.d_mapModel.addBorders(l_mainCountry, this.d_mapModel.getCountries().get(Integer.parseInt(l_borderRow[counter])));
+							}
 							
+						}catch(IndexOutOfBoundsException | NullPointerException ex) {
+							//System.out.println(ex+"rrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
 						}
 							
 					}
@@ -553,35 +563,81 @@ public class MapFileAlteration {
 
 		} 
 		
+//		for(Map.Entry<Country, List<Country>> mapEntry : d_mapModel.getBorders().entrySet()) {
+//			System.out.println(mapEntry.getKey().getCountryId() + " " + mapEntry.getKey().getUniqueCountryId());
+//		}
 		
-		
-		Boolean l_countryBorderRelevantData=false; 
-	
-		
-		for (Map.Entry<Country, List<Country>> mapEntry : d_mapModel.getBorders().entrySet()) {
-			l_countryBorderRelevantData=false;
-			
-			for(Country borderCount : mapEntry.getValue())
-			{
-				for(Country cont: l_countries)
-				{
-					l_countryBorderRelevantData=false;
-					if(cont.getCountryId().equals(borderCount.getCountryId()))
-					{
-						l_countryBorderRelevantData=true;
-						break;
+		Boolean l_countryBorderRelevantData=false;
+		for(Map.Entry<Country, List<Country>> mapEntry : d_mapModel.getBorders().entrySet()) {
+			boolean isCountryExitInList = false;
+			if(mapEntry.getKey() != null) {
+				for(Country country : l_countries) {
+					if(country.getCountryId().equals(mapEntry.getKey().getCountryId())) {
+						isCountryExitInList = true;
 					}
 				}
-				
-				if (Boolean.FALSE.equals(l_countryBorderRelevantData)) {
-					return new ResponseWrapper(404,
-							" Border Data for Countries is not consistent with Countries that are added ");
-
-				} 
 			}
 			
-		}
+			if (! isCountryExitInList) {
+				l_countryBorderRelevantData = true;
+				break ;
+			}
+			
+			
+				for(Country neighbourCountries : mapEntry.getValue()) {
+					if(neighbourCountries != null) {
+						for(Country country : l_countries) {
+							if(country.getCountryId().equals(neighbourCountries.getCountryId())) {
+								isCountryExitInList = true;
+							}
+						}
+						
+					}else {
+						isCountryExitInList = true;
+						
+					}
+					
+					if (! isCountryExitInList) {
+						l_countryBorderRelevantData = true;
+						break ;
+					}
+					
+				
+			}
+}
 		
+		
+		if (Boolean.TRUE.equals(l_countryBorderRelevantData)) {
+			return new ResponseWrapper(404,
+					" Border Data for Countries is not consistent with Countries that are added ");
+
+		} 
+	
+		
+//		for (Map.Entry<Country, List<Country>> mapEntry : d_mapModel.getBorders().entrySet()) {
+//			l_countryBorderRelevantData=false;
+//			
+//			for(Country borderCount : mapEntry.getValue())
+//			{
+//				for(Country cont: l_countries)
+//				{
+//					l_countryBorderRelevantData=false;
+//					if(cont.getCountryId().equals(borderCount.getCountryId()))
+//					{
+//						l_countryBorderRelevantData=true;
+//						break;
+//					}
+//				}
+//				
+//				if (Boolean.FALSE.equals(l_countryBorderRelevantData)) {
+//					return new ResponseWrapper(404,
+//							" Border Data for Countries is not consistent with Countries that are added ");
+//
+//				} 
+//			}
+//			
+//		}
+//		
 				
 		Boolean l_countryBorderNotExists = this.d_mapModel.getBorders().entrySet().stream()
 				.anyMatch(borderMap -> borderMap.getValue().size() == 0) ? true : false;
