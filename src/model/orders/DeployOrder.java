@@ -53,7 +53,7 @@ public class DeployOrder extends Order implements Serializable {
     }
 
     public void print() {
-        d_logger.setLogMessage("\nDeployed" + getD_orderDetails().getD_Armies() + "armies at" + getD_orderDetails().getD_Country().getD_countryName());
+        d_logger.setLogMessage("\nDeployed " + getD_orderDetails().getD_Armies() + " armies at " + getD_orderDetails().getD_Country().getD_countryName());
         d_logger.setLogMessage("*******************");
 
     }

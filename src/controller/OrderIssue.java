@@ -78,7 +78,7 @@ public class OrderIssue {
     }
 
     public boolean checkInput(String p_Commands, Player p_User){
-        List<String> l_Commands = Arrays.asList("deploy", "advance", "bomb", "blockade", "airlift", "negotiate", "savegame");
+        List<String> l_Commands = Arrays.asList("deploy");
         String[] l_CommandArr = p_Commands.split(" ");
         if (p_Commands.toLowerCase().contains("pass")) {
             AddToSetOfPlayers(p_User);
