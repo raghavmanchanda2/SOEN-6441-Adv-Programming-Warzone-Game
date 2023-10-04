@@ -550,6 +550,12 @@ public class MapFileAlteration {
 	 */
 	public ResponseWrapper validateMap() {
 		
+		if(this.d_mapModel.getContinents() == null  ) {
+			return new ResponseWrapper(404, "In map there are no continents");
+		}
+		if(this.d_mapModel.getCountries() == null) {
+			return new ResponseWrapper(404, "In map there are no countries");
+		}
 		Set<Continent> l_continents = new HashSet<Continent>(this.d_mapModel.getContinents());
 		Set<Country> l_countries = new HashSet<Country>(this.d_mapModel.getCountries());
 				
