@@ -189,8 +189,13 @@ public class MapModel {
 	 * @param neighbourCountry
 	 */
 	public void addBorders(Country mainCountry,Country neighbourCountry) {
+		
+		
 		if(this.borders.containsKey(mainCountry)) {
 			this.borders.get(mainCountry).add(neighbourCountry);
+		}else {
+			this.borders.put(mainCountry,  new ArrayList<Country>());
+			System.out.println("ROHIT");
 		}
 	}
 
@@ -392,5 +397,24 @@ public class MapModel {
 		MapModel.getInstance().getD_Continents().clear();
 		MapModel.getInstance().getD_Countries().clear();
 		MapModel.getInstance().getPlayers().clear();
+		
+		if( MapModel.getInstance().getContinents() != null) {
+			MapModel.getInstance().getContinents().clear();
+		}
+		if( MapModel.getInstance().getCountries() != null) {
+			MapModel.getInstance().getCountries().clear();
+		}
+		
+		if( MapModel.getInstance().getContinentCountries() != null) {
+			MapModel.getInstance().getContinentCountries().clear();
+		}
+		
+		if( MapModel.getInstance().getBorders() != null) {
+			MapModel.getInstance().getBorders().clear();
+		}
+		
+		
+		
+		
 	}
 }
