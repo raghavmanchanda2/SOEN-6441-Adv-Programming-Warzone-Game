@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 
 import Constants.ProjectConfig;
 import GamePhase.MapPhaseState;
+import logger.ConsoleWriter;
+import logger.Logger;
 import model.Continent;
 import model.Country;
 import model.MapModel;
@@ -35,12 +37,16 @@ public class MapFileAlteration {
 	private BufferedWriter d_bufferWriter;
 	
 	private MapModel d_mapModel;
-	
+	private Logger d_logger;
+	private ConsoleWriter d_consoleWriter;
 	/**
 	 * method for creating a new MapModel object 
 	 */
 	public MapFileAlteration() {
 		d_mapModel = MapModel.getInstance();
+		d_logger = new Logger();
+		d_consoleWriter = new ConsoleWriter();
+		d_logger.addObserver(d_consoleWriter);
 	}
 	
 	/**
@@ -294,62 +300,50 @@ public class MapFileAlteration {
 	 */
 	public ResponseWrapper showmap() {
 
- ResponseWrapper l_resp=this.validateMap();
+ 	ResponseWrapper l_resp=this.validateMap();
              if(l_resp.getStatusValue()==404)
                {
                        System.out.format("\n Map cannot be showed as Validation Failed \n");
                        return l_resp;
                }
-               
-		System.out.format("\n Map Details are : \n");
-		System.out.format("\n Continents of Map are : \n");
-		System.out.format("+------------------+%n");
-		System.out.format("| Continent's Name |%n");
-		System.out.format("+------------------+%n");
+
+		d_logger.setLogMessage(" Continents: ");
+		d_logger.setLogMessage("********************");
+		d_logger.setLogMessage("  Continent's Name  ");
+		d_logger.setLogMessage("********************");
 
 		this.d_mapModel.getContinents().stream().forEach((continent) -> {
-			String l_table = "|%-20s|%n";
+			String l_table = "- %-20s %n";
 			System.out.format(l_table, continent.getContinentId());
 		});
 
-		System.out.format("+------------------+%n");
+		d_logger.setLogMessage("********************");
+
 
 		// Showing Countries in the Continent and their details
 		System.out.format("\n Countries in this Map and their details are : \n");
 
-		System.out.format("+--------------+-----------------------+------------------+----------------------------+---------------+-%n");
-		System.out.format("     Country Name     |    Continent Name    |   Bordering Countries                                      |%n");
-		System.out.format("+--------------+-----------------------+------------------+----------------------------+----------------+%n");
-
+		System.out.format("****************************************************************************************************%n");
+		System.out.format("        Country   !     Continent    !     Neighbours                                  %n");
+		System.out.format("****************************************************************************************************%n");
 		for (Map.Entry<Country, List<Country>> entry : this.d_mapModel.getBorders().entrySet()) {
-			String l_tablePattern = "|%-25s|%-20s|%-70s|%n";
+			String l_tablePattern = "- %-25s- %-20s- %-70s%n";
 			System.out.format(l_tablePattern, entry.getKey().getCountryId(), entry.getKey().getContinent().getContinentId(),
 					this.getCountriesList(entry.getValue()));
 		}
 
-		System.out.format("+--------------+-----------------------+------------------+----------------------------+----------------+%n");
+		System.out.format("****************************************************************************************************%n");
 
 		System.out.format("\nPlayers in this game are : ");
-//		if (l_Players != null) {
-//			l_Players.forEach((key, value) -> d_Logger.log(key));
-//			d_Logger.log("");
-//		}
 
-		// Showing the Ownership of the players
-		System.out.format("The Map ownership of the players are : ");
+		d_logger.setLogMessage("Continents allotted to players: ");
 
-		System.out.format("+---------------+-------------------------------+%n");
-		System.out.format("| Player's Name |    Continent's Controlled    |%n");
-		System.out.format("+---------------+-------------------------------+%n");
+		System.out.format("**************************************************%n");
+		System.out.format("     Players     !     Allotted Continents       %n");
+		System.out.format("**************************************************%n");
 
-		//String table = "|%-15s|%-30s|%n";
 
-//		for (Player l_Player : d_GameMap.getPlayers().values()) {
-//			System.out.format(l_Table1, l_Player.getName(),
-//					l_Player.createACaptureList(l_Player.getCapturedCountries()), l_Player.getReinforcementArmies());
-//		}
-
-		System.out.format("+---------------+-------------------------------+%n");
+		System.out.format("**************************************************%n");
 		
 		return new ResponseWrapper(200," Show Map Done Successfully");
 
