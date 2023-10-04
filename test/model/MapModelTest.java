@@ -2,6 +2,7 @@ package model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -153,6 +154,79 @@ class MapModelTest {
 
 	    return true; // Since we are checking connectivity, we don't need to return a size comparison.
 	}
-
+	@Test
+	void addPlayerTest() {
+	    MapModel mapModel = MapModel.getInstance();
+	    try {
+	        mapModel.addPlayer("Player1");
+	        Player player = mapModel.getPlayer("Player1");
+	        assertNotNull(player);
+	        assertEquals("Player1", player.getName());
+	    } catch (Exception e) {
+	        fail("Failed to add a player: " + e.getMessage());
+	    }
+	}
+	@Test
+	void removePlayerTest() {
+	    MapModel mapModel = MapModel.getInstance();
+	    try {
+	        mapModel.addPlayer("Player2");
+	        mapModel.removePlayer("Player2");
+	        Player player = mapModel.getPlayer("Player2");
+	        assertNull(player);
+	    } catch (Exception e) {
+	        fail("Failed to remove a player: " + e.getMessage());
+	    }
+	}
+	/**
+     * Test to check handling of duplicate continents when adding continents to the map model.
+     */
+	@Test
+	void testDuplicateContinents() {
+	    MapModel mapModel = MapModel.getInstance();
+	    try {
+	        mapModel.p_addContinent("Asia", "5");
+	        mapModel.p_addContinent("North America", "7");
+	        mapModel.p_addContinent("Asia", "3"); // Attempt to add a duplicate continent
+	        fail("Expected an exception for duplicate continent name.");
+	    } catch (Exception e) {
+	        assertEquals("Continent already exists", e.getMessage());
+	    }
+	}
 	
+
+	/**
+     * Test to ensure that all countries in the map model have valid continents.
+     */
+	@Test
+	void testCountriesWithValidContinents() {
+	    MapModel mapModel = MapModel.getInstance();
+	    
+	    try {
+	        // Initialize the countries list if it's null
+	        if (mapModel.getCountries() == null) {
+	            mapModel.setCountries(new ArrayList<>());
+	        }
+	        
+	        // Add continents if they don't already exist
+	        if (!mapModel.getD_Continents().containsKey("Asia")) {
+	            mapModel.p_addContinent("Asia", "5");
+	        }
+	        if (!mapModel.getD_Continents().containsKey("North America")) {
+	            mapModel.p_addContinent("North America", "7");
+	        }
+	        
+	        // Add countries to the continents
+	        mapModel.p_addCountry("India", "Asia");
+	        mapModel.p_addCountry("USA", "North America");
+	        mapModel.p_addCountry("Canada", "North America");
+	        
+	        // Check that all countries have valid continents
+	        assertTrue(mapModel.getCountries().stream().allMatch(country -> country.getContinent() != null));
+	    } catch (Exception e) {
+	        fail("Exception occurred while setting up the test: " + e.getMessage());
+	    }
+	}
+
+
 }
