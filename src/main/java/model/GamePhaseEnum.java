@@ -55,7 +55,7 @@ public enum GamePhaseEnum {
 		 */
 		@Override
 		public WarzoneController getController() {
-			return new CurrentGamePlay();
+			return null;
 		}
 	},
 	GameExitPhase{

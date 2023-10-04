@@ -65,7 +65,7 @@ public class MapEngineController {
 
 			}
 			return mapResponse;
-		case "exit":
+		case "continue":
 			d_logGenrator.clearLogs();
 			return new ResponseWrapper(204, "Return from current command");
 		default:
@@ -184,7 +184,7 @@ public class MapEngineController {
 			
 		case "exit":
 			d_logGenrator.clearLogs();
-			return new ResponseWrapper(204, "Return Form current command");
+			return new ResponseWrapper(204, "Return from current command");
 		
 		default:
 			return new ResponseWrapper(404, INCORRECT_COMMAND);

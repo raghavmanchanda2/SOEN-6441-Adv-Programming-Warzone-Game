@@ -1,6 +1,8 @@
 package model;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * class that defines the characteristics of a continent.
@@ -12,11 +14,17 @@ import java.util.List;
 public class Continent {
 	private int d_uniqueContinetId;
 	private String d_continentId;
+	private String d_continentName;
 	private String d_contientValue;
 	private List<Country> d_continentCountries;
-	
-	
-	
+
+	private Set<Country> d_Countries;
+
+	private int d_AwardArmies;
+
+	public Continent() {
+	}
+
 	public Continent(int p_uniqueContinetId, String p_continentId, String p_contientValue) {
 		super();
 		this.d_uniqueContinetId = p_uniqueContinetId;
@@ -70,6 +78,13 @@ public class Continent {
 	public List<Country> getContinentCountries() {
 		return d_continentCountries;
 	}
+	public String getD_continentName() {
+		return d_continentName;
+	}
+
+	public void setD_continentName(String d_continentName) {
+		this.d_continentName = d_continentName;
+	}
 	
 	/**
 	 * setter method to modify the countries in the continent
@@ -109,6 +124,21 @@ public class Continent {
 	 */
 	public void setContientValue(String p_contientValue) {
 		this.d_contientValue = p_contientValue;
+	}
+
+	public Set<Country> getCountries() {
+		if (d_Countries == null) {
+			d_Countries = new HashSet<>();
+		}
+		return d_Countries;
+	}
+
+	public int getAwardArmies() {
+		return d_AwardArmies;
+	}
+
+	public void setD_AwardArmies(int d_AwardArmies) {
+		this.d_AwardArmies = d_AwardArmies;
 	}
 	
 
