@@ -203,6 +203,163 @@ public class MapModel {
 	}
 
 
+	public ResponseWrapper validateMap() {
+
+		if(getContinents() == null  ) {
+			return new ResponseWrapper(404, "In map there are no continents");
+		}
+		if(getCountries() == null) {
+			return new ResponseWrapper(404, "In map there are no countries");
+		}
+		Set<Continent> l_continents = new HashSet<Continent>(getContinents());
+		Set<Country> l_countries = new HashSet<Country>(getCountries());
+
+		for(Continent cont : l_continents)
+		{
+			try {
+				Integer.parseInt(cont.getContientValue());
+
+			} catch (Exception exc) {
+				return new ResponseWrapper(404, " COntinent Value is not good");
+			}
+
+		}
+
+		if ("".equals(getMapName()) || getMapName() == null || getContinents().size() == 0
+				|| getCountries().isEmpty() || getContinentCountries().size() == 0
+				|| getBorders().isEmpty()) {
+
+			return new ResponseWrapper(404, "Map is not created Properly");
+
+		} else if (l_continents.size() != getContinents().size()
+				|| l_countries.size() != getCountries().size()) {
+			return new ResponseWrapper(404, "Duplicate Continent or Country Found in map");
+
+		} else if (l_countries.size() < 2) {
+			return new ResponseWrapper(404, " Countries Should be Atleast 2 in map ");
+
+		}
+
+
+
+		Boolean l_countryContinentNotExists = getCountries().stream()
+				.anyMatch((country) -> country.getContinent() == null
+						|| country.getContinent().getContientValue() == null
+						|| "".equals(country.getContinent().getContinentId())
+						|| "".equals(country.getContinent().getContientValue()));
+
+		if (Boolean.TRUE.equals(l_countryContinentNotExists)) {
+			return new ResponseWrapper(404, "Country's Continent Data is missing");
+		}
+
+		Boolean l_countryContinentExistsInContinentsList=false;
+		for(Country count : getCountries())
+		{
+			for(Continent conti : l_continents)
+			{
+				if(count.getContinent().getContinentId().contains(conti.getContinentId()))
+				{
+					l_countryContinentExistsInContinentsList=true;
+					break;
+				}
+			}
+			if(Boolean.FALSE.equals(l_countryContinentExistsInContinentsList))
+			{
+				break;
+			}
+
+		}
+
+		if (Boolean.FALSE.equals(l_countryContinentExistsInContinentsList)) {
+			return new ResponseWrapper(404, " Country's Continent not available in the list ");
+
+		}
+
+//		for(Map.Entry<Country, List<Country>> mapEntry : d_mapModel.getBorders().entrySet()) {
+//			System.out.println(mapEntry.getKey().getCountryId() + " " + mapEntry.getKey().getUniqueCountryId());
+//		}
+
+		Boolean l_countryBorderRelevantData=false;
+		for(Map.Entry<Country, List<Country>> mapEntry : getBorders().entrySet()) {
+			boolean isCountryExitInList = false;
+			if(mapEntry.getKey() != null) {
+				for(Country country : l_countries) {
+					if(country.getCountryId().equals(mapEntry.getKey().getCountryId())) {
+						isCountryExitInList = true;
+					}
+				}
+			}
+
+			if (! isCountryExitInList) {
+				l_countryBorderRelevantData = true;
+				break ;
+			}
+
+
+			for(Country neighbourCountries : mapEntry.getValue()) {
+				if(neighbourCountries != null) {
+					for(Country country : l_countries) {
+						if(country.getCountryId().equals(neighbourCountries.getCountryId())) {
+							isCountryExitInList = true;
+						}
+					}
+
+				}else {
+					isCountryExitInList = true;
+
+				}
+
+				if (! isCountryExitInList) {
+					l_countryBorderRelevantData = true;
+					break ;
+				}
+
+
+			}
+		}
+
+
+		if (Boolean.TRUE.equals(l_countryBorderRelevantData)) {
+			return new ResponseWrapper(404,
+					" Border Data for Countries is not consistent with Countries that are added ");
+
+		}
+
+
+//		for (Map.Entry<Country, List<Country>> mapEntry : d_mapModel.getBorders().entrySet()) {
+//			l_countryBorderRelevantData=false;
+//
+//			for(Country borderCount : mapEntry.getValue())
+//			{
+//				for(Country cont: l_countries)
+//				{
+//					l_countryBorderRelevantData=false;
+//					if(cont.getCountryId().equals(borderCount.getCountryId()))
+//					{
+//						l_countryBorderRelevantData=true;
+//						break;
+//					}
+//				}
+//
+//				if (Boolean.FALSE.equals(l_countryBorderRelevantData)) {
+//					return new ResponseWrapper(404,
+//							" Border Data for Countries is not consistent with Countries that are added ");
+//
+//				}
+//			}
+//
+//		}
+//
+
+		Boolean l_countryBorderNotExists = getBorders().entrySet().stream()
+				.anyMatch(borderMap -> borderMap.getValue().size() == 0) ? true : false;
+
+		if (Boolean.TRUE.equals(l_countryBorderNotExists)) {
+			return new ResponseWrapper(404, " Countries Border Missing ");
+		}
+
+		return new ResponseWrapper(200, " VALIDATION SUCCESSFUL ");
+	}
 
 
 
@@ -232,7 +389,14 @@ public class MapModel {
 		return l_countList.length() > 0 ? l_countList.substring(0, l_countList.length() - 1) : "";
 	}
 
-	public void showMap() {
+	public ResponseWrapper showMap () {
+
+		ResponseWrapper l_resp = validateMap();
+		if(l_resp.getStatusValue()==404)
+		{
+			System.out.format("\n Map cannot be displayed as Validation Failed \n");
+			return l_resp;
+		}
 
 		d_logger.setLogMessage(" Continents: ");
 		d_logger.setLogMessage("********************");
@@ -285,8 +449,7 @@ public class MapModel {
 		}
 
 		System.out.format("**************************************************%n");
-
-
+		return new ResponseWrapper(200," Show Map Done Successfully");
 
 
 	}
