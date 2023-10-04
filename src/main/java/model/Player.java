@@ -306,7 +306,7 @@ public class Player {
     public void calculateReinforcementArmies(MapModel p_MapModel) {
         if (getCapturedCountries().size() > 0) {
             int reinforcements = (int) Math.floor(getCapturedCountries().size() / 3f);
-            reinforcements += getBonusIfKingOfContinents(p_MapModel);
+            //reinforcements += getBonusIfKingOfContinents(p_MapModel);
             setReinforcementArmies(reinforcements > 2 ? reinforcements : 3);
         } else {
             setReinforcementArmies(3);
@@ -315,24 +315,19 @@ public class Player {
         d_logger.setLogMessage("The Player " + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
     }
 
-    /**
-     * Add bonus armies to reinforcement armies if a player owns the continent.
-     *
-     * @param p_MapModel The game map object
-     * @return reinforcements armies added with bonus armies
-     */
-    private int getBonusIfKingOfContinents(MapModel p_MapModel) {
+
+    /*private int getBonusIfKingOfContinents(MapModel p_MapModel) {
         int reinforcements = 0;
-        Map<String, List<Country>> l_CountryMap = getCapturedCountries()
+        Map<Continent, List<Country>> l_CountryMap = getCapturedCountries()
                 .stream()
-                .collect(Collectors.groupingBy(Country::getD_Continent));
-        for (String continent : l_CountryMap.keySet()) {
-            if (p_MapModel.getContinent(continent).getCountries().size() == l_CountryMap.get(continent).size()) {
-                reinforcements += p_MapModel.getContinent(continent).getAwardArmies();
+                .collect(Collectors.groupingBy(Country::getContinent));
+        for (Continent continent : l_CountryMap.keySet()) {
+            if (p_MapModel.getContinent(continent.getContinentId()).getCountries().size() == l_CountryMap.get(continent).size()) {
+                reinforcements += p_MapModel.getContinent(continent.getContinentId()).getAwardArmies();
             }
         }
         return reinforcements;
-    }
+    }*/
 
     public String readFromPlayer() {
         return this.d_PlayerStrategy.createCommand();
@@ -341,7 +336,7 @@ public class Player {
     public String createACaptureList(List<Country> p_Capture) {
         String l_Result = "";
         for (Country l_Capture : p_Capture) {
-            l_Result += l_Capture.getD_countryName() + "-";
+            l_Result += l_Capture.getCountryId() + "-";
         }
         return l_Result.length() > 0 ? l_Result.substring(0, l_Result.length() - 1) : "";
     }

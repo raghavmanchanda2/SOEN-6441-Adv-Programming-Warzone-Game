@@ -21,8 +21,6 @@ public class MapModel {
 	private List<Continent> continents;
 	private List<Country> countries;
 
-	Map<String,Country> d_CountriesMap = new HashMap<String,Country>();
-
 
 	private Map<Continent,List<Country>> continentCountries;
 	private Map<Country,List<Country>> borders;
@@ -122,7 +120,7 @@ public class MapModel {
 	}
 	
 	/**
-	 * getter method that returns the map of each country the a list of countries that borders them
+	 * getter method that returns the map of each country  a list of countries that borders them
 	 * @return borders
 	 */
 	public Map<Country, List<Country>> getBorders() {
@@ -203,12 +201,7 @@ public class MapModel {
 		}
 	}
 
-	public Continent getContinent(String p_Id) {
-		return d_Continents.get(p_Id);
-	}
-	public HashMap<String, Continent> getD_Continents() {
-		return d_Continents;
-	}
+
 
 
 

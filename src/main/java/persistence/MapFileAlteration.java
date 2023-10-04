@@ -2,6 +2,7 @@ package persistence;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -160,8 +161,18 @@ public class MapFileAlteration {
 	 * with the following tags: MAP, CONTINENTS_TABLE, COUNTRIES_TABLE, BORDERS_TABLE respectively.
 	 * Use buffer variable to efficiently transfer data
 	 */
-	private void writeMapFile() {
+	private void writeMapFile(String p_mapFileName) {
 		try {
+			if(! MapPhaseState.D_CURRENT_MAP.equals(p_mapFileName)) {
+				try{
+					if(new File(ProjectConfig.D_MAP_FILES_PATH + p_mapFileName).createNewFile()) {
+						MapPhaseState.D_CURRENT_MAP = p_mapFileName;
+					}
+				}catch(IOException p_exception) {
+					
+				}
+				
+			}
 			
 			d_mapFileWriter = new FileWriter(ProjectConfig.D_MAP_FILES_PATH+MapPhaseState.D_CURRENT_MAP);
 			d_bufferWriter = new BufferedWriter(d_mapFileWriter);
@@ -267,7 +278,7 @@ public class MapFileAlteration {
 	 * @return alert to show map has been successfully saved
 	 */
 	public ResponseWrapper saveMap(String p_mapFileName) {
-		this.writeMapFile();
+		this.writeMapFile(p_mapFileName);
 		return new ResponseWrapper(200, "Save Map successfully ");
 	}
 	
@@ -283,6 +294,13 @@ public class MapFileAlteration {
 	 */
 	public ResponseWrapper showmap() {
 
+ ResponseWrapper l_resp=this.validateMap();
+             if(l_resp.getStatusValue()==404)
+               {
+                       System.out.format("\n Map cannot be showed as Validation Failed \n");
+                       return l_resp;
+               }
+               
 		System.out.format("\n Map Details are : \n");
 		System.out.format("\n Continents of Map are : \n");
 		System.out.format("+------------------+%n");
@@ -511,7 +529,17 @@ public class MapFileAlteration {
 		
 		Set<Continent> l_continents = new HashSet<Continent>(this.d_mapModel.getContinents());
 		Set<Country> l_countries = new HashSet<Country>(this.d_mapModel.getCountries());
-		
+				
+		for(Continent cont : l_continents)
+		{
+			try {
+				Integer.parseInt(cont.getContientValue());
+				
+			} catch (Exception exc) {
+				return new ResponseWrapper(404, " COntinent Value is not good");
+			}
+			
+		}
 		
 		if ("".equals(this.d_mapModel.getMapName()) || this.d_mapModel.getMapName() == null || this.d_mapModel.getContinents().size() == 0
 				|| this.d_mapModel.getCountries().size() == 0 || this.d_mapModel.getContinentCountries().size() == 0

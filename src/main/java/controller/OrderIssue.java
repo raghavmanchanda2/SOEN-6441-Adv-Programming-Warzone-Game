@@ -72,7 +72,7 @@ public class OrderIssue {
         }
         skipPlayers.clear();
         d_orderExecute.orderExecute();
-        d_logger.setLogMessage("All phases executes as per Build 1 requirements. Ending game...");
+        d_logger.setLogMessage("All phases executed as per Build 1 requirements. Ending game...");
         System.exit(0);
 
     }
@@ -167,9 +167,9 @@ public class OrderIssue {
             String l_TableCountry = "- %-15s- %-15s- %-35s%n";
             String l_NeighborList = "";
             for (Country l_Neighbor : l_Country.getNeighbors()) {
-                l_NeighborList += l_Neighbor.getD_countryName() + "-";
+                l_NeighborList += l_Neighbor.getCountryId() + "-";
             }
-            System.out.format(l_TableCountry, l_Country.getD_countryName(), l_Country.getArmies(), l_Country.createNeighboursList(l_Country.getNeighbors()));
+            System.out.format(l_TableCountry, l_Country.getCountryId(), l_Country.getArmies(), l_Country.createNeighboursList(l_Country.getNeighbors()));
         }
         System.out.format("****************************************\n");
 

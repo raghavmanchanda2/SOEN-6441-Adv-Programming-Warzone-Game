@@ -9,6 +9,7 @@ import java.util.Set;
 /**
  * class that defines the characteristics of a country
  * @author Rohit
+ * @author Ishaan Bajaj
  * @version build 1
  */
 public class Country {
@@ -116,21 +117,9 @@ public class Country {
 		this.d_continent = p_continent;
 	}
 
-	public String getD_Continent() {
-		return d_Continent;
-	}
 
-	public void setD_Continent(String d_Continent) {
-		this.d_Continent = d_Continent;
-	}
 
-	public String getD_countryName() {
-		return d_countryName;
-	}
 
-	public void setD_countryName(String d_countryName) {
-		this.d_countryName = d_countryName;
-	}
 
 	public Set<Country> getNeighbors() {
 		if (d_Neighbors == null) {
@@ -155,7 +144,7 @@ public class Country {
 	public String createNeighboursList(Set<Country> p_Neighbors) {
 		String l_result = "";
 		for (Country l_Neighbor : p_Neighbors) {
-			l_result += l_Neighbor.getD_countryName() + "-";
+			l_result += l_Neighbor.getCountryId() + "-";
 		}
 		return l_result.length() > 0 ? l_result.substring(0, l_result.length() - 1) : "";
 	}
