@@ -10,6 +10,7 @@ import java.util.Map;
 
 /**
  * JUnit test class for the {@link Country} class.
+ * @author Sumit Kumar
  */
 public class CountryTest {
     private Country country;
