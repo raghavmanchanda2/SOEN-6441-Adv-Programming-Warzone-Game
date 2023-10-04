@@ -511,7 +511,17 @@ public class MapFileAlteration {
 		
 		Set<Continent> l_continents = new HashSet<Continent>(this.d_mapModel.getContinents());
 		Set<Country> l_countries = new HashSet<Country>(this.d_mapModel.getCountries());
-		
+				
+		for(Continent cont : l_continents)
+		{
+			try {
+				Integer.parseInt(cont.getContientValue());
+				
+			} catch (Exception exc) {
+				return new ResponseWrapper(404, " COntinent Value is not good");
+			}
+			
+		}
 		
 		if ("".equals(this.d_mapModel.getMapName()) || this.d_mapModel.getMapName() == null || this.d_mapModel.getContinents().size() == 0
 				|| this.d_mapModel.getCountries().size() == 0 || this.d_mapModel.getContinentCountries().size() == 0
