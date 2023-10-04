@@ -142,8 +142,12 @@ class MapFileAlterationTest {
 	@AfterEach
 	void tearDown() throws Exception {
 		++d_test_number;
+		this.d_MFA.getMapModel().clearMap();
 	}
-
+	
+	void addCountry() {
+		
+	}
 	
 	/**
 	 * When removing a country from the map, we need to check the following to ensure the map is valid.
@@ -267,6 +271,7 @@ class MapFileAlterationTest {
 	void onlyOneCountry() {
 		
 		MapFileAlteration l_MFA = new MapFileAlteration();
+		l_MFA.getMapModel().clearMap();
 		l_MFA.getMapModel().setMapName("Imaginary Map");
 		
 		Continent l_ImaginaryContinent = new Continent(55,"Imaginary Continent");
