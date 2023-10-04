@@ -8,7 +8,14 @@ import model.Player;
 import model.orders.Order;
 
 import java.util.*;
-
+/**
+ * The IssueOrder class is responsible for handling the issuance of orders by players during the game.
+ * It processes player commands, validates them, and adds valid orders to the list of orders.
+ * This class also provides feedback and instructions to players during the issue orders phase.
+ * @Author Ishaan
+ * @version 1.0
+ * @since 1.0
+ */
 public class IssueOrder {
 
     private static Set<Player> skipPlayers = new HashSet<>();
@@ -19,14 +26,21 @@ public class IssueOrder {
 
     private Logger d_logger;
     private ConsoleWriter d_consoleWriter;
-
+    /**
+     * Constructor for the IssueOrder class.
+     * Initializes the MapModel, logger, and console writer.
+     */
     public IssueOrder() {
         d_MapModel = MapModel.getInstance();
         d_logger = new Logger();
         d_consoleWriter = new ConsoleWriter();
         d_logger.addObserver(d_consoleWriter);
     }
-
+    /**
+     * The issue_order method manages the issuance of orders by players.
+     * It iterates through players and allows them to issue orders one by one.
+     * Once all players have issued orders or passed, the method concludes.
+     */
     public void issue_order(){
         if (d_MapModel.getD_CurrentPlayer() == null) {
             d_MapModel.setD_CurrentPlayer(d_MapModel.getPlayers().entrySet().iterator().next().getValue());
@@ -73,7 +87,14 @@ public class IssueOrder {
         /*d_MapModel.setGamePhase(d_ExecutePhase);
         return d_ExecutePhase;*/
     }
-
+    /**
+     * Checks the validity of player commands and orders.
+     * Validates the syntax and parameters of player commands.
+     *
+     * @param p_Commands The player's command to validate.
+     * @param p_User     The player issuing the command.
+     * @return True if the command is valid; otherwise, false.
+     */
     public boolean checkInput(String p_Commands, Player p_User){
         List<String> l_Commands = Arrays.asList("deploy", "advance", "bomb", "blockade", "airlift", "negotiate", "savegame");
         String[] l_CommandArr = p_Commands.split(" ");
@@ -118,11 +139,22 @@ public class IssueOrder {
         return true;
     }
 
-
+    /**
+     * Adds a player to the set of players who have passed their turn.
+     *
+     * @param p_Player The player to add to the set.
+     */
     private static void AddToSetOfPlayers(Player p_Player) {
         skipPlayers.add(p_Player);
     }
-
+    
+    /**
+     * Checks the length of a player's command based on the command type.
+     *
+     * @param p_Command The command issued by the player.
+     * @param p_Length  The length of the command.
+     * @return True if the command length is valid for the given command type; otherwise, false.
+     */
     private static boolean CheckLengthOfCommand(String p_Command, int p_Length) {
         if (p_Command.contains("deploy")) {
             return p_Length == 3;
@@ -134,7 +166,11 @@ public class IssueOrder {
         return false;
     }
 
-
+    /**
+     * Displays game progress information to the player during the issue orders phase.
+     *
+     * @param p_Player The current player for whom the progress information is displayed.
+     */
     public void gameProgress(Player p_Player) {
         d_logger.setLogMessage("******************* Issue Orders Phase *******************");
         d_logger.setLogMessage("-> Commands Available:");
