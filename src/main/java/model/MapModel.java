@@ -195,6 +195,7 @@ public class MapModel {
 		
 		if(this.borders.containsKey(mainCountry)) {
 			this.borders.get(mainCountry).add(neighbourCountry);
+			mainCountry.getNeighbors().add(neighbourCountry);
 		}else {
 			this.borders.put(mainCountry,  new ArrayList<Country>());
 			System.out.println("ROHIT");
