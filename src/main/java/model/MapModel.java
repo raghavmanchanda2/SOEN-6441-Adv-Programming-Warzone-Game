@@ -143,19 +143,25 @@ public class MapModel {
 	 * @param country
 	 */
 	public void addContinentCountries(Continent continent, Country country) {
-		country.setContinent(continent);
-		if (this.continentCountries.containsKey(continent)) {
-			this.continentCountries.get(continent).add(country);
-			if(this.borders == null) {
-				this.borders = new LinkedHashMap<Country, List<Country>>();
+		if(continent != null) {
+			country.setContinent(continent);
+			if (this.continentCountries.containsKey(continent)) {
+				System.out.println(country.getCountryId() + "inside...............");
+				this.continentCountries.get(continent).add(country);	
 			}
-			this.borders.put(country, new ArrayList<Country>());
-			if(this.countries == null) {
-				this.countries = new ArrayList<Country>();
-			}
-			this.countries.add(country);
-			this.borders.put(country, new ArrayList<Country>());
 		}
+				
+		if(this.borders == null) {
+			this.borders = new LinkedHashMap<Country, List<Country>>();
+		}
+		this.borders.put(country, new ArrayList<Country>());
+		if(this.countries == null) {
+			this.countries = new ArrayList<Country>();
+		}
+		this.countries.add(country);
+		this.borders.put(country, new ArrayList<Country>());
+		
+		System.out.println(country.getCountryId() + "outside...............");
 		
 	}
 	
