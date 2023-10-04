@@ -332,7 +332,7 @@ public class MapFileAlteration {
 	 * @param countriesList
 	 * @return list of countries as a string if the string length is greater than 0, else return empty
 	 */
-	private String getCountriesList(List<Country> countriesList) {
+	public String getCountriesList(List<Country> countriesList) {
 		String l_countList = "";
 		for (Country country : countriesList) {
 			l_countList += country.getCountryId() + "-";

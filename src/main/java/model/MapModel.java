@@ -3,6 +3,7 @@ package model;
 import logger.ConsoleWriter;
 import logger.Logger;
 import model.player.PlayerStrategy;
+import persistence.MapFileAlteration;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -218,24 +219,19 @@ public class MapModel {
 
 	public void showMap() {
 
-		d_logger.setLogMessage("Continents:");
-		Iterator<Map.Entry<String, Continent>> l_IteratorForContinents = d_MapModel.getD_Continents().entrySet()
-				.iterator();
+		System.out.format("\n Map Details are : \n");
+		System.out.format("\n Continents of Map are : \n");
+		System.out.format("+------------------+%n");
+		System.out.format("| Continent's Name |%n");
+		System.out.format("+------------------+%n");
 
-		String l_Table = "- %-18s%n";
+		getContinents().stream().forEach((continent) -> {
+			String l_table = "|%-20s|%n";
+			System.out.format(l_table, continent.getContinentId());
+		});
 
-		System.out.format("********************%n");
-		System.out.format("     Continents  %n");
-		System.out.format("********************%n");
+		System.out.format("+------------------+%n");
 
-		while (l_IteratorForContinents.hasNext()) {
-			Map.Entry<String, Continent> continentMap = l_IteratorForContinents.next();
-			String l_ContinentId = (String) continentMap.getKey();
-			Continent l_Continent = d_MapModel.getD_Continents().get(l_ContinentId); //Get the particular continent by its ID(Name)
-
-			System.out.format(l_Table, l_Continent.getD_continentName());
-		}
-		System.out.format("********************%n");
 
 
 		// Showing Countries in the Continent and their details
@@ -244,7 +240,7 @@ public class MapModel {
 		Iterator<Map.Entry<String, Continent>> l_IteratorForContinent = d_MapModel.getD_Continents().entrySet()
 				.iterator();
 
-		l_Table = "- %-23s- %-18s- %-60s%n";
+		String l_tablePattern = "- %-23s- %-18s- %-60s%n";
 
 		System.out.format(
 				"****************************************************************************************************%n");
@@ -263,7 +259,7 @@ public class MapModel {
 			while (l_ListIterator.hasNext()) {
 
 				Country l_Country = (Country) l_ListIterator.next();
-				System.out.format(l_Table, l_Country.getD_countryName(), l_Continent.getD_continentName(), l_Country.createNeighboursList(l_Country.getNeighbors()), l_Country.getArmies());
+				System.out.format(l_tablePattern, l_Country.getD_countryName(), l_Continent.getD_continentName(), l_Country.createNeighboursList(l_Country.getNeighbors()), l_Country.getArmies());
 			}
 		}
 

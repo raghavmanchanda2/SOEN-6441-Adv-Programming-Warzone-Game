@@ -1,18 +1,13 @@
 package controller;
 
-import Constants.ProjectConfig;
+import GamePhase.MapPhaseState;
 import business.ExecuteMapsCommands;
 import logger.ConsoleWriter;
 import logger.Logger;
-import model.GamePhaseEnum;
 import model.MapModel;
-import model.WarzoneController;
-import persistence.OpenMap;
+import persistence.MapFileAlteration;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -60,6 +55,10 @@ public class CurrentGamePlay {
      */
     private AssignReinforcements d_AssignReinforcements;
 
+    private MapFileAlteration d_mapFileAlteration;
+
+    private MapEngineController d_mapEngineController;
+
     BufferedReader l_read;
 
 
@@ -70,34 +69,21 @@ public class CurrentGamePlay {
         d_MapModel = MapModel.getInstance();
         d_logger = new Logger();
         d_consoleWriter = new ConsoleWriter();
+        d_mapEngineController = new MapEngineController();
         d_logger.addObserver(d_consoleWriter);
+        d_mapFileAlteration = new MapFileAlteration();
         d_executeMapsCommands = new ExecuteMapsCommands();
         d_AssignReinforcements = new AssignReinforcements();
     }
 
     /**
      * method to load already existing map file
-     * @param p_Filename contains the user input map file name
+     * @param p_mapFileName contains the user input map file name
      * @throws Exception if any error occurs while opening map
      */
-    private void mapLoad(String p_Filename) throws Exception {
-        boolean l_ShouldUseConquestAdapter = true;
-        try {
-            File l_File = new File(ProjectConfig.D_MAP_FILES_PATH+p_Filename);
-            BufferedReader l_BufferedReader = new BufferedReader(new FileReader(l_File));
-            while(l_BufferedReader.ready()) {
-                String l_FirstLine = l_BufferedReader.readLine();
-                if(! l_FirstLine.isEmpty()) {
-                    if (l_FirstLine.contains(";")) {
-                        l_ShouldUseConquestAdapter = false;
-                    }
-                    l_BufferedReader.close();
-                }}}
-        catch (IOException l_E) {
-            // Do nothing.
-        }
-        OpenMap l_mapOpener =  new OpenMap();
-        l_mapOpener.openMap(d_MapModel, p_Filename);
+    private void mapLoad(String p_mapFileName) throws Exception {
+        MapPhaseState.D_CURRENT_MAP = p_mapFileName;
+        d_mapFileAlteration.readMapFile();
     }
 
     /**

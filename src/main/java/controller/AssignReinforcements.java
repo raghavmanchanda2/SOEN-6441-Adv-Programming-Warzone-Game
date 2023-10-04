@@ -20,19 +20,15 @@ public class AssignReinforcements {
 
     public void assignReinforcements() throws Exception {
 
-        calculateReinforcements();
+        for (Player l_Player : d_MapModel.getPlayers().values()) {
+            d_Player = l_Player;
+            d_Player.calculateReinforcementArmies(d_MapModel);
+        }
         d_issueOrder.issue_order();
     }
 
-    public void calculateReinforcements() throws Exception {
-        for (Player l_Player : d_MapModel.getPlayers().values()) {
-            d_Player = l_Player;
-            setReinforcementTroops();
-        }
-    }
-
     public void setReinforcementTroops() throws Exception {
-        d_Player.calculateReinforcementArmies(d_MapModel);
+
 
     }
 }
