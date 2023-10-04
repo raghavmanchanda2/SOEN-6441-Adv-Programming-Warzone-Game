@@ -384,11 +384,19 @@ public class MapFileAlteration {
 	public ResponseWrapper removeContinent(Continent p_continent) {
 
 		// Deleting Continents
+		Boolean l_continentFound = false;
 
 		for (int contIndex = 0; contIndex < d_mapModel.getContinents().size(); contIndex++) {
 			if (d_mapModel.getContinents().get(contIndex).getContinentId().equals(p_continent.getContinentId())) {
 				d_mapModel.getContinents().remove(contIndex);
+				l_continentFound=true;
+				break;
 			}
+		}
+		
+		if(Boolean.FALSE.equals(l_continentFound))
+		{
+			return new ResponseWrapper(404, "Continent Doesn't Exist in the Map");
 		}
 		
 		// Deleting Countries
@@ -447,6 +455,10 @@ public class MapFileAlteration {
 		d_mapModel.setCountries(d_mapModel.getCountries().stream().filter((conti)-> !conti.getCountryId().equals(country.getCountryId())).collect(Collectors.toList()));	
 		l_deletedCountriesList.removeIf((conti)-> ! conti.getCountryId().equals(country.getCountryId()));	
 		
+		if(l_deletedCountriesList.isEmpty())
+		{
+			return new ResponseWrapper(404, "Country Doesn't Exist in the Map");
+		}
 		// Removing countries from ContinentCountries map
 		
 		List<Country> l_continentCountriesList;
@@ -502,18 +514,35 @@ public class MapFileAlteration {
 	public ResponseWrapper removeNeighbour(Country mainCountry,Country neighbourCountry) {	
 		
 		List<Country> l_neighbouringCountriesList;
+		Boolean l_countryFound=false;
+		Boolean l_neighbourFound=false;
+		
 		for (Map.Entry<Country, List<Country>> mapEntry : d_mapModel.getBorders().entrySet()) {
+			
 			if(!mapEntry.getKey().getCountryId().equals(mainCountry.getCountryId()))
 			{
 				continue;
 			}
-			l_neighbouringCountriesList = mapEntry.getValue();			
+			l_neighbouringCountriesList = mapEntry.getValue();	
+			l_countryFound=true;
 			l_neighbouringCountriesList = l_neighbouringCountriesList.stream()
 						.filter((cont) -> !cont.getCountryId().equals(neighbourCountry.getCountryId()))
-						.collect(Collectors.toList());			
+						.collect(Collectors.toList());	
+			if(mapEntry.getValue().size() != l_neighbouringCountriesList.size())
+			{
+				l_neighbourFound=true;
+			}
 			d_mapModel.getBorders().put(mapEntry.getKey(), l_neighbouringCountriesList);
 		}
 		
+		if(Boolean.FALSE.equals(l_countryFound))
+		{
+			return new ResponseWrapper(404, "Country Not Found In Border Map List");
+		}
+		else if(Boolean.FALSE.equals(l_neighbourFound))
+		{
+			return new ResponseWrapper(404, "Bordering Country Not Found In Border List");
+		}
 		return new ResponseWrapper(200, "Removed Neighbouring Country Successfully");
 		
 	}
