@@ -282,7 +282,13 @@ public class MapFileAlteration {
 	 * @return alert for successful showing of map
 	 */
 	public ResponseWrapper showmap() {
-
+		
+		ResponseWrapper l_resp=this.validateMap();
+		if(l_resp.getStatusValue()==404)
+		{
+			System.out.format("\n Map cannot be showed as Validation Failed \n");
+			return l_resp;
+		}
 		System.out.format("\n Map Details are : \n");
 		System.out.format("\n Continents of Map are : \n");
 		System.out.format("+------------------+%n");
