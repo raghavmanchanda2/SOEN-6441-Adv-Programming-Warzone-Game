@@ -3,6 +3,7 @@ package persistence;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -32,6 +33,9 @@ class MapFileAlterationTest {
 	
 	Continent d_Asia;
 	Country d_China, d_India, d_Japan, d_Korea;
+	
+	Continent d_Europe;
+	Country d_France;
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -137,6 +141,10 @@ class MapFileAlterationTest {
 		
 		d_MFA.addNeighbour(d_Korea, d_China);
 		
+		d_Europe = new Continent(2, "Europe");
+		
+		d_France = new Country("France", d_Europe);
+		
 	}
 
 	@AfterEach
@@ -145,9 +153,6 @@ class MapFileAlterationTest {
 		this.d_MFA.getMapModel().clearMap();
 	}
 	
-	void addCountry() {
-		
-	}
 	
 	/**
 	 * When removing a country from the map, we need to check the following to ensure the map is valid.
@@ -290,8 +295,100 @@ class MapFileAlterationTest {
 		assertEquals(l_error, l_map_status);
 		
 	}
+	
+	/**
+	 * When removing a neighbor from the map, we need to check the following to ensure the map is valid.
+	 * 1. Neighboring countries is removed from the main country 
+	 */
+	@Test
+	void removeNeighbour() {
+		Boolean l_countryexist=false;
+		d_MFA.removeNeighbour(d_China, d_India);
+		for (Map.Entry<Country, List<Country>> mapEntry : d_MFA.getMapModel().getBorders().entrySet()) {
+
+			if(mapEntry.getKey().equals(d_China) && mapEntry.getValue().contains(d_India))
+			{
+					l_countryexist=true;
+					break;
+				
+			}
+		}
+		
+		assertFalse(l_countryexist);
+	}
+	
+	
+	/**
+	 * Test that ensures that addContinent method properly adds the continent's data in the map
+	 * and also ensures that the Continent object added is indeed the proper one.
+	 * It will perform two tests:
+	 * 1. Loop through the continent list and check if object: d_Europe is contained
+	 * 2. Check that l_Europe unique ID is correct.  Since ID is auto increment starting from 0,
+	 * l_Europe should have an ID of 2 since it is the third continent added to the map.
+	 */
+	@Test
+	void addContinent() {
+		
+		
+		d_MFA.addContinent(d_Europe);
+		
+		boolean inContinentList = false;
+		
+		for(Continent continent : d_MFA.getMapModel().getContinents()) {
+			if(continent == d_Europe) {
+				inContinentList = true;
+			}
+		}
+		
+		assertTrue(inContinentList);
+		System.out.println("WATAME!!!!");
+		System.out.println(d_MFA.getMapModel().getContinents().get(2).getContinentId());
+		
+		assertEquals(2, d_MFA.getMapModel().getContinents().get(2).getUniqueContinetId());
+		
+	}
+	
+	/**
+	 * Test that ensures that addCountry method properly adds the country's data in the map
+	 * and also ensures that the Country object added is indeed the proper one.
+	 * It will perform two tests:
+	 * 1. Loop through the countries list and check if object: d_France is contained
+	 * 2. Check if d_France is contained inside the continent countries map by first
+	 * searching for the key Europe and check if France is contained in the list.
+	 */
+	@Test
+	void addCountry() {
+		d_MFA.addContinent(d_Europe);
+		d_MFA.addCountry(d_France);
+		
+		boolean inCountryList = false;
+		boolean inContinentCountriesList = false;
+		
+		
+		//check in countries list
+		for(Country country : d_MFA.getMapModel().getCountries()) {
+			if(country == d_France) {
+				inCountryList = true;
+			}
+		}
+		
+		assertTrue(inCountryList);
+		
+		//check in continent countries list
+		
+		System.out.println(d_France.getContinent().getContinentId());
+		if(d_MFA.getMapModel().getContinentCountries().get(d_Europe).contains(d_France)) {
+			inContinentCountriesList = true;
+		}
+		
+		assertTrue(inContinentCountriesList);
+	}
+	
 
 }
+
+
+
 
 
 
