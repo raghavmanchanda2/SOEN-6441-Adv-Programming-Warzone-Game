@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 /**
  * class that defines all entities in the map (continents, countries, borders) and their operations
  * @author Rohit
+ * @author Ishaan Bajaj
  * @version build 1
  *
  */
@@ -202,6 +203,10 @@ public class MapModel {
 		}
 	}
 
+	/**
+	 * method to validate the map after loading/showmap
+	 * @return response to validateMap
+	 */
 
 	public ResponseWrapper validateMap() {
 
@@ -326,31 +331,6 @@ public class MapModel {
 		}
 
 
-//		for (Map.Entry<Country, List<Country>> mapEntry : d_mapModel.getBorders().entrySet()) {
-//			l_countryBorderRelevantData=false;
-//
-//			for(Country borderCount : mapEntry.getValue())
-//			{
-//				for(Country cont: l_countries)
-//				{
-//					l_countryBorderRelevantData=false;
-//					if(cont.getCountryId().equals(borderCount.getCountryId()))
-//					{
-//						l_countryBorderRelevantData=true;
-//						break;
-//					}
-//				}
-//
-//				if (Boolean.FALSE.equals(l_countryBorderRelevantData)) {
-//					return new ResponseWrapper(404,
-//							" Border Data for Countries is not consistent with Countries that are added ");
-//
-//				}
-//			}
-//
-//		}
-//
-
 		Boolean l_countryBorderNotExists = getBorders().entrySet().stream()
 				.anyMatch(borderMap -> borderMap.getValue().size() == 0) ? true : false;
 
@@ -362,16 +342,31 @@ public class MapModel {
 	}
 
 
+	/**
+	 * getter method to get the player which has been added to the game
+	 * @param p_Id
+	 * @return
+	 */
 
 	public Player getPlayer(String p_Id) {
 		return d_Players.get(p_Id);
 	}
+
+	/**
+	 * getter method to get all the players inside the hashmap
+	 * @return players hashmap
+	 */
 
 	public HashMap<String, Player> getPlayers() {
 		return d_Players;
 	}
 
 
+	/**
+	 * method to put countries inside the list into hashmap with unique id - name
+	 * @param p_Id country name
+	 * @return countries hashmap
+	 */
 	public Country getCountry(String p_Id) {
 
 		for (Country country : countries) {
@@ -381,6 +376,11 @@ public class MapModel {
 		return countryHashMap.get(p_Id);
 	}
 
+	/**
+	 * method to get the list of countries inside a map as a string
+	 * @param countriesList list of countries
+	 * @return string
+	 */
 	public String getCountriesList(List<Country> countriesList) {
 		String l_countList = "";
 		for (Country country : countriesList) {
@@ -389,6 +389,10 @@ public class MapModel {
 		return l_countList.length() > 0 ? l_countList.substring(0, l_countList.length() - 1) : "";
 	}
 
+	/**
+	 * method to display the map and it's contents
+	 * @return
+	 */
 	public ResponseWrapper showMap () {
 
 		ResponseWrapper l_resp = validateMap();
@@ -454,6 +458,11 @@ public class MapModel {
 
 	}
 
+	/**
+	 * method to add player in the game
+	 * @param p_PlayerName name of the player - string
+	 * @throws Exception if any error occurs
+	 */
 
 	public void addPlayer(String p_PlayerName) throws Exception {
 		if (this.getPlayers().containsKey(p_PlayerName)) {
@@ -465,6 +474,11 @@ public class MapModel {
 		d_logger.setLogMessage(p_PlayerName + " added successfully");
 	}
 
+	/**
+	 * method to remove player with the command
+	 * @param p_PlayerName name of the player
+	 * @throws Exception if any error occurs
+	 */
 	public void removePlayer(String p_PlayerName) throws Exception {
 		Player l_Player = this.getPlayer(p_PlayerName);
 		if (Objects.isNull(l_Player)) {
@@ -474,6 +488,9 @@ public class MapModel {
 		d_logger.setLogMessage(p_PlayerName + " removed successfully");
 	}
 
+	/**
+	 * method to assign countries in the map to different players
+	 */
 	public void allot() {
 		int l_Index = 0;
 		List<Player> l_Players = d_MapModel.getPlayers().values().stream().collect(Collectors.toList());
@@ -496,6 +513,11 @@ public class MapModel {
 		}
 	}
 
+
+	/**
+	 * getter method to get player with current turn
+	 * @return current player
+	 */
 	public Player getD_CurrentPlayer() {
 		return d_CurrentPlayer;
 	}
@@ -517,6 +539,9 @@ public class MapModel {
 		this.d_GameLoaded = d_GameLoaded;
 	}
 
+	/**
+	 * method to clear the map contents in the Map Model
+	 */
 	public void clearMap() {
 
 		MapModel.getInstance().getPlayers().clear();

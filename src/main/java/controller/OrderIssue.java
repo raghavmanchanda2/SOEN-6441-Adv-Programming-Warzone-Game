@@ -9,14 +9,27 @@ import model.orders.Order;
 
 import java.util.*;
 
-
+/**
+ * Issue Order phase class
+ * @author Ishaan Bajaj
+ * @version build 1
+ */
 
 public class OrderIssue {
 
+    /**
+     * set of players which skip their turn to get to execute orders phase
+     */
     private static Set<Player> skipPlayers = new HashSet<>();
 
+    /**
+     * input commands from usre
+     */
     public static String PlayerCommands = null;
 
+    /**
+     * Object of map model
+     */
     MapModel d_MapModel;
 
     private Logger d_logger;
@@ -31,6 +44,9 @@ public class OrderIssue {
         d_orderExecute = new OrderExecute();
     }
 
+    /**
+     * method to get orders from the player and add them in the list of orders for players
+     */
     public void issue_order(){
         if (d_MapModel.getD_CurrentPlayer() == null) {
             d_MapModel.setD_CurrentPlayer(d_MapModel.getPlayers().entrySet().iterator().next().getValue());
@@ -77,6 +93,12 @@ public class OrderIssue {
 
     }
 
+    /**
+     * method to check input command from user
+     * @param p_Commands input command from user
+     * @param p_User current user
+     * @return true/false depending on validation
+     */
     public boolean checkInput(String p_Commands, Player p_User){
         List<String> l_Commands = Arrays.asList("deploy");
         String[] l_CommandArr = p_Commands.split(" ");
@@ -88,7 +110,7 @@ public class OrderIssue {
             d_logger.setLogMessage("The command syntax is invalid." + p_Commands);
             return false;
         }
-        if (!CheckLengthOfCommand(l_CommandArr[0], l_CommandArr.length)) {
+        if (!check(l_CommandArr[0], l_CommandArr.length)) {
             d_logger.setLogMessage("The command syntax is invalid." + p_Commands);
             return false;
         }
@@ -122,22 +144,32 @@ public class OrderIssue {
     }
 
 
+    /**
+     * method to add players who skip their turns
+     * @param p_Player
+     */
     private static void AddToSetOfPlayers(Player p_Player) {
         skipPlayers.add(p_Player);
     }
 
-    private static boolean CheckLengthOfCommand(String p_Command, int p_Length) {
+    /**
+     * method to check input command
+     * @param p_Command input command from user
+     * @param p_Length length of command
+     * @return true/false based on validation
+     */
+    private static boolean check(String p_Command, int p_Length) {
         if (p_Command.contains("deploy")) {
             return p_Length == 3;
-        } else if (p_Command.contains("bomb") || p_Command.contains("blockade") || p_Command.contains("negotiate") || p_Command.contains("savegame")) {
-            return (p_Length == 2);
-        } else if (p_Command.contains("airlift") || p_Command.contains("advance")) {
-            return (p_Length == 4);
         }
         return false;
     }
 
 
+    /**
+     * method to print the progress depending upon the commands initiated.
+     * @param p_Player
+     */
     public void gameProgress(Player p_Player) {
         d_logger.setLogMessage("");
         d_logger.setLogMessage("****************************************");

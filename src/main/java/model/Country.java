@@ -118,8 +118,10 @@ public class Country {
 	}
 
 
-
-
+	/**
+	 * getter method to get neighbors of countries in a set
+	 * @return neighbors set
+	 */
 
 	public Set<Country> getNeighbors() {
 		if (d_Neighbors == null) {
@@ -128,19 +130,36 @@ public class Country {
 		return d_Neighbors;
 	}
 
+	/**
+	 * method to get armies
+	 * @return armies
+	 */
+
 	public int getArmies() {
 
 		return d_Armies;
 	}
 
+	/**
+	 * getter method to get player object
+	 * @return player
+	 */
 	public Player getPlayer() {
 		return d_Player;
 	}
 
+	/**
+	 * setter method to get player object
+	 */
 	public void setPlayer(Player p_Player) {
 		this.d_Player = p_Player;
 	}
 
+	/**
+	 * method to create list of neigbours/borders of countries
+	 * @param p_Neighbors
+	 * @return
+	 */
 	public String createNeighboursList(Set<Country> p_Neighbors) {
 		String l_result = "";
 		for (Country l_Neighbor : p_Neighbors) {
@@ -149,6 +168,10 @@ public class Country {
 		return l_result.length() > 0 ? l_result.substring(0, l_result.length() - 1) : "";
 	}
 
+	/**
+	 * method to deploy armies and calculate
+	 * @param p_NumberOfArmies
+	 */
 	public void armiesDeploy(int p_NumberOfArmies){
 		d_Armies += p_NumberOfArmies;
 	}

@@ -57,12 +57,6 @@ public abstract class Order implements Serializable {
      */
     public abstract boolean startExecute();
 
-    /**
-     * A function to validate each command.
-     *
-     * @return true if command is valid else false
-     */
-    //public abstract boolean validateCommand();
 
     /**
      * Print the command that is executed successfully
