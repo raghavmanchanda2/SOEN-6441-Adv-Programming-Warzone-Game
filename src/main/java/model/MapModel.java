@@ -167,7 +167,7 @@ public class MapModel {
 		if(continent != null) {
 			country.setContinent(continent);
 			if (this.continentCountries.containsKey(continent)) {
-				System.out.println(country.getCountryId() + "inside...............");
+//				System.out.println(country.getCountryId() + "inside...............");
 				this.continentCountries.get(continent).add(country);	
 			}
 		}
@@ -182,7 +182,7 @@ public class MapModel {
 		this.countries.add(country);
 		this.borders.put(country, new ArrayList<Country>());
 		
-		System.out.println(country.getCountryId() + "outside...............");
+//		System.out.println(country.getCountryId() + "outside...............");
 		
 	}
 	
@@ -199,7 +199,7 @@ public class MapModel {
 			mainCountry.getNeighbors().add(neighbourCountry);
 		}else {
 			this.borders.put(mainCountry,  new ArrayList<Country>());
-			System.out.println("ROHIT");
+//			System.out.println("ROHIT");
 		}
 	}
 

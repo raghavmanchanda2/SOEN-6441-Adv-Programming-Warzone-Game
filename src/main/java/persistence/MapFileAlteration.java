@@ -108,10 +108,10 @@ public class MapFileAlteration {
 					
 				}else if(l_isCountriesTableContent) {
 					String[] l_countryRow = l_mapFileLine.trim().split("\\s+");
-					System.out.println(l_countryRow[0] + l_countryRow [1] + l_countryRow[2]);
+//					System.out.println(l_countryRow[0] + l_countryRow [1] + l_countryRow[2]);
 					try {
 						Country l_country = new Country(Integer.parseInt(l_countryRow[0]), l_countryRow[1]);
-						System.out.println(l_country.getCountryId() + "kkkkkkkkkkkkkkkkk");
+//						System.out.println(l_country.getCountryId() + "kkkkkkkkkkkkkkkkk");
 						
 						if(this.d_mapModel.getContinents().size() <= Integer.parseInt(l_countryRow[2])) {
 							this.d_mapModel.addContinentCountries(null, l_country);
@@ -119,7 +119,7 @@ public class MapFileAlteration {
 							this.d_mapModel.addContinentCountries(this.d_mapModel.getContinents().get(Integer.parseInt(l_countryRow[2])), l_country);	
 						}
 						
-						System.out.println("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ");
+//						System.out.println("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ");
 					}catch(IndexOutOfBoundsException ex) {
 						System.out.println(ex);
 					}
