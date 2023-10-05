@@ -23,14 +23,6 @@ public abstract class Order implements Serializable {
     public void setD_orderDetails(OrderDetails p_orderDetails) {
         this.d_orderDetails = p_orderDetails;
     }
-    /**
-     * A function to the set Order information based on the order
-     *
-     * @param p_OrderInfo Order Information contained in an object of type OrderInfo
-     */
-    /*public void setOrderInfo(OrderInfo p_OrderInfo) {
-        this.d_OrderInfo = p_OrderInfo;
-    }*/
 
     /**
      * A function to return the type of order

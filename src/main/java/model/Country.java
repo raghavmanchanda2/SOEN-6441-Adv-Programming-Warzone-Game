@@ -26,6 +26,9 @@ public class Country {
 
 	private int d_Armies;
 
+	/**
+	 * default constructor
+	 */
 	public Country() {
 	}
 	

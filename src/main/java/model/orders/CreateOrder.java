@@ -8,11 +8,21 @@ import model.Player;
 import java.io.Serializable;
 import java.util.StringJoiner;
 
+/**
+ * class to create order and add it in the list
+ */
+
 public class CreateOrder implements Serializable {
     public static MapModel d_MapModel = MapModel.getInstance();
 
     private Logger d_logger;
 
+    /**
+     * method to create order like "deploy"
+     * @param p_PlayerCommands input commands
+     * @param p_Player player
+     * @return order
+     */
     public static Order createOrder(String[] p_PlayerCommands, Player p_Player) {
         String l_Type = p_PlayerCommands[0].toLowerCase();
         Order l_Order;
@@ -28,6 +38,12 @@ public class CreateOrder implements Serializable {
         return l_Order;
     }
 
+    /**
+     * method to return details of the order selected
+     * @param p_Command  input command strinf
+     * @param p_Player player
+     * @return details of the order
+     */
     public static OrderDetails CreateDeployOrderDetails(String[] p_Command, Player p_Player) {
         Country l_Country = d_MapModel.getCountry(p_Command[1]);
         int l_NumberOfArmies = Integer.parseInt(p_Command[2]);
@@ -42,6 +58,11 @@ public class CreateOrder implements Serializable {
         return l_orderDetails;
     }
 
+    /**
+     * method to return parent string
+     * @param p_Commands input command
+     * @return string
+     */
     private static String StringConverter(String[] p_Commands) {
         StringJoiner l_Joiner = new StringJoiner(" ");
         for (int l_Index = 0; l_Index < p_Commands.length; l_Index++) {
