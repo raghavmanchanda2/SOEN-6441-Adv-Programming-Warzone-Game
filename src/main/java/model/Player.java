@@ -226,5 +226,14 @@ public class Player {
         d_ReinforcementArmies -= p_ArmyCount;
         return true;
     }
+    
+    /**
+     * A function to get the list of captured countries
+     *
+     * @return The list of captured countries
+     */
+    public void setCapturedCountries(List<Country> countryList) {
+        this.d_CapturedCountries=countryList;
+    }
 
 }
