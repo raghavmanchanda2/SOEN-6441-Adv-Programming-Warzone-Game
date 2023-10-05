@@ -620,9 +620,7 @@ public class MapFileAlteration {
 
 		} 
 		
-//		for(Map.Entry<Country, List<Country>> mapEntry : d_mapModel.getBorders().entrySet()) {
-//			System.out.println(mapEntry.getKey().getCountryId() + " " + mapEntry.getKey().getUniqueCountryId());
-//		}
+
 		
 		Boolean l_countryBorderRelevantData=false;
 		for(Map.Entry<Country, List<Country>> mapEntry : d_mapModel.getBorders().entrySet()) {
@@ -671,30 +669,7 @@ public class MapFileAlteration {
 		} 
 	
 		
-//		for (Map.Entry<Country, List<Country>> mapEntry : d_mapModel.getBorders().entrySet()) {
-//			l_countryBorderRelevantData=false;
-//			
-//			for(Country borderCount : mapEntry.getValue())
-//			{
-//				for(Country cont: l_countries)
-//				{
-//					l_countryBorderRelevantData=false;
-//					if(cont.getCountryId().equals(borderCount.getCountryId()))
-//					{
-//						l_countryBorderRelevantData=true;
-//						break;
-//					}
-//				}
-//				
-//				if (Boolean.FALSE.equals(l_countryBorderRelevantData)) {
-//					return new ResponseWrapper(404,
-//							" Border Data for Countries is not consistent with Countries that are added ");
-//
-//				} 
-//			}
-//			
-//		}
-//		
+	
 				
 		Boolean l_countryBorderNotExists = this.d_mapModel.getBorders().entrySet().stream()
 				.anyMatch(borderMap -> borderMap.getValue().size() == 0) ? true : false;

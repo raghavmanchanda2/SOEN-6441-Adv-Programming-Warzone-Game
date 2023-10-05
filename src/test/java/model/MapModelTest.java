@@ -29,6 +29,7 @@ import model.MapModel;
 class MapModelTest {
 	
 	private MapModel d_MM = new MapModel();
+	private MapModel d_MapT = new MapModel(); //used in void ConnectGraphMap() only
 	private static int d_test_number = 1;
 
 
@@ -107,18 +108,123 @@ class MapModelTest {
 	@AfterEach
 	void tearDown() {
 		++d_test_number;
+		d_MM.clearMap();
 		System.out.println("\n\n");
 	}
 	
 	
 	/**
-	 * Method to assert that the continent is a connect graph
+	 * Method to assert that the continent is a connected graph
 	 */
 	@Test
 	void ConnectedGraphContinent() {
 		
-		assertTrue(ContinentTraversal(d_MM));
+		assertTrue(ConnectGraphTraversal(d_MM));
 		
+	}
+	
+	/**
+	 * Method to assert that the map is a connected graph.
+	 * This is similar to connected continent but this time the map will
+	 * contain 2 continents with their countries, with 1 link between
+	 * Brazil and India which allows the depth first search algorithm to traverse
+	 * the whole map.
+	 */
+	@Test
+	void ConnectGraphMap() {
+		
+		
+		
+		Continent l_America = new Continent("America");
+		
+		Country l_Canada = new Country("Canada", l_America);
+		Country l_USA = new Country("USA", l_America);
+		Country l_Mexico = new Country("Mexico", l_America);
+		Country l_Guatemala = new Country("Guatemala", l_America);
+		Country l_Nicaragua = new Country("Nicaragua", l_America);
+		Country l_Colombia = new Country("Colombia", l_America);
+		Country l_Venezuela = new Country("Venezuela", l_America);
+		Country l_Ecuador = new Country("Ecuador", l_America);
+		Country l_Peru = new Country("Peru", l_America);
+		Country l_Brazil = new Country("Brazil", l_America);
+		
+		Continent l_Asia = new Continent(2,"Asia");
+		
+		Country l_China = new Country("China", l_Asia);
+		Country l_India = new Country("India", l_Asia);
+		Country l_Japan = new Country("Japan", l_Asia);
+		Country l_Korea = new Country("Korea", l_Asia);
+		
+		d_MapT.addContinent(l_America);
+		
+		d_MapT.addContinentCountries(l_America, l_Canada);
+		d_MapT.addContinentCountries(l_America, l_USA);
+		d_MapT.addContinentCountries(l_America, l_Mexico);
+		d_MapT.addContinentCountries(l_America, l_Guatemala);
+		d_MapT.addContinentCountries(l_America, l_Nicaragua);
+		d_MapT.addContinentCountries(l_America, l_Colombia);
+		d_MapT.addContinentCountries(l_America, l_Venezuela);
+		d_MapT.addContinentCountries(l_America, l_Ecuador);
+		d_MapT.addContinentCountries(l_America, l_Peru);
+		d_MapT.addContinentCountries(l_America, l_Brazil);
+		
+		d_MapT.addBorders(l_Canada, l_USA);
+		
+		d_MapT.addBorders(l_USA, l_Canada);
+		d_MapT.addBorders(l_USA, l_Mexico);
+		
+		d_MapT.addBorders(l_Mexico, l_USA);
+		d_MapT.addBorders(l_Mexico, l_Guatemala);
+		
+		d_MapT.addBorders(l_Guatemala, l_Mexico);
+		d_MapT.addBorders(l_Guatemala, l_Nicaragua);
+		
+		d_MapT.addBorders(l_Nicaragua, l_Guatemala);
+		d_MapT.addBorders(l_Nicaragua, l_Colombia);
+		
+		d_MapT.addBorders(l_Colombia, l_Nicaragua);
+		d_MapT.addBorders(l_Colombia, l_Venezuela);
+		d_MapT.addBorders(l_Colombia, l_Ecuador);
+		d_MapT.addBorders(l_Colombia, l_Brazil);
+		d_MapT.addBorders(l_Colombia, l_Peru);
+		
+		d_MapT.addBorders(l_Venezuela, l_Colombia);
+		d_MapT.addBorders(l_Venezuela, l_Brazil);
+		
+		d_MapT.addBorders(l_Ecuador, l_Colombia);
+		d_MapT.addBorders(l_Ecuador, l_Peru);
+		
+		d_MapT.addBorders(l_Peru, l_Ecuador);
+		d_MapT.addBorders(l_Peru, l_Colombia);
+		d_MapT.addBorders(l_Peru, l_Brazil);
+		
+		d_MapT.addBorders(l_Brazil, l_Peru);
+		d_MapT.addBorders(l_Brazil, l_Colombia);
+		d_MapT.addBorders(l_Brazil, l_Venezuela);
+		d_MapT.addBorders(l_Brazil, l_India);
+		
+		//Asia
+		
+		d_MapT.addContinent(l_Asia);
+		
+		d_MapT.addContinentCountries(l_Asia, l_China);
+		d_MapT.addContinentCountries(l_Asia, l_India);
+		d_MapT.addContinentCountries(l_Asia, l_Japan);
+		d_MapT.addContinentCountries(l_Asia, l_Korea);
+		
+		d_MapT.addBorders(l_India, l_China);
+		d_MapT.addBorders(l_India, l_Brazil);
+		
+		d_MapT.addBorders(l_China, l_India);
+		d_MapT.addBorders(l_China, l_Japan);
+		d_MapT.addBorders(l_China, l_Korea);
+		
+		d_MapT.addBorders(l_Japan, l_China);
+		
+		d_MapT.addBorders(l_Korea, l_China);
+		
+		
+		assertTrue(ConnectGraphTraversal(d_MapT));
 	}
 	
 	/**
@@ -126,7 +232,7 @@ class MapModelTest {
 	 * @param d_MM
 	 * @return boolean value from DFS that demonstrates all countries have been visited
 	 */
-	public static boolean ContinentTraversal(MapModel p_MM) {
+	public static boolean ConnectGraphTraversal(MapModel p_MM) {
 		if(p_MM.getCountries().isEmpty()) {
 			return true;
 		}
