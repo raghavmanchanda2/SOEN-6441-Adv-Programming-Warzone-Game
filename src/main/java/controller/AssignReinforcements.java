@@ -4,6 +4,11 @@ import model.GamePhaseEnum;
 import model.MapModel;
 import model.Player;
 
+/**
+ * class to allot reinforcements
+ * @author IShaan Bajaj
+ * @version build 1
+ */
 public class AssignReinforcements {
 
     MapModel d_MapModel;
@@ -13,11 +18,18 @@ public class AssignReinforcements {
 
     private OrderIssue d_issueOrder;
 
+    /**
+     * default constructor
+     */
     public AssignReinforcements() {
         d_MapModel = MapModel.getInstance();
         d_issueOrder = new OrderIssue();
     }
 
+    /**
+     * method to calculate and assign reinforcement armies to players
+     * @throws Exception if any error occurs
+     */
     public void assignReinforcements() throws Exception {
 
         for (Player l_Player : d_MapModel.getPlayers().values()) {
@@ -27,8 +39,4 @@ public class AssignReinforcements {
         d_issueOrder.issue_order();
     }
 
-    public void setReinforcementTroops() throws Exception {
-
-
-    }
 }
