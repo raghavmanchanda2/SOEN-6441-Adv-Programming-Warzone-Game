@@ -37,7 +37,7 @@ public class ConsoleWriter implements Observer {
 	
 	/**
 	 * Setter method to set the log message
-	 * @param log message
+	 * @param logMsg
 	 */
 	public void setLogMsg(String logMsg) {
 		this.d_logMsg = logMsg;

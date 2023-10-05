@@ -230,7 +230,7 @@ public class Player {
     /**
      * A function to get the list of captured countries
      *
-     * @return The list of captured countries
+     * @param countryList
      */
     public void setCapturedCountries(List<Country> countryList) {
         this.d_CapturedCountries=countryList;
