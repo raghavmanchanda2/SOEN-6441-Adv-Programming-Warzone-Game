@@ -3,6 +3,12 @@ import logger.ConsoleWriter;
 import logger.GeneralException;
 import logger.Logger;
 import model.ResponseWrapper;
+
+/**
+ * class MapEngine will help control all map related functions and it is the main view for the user.
+ * @author Rohit
+ * @version build 1
+ */
 public class MapEngine {
 	
 	public static String D_CURRENT_MAP ;
@@ -12,7 +18,9 @@ public class MapEngine {
 	private ConsoleWriter d_consoleWriter;
 	
 	
-	
+	/**
+	 * Constructor for initializing MapEngine data members
+	 */
 	public MapEngine() {
 		d_mapEngineController = new MapEngineController();
 		d_logger = new Logger();
@@ -20,6 +28,9 @@ public class MapEngine {
 		d_logger.addObserver(d_consoleWriter);
 	}
 	
+	/**
+	 * Set current game view to the logger message by passing available map commands
+	 */
 	private void printAvailableMapCommands() {
 		d_logger.setLogMessage("****************************************");
 		d_logger.setLogMessage("************** MAP ENGINE **************");
@@ -32,6 +43,9 @@ public class MapEngine {
 		d_logger.setLogMessage("****(Getting input from the user...)****");
 	}
 	
+	/**
+	 * Set current game view to the logger message by passing edit map commands
+	 */
 	private void printEditMapCommands() {
 		d_logger.setLogMessage("****************************************");
 		d_logger.setLogMessage("************ EDIT MAP PHASE ************");
@@ -52,6 +66,10 @@ public class MapEngine {
 		d_logger.setLogMessage("****(Getting input from the user...)****");
 	}
 	
+	/**
+	 * Starts the game and handles all related map commands and sends alert message in case
+	 * of error map inputs.
+	 */
 	public void startMapEngine() {
 		
 		while(true) {
