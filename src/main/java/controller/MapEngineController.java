@@ -1,3 +1,15 @@
+/**
+ * The `MapEngineController` class is responsible for handling map-related commands and interactions between the user interface and the map editing functionality.
+ * It processes user input and delegates commands to the `ExecuteMapsCommands` class for map manipulation.
+ *
+ * <p>
+ * This class supports commands for editing continents, countries, neighbors, showing the map, saving the map, and validating the map.
+ * </p>
+ *
+ * @see ExecuteMapsCommands
+ * @author Rohit
+ * @version 1.0
+ */
 package controller;
 
 import java.util.Scanner;
@@ -9,6 +21,18 @@ import model.Continent;
 import model.Country;
 import model.ResponseWrapper;
 
+/**
+ * The `MapEngineController` class is responsible for handling map-related commands and interactions between the user interface and the map editing functionality.
+ * It processes user input and delegates commands to the `ExecuteMapsCommands` class for map manipulation.
+ *
+ * <p>
+ * This class supports commands for editing continents, countries, neighbors, showing the map, saving the map, and validating the map.
+ * </p>
+ *
+ * @see ExecuteMapsCommands
+ * @author Rohit
+ * @version 1.0
+ */
 public class MapEngineController {
 
 	private Scanner d_inputForMapCommands;
@@ -17,6 +41,9 @@ public class MapEngineController {
 	public static final String INCORRECT_COMMAND="Please enter proper command";
 	private GeneralException gException=new GeneralException();
 
+	/**
+     * Enumerates the supported map-related commands.
+     */
 	enum MapCommands {
 		EDIT_CONTINENT("editcontinent"), EDIT_COUNTRY("editcountry"), EDIT_NEIGHBOR("editneighbor"),
 		SHOW_MAP("showmap"), SAVE_MAP("savemap"), EDIT_MAP("editmap"), VALIDATE_MAP("validatemap"), NONE("nothing");
@@ -30,12 +57,22 @@ public class MapEngineController {
 		
 	}
 
+	/**
+     * Default Constructor for the `MapEngineController` class.
+     * Initializes the input scanner, map command executor, and log generator.
+     */
 	public MapEngineController() {
 		d_inputForMapCommands = new Scanner(System.in);
 		d_executeMapsCommands = new ExecuteMapsCommands();
 		this.d_logGenrator = new LogGenerator();
 	}
 
+	/**
+     * Gets the main map commands from the user and processes them.
+     *
+     * @return A {@link ResponseWrapper} indicating the result of the command execution.
+     * @throws GeneralException If there is an error during command execution.
+     */
 	public ResponseWrapper getMainMapCommandsFromUser() throws GeneralException {
 		
 		String l_userEnteredMainMapCommands = d_inputForMapCommands.nextLine();
@@ -75,6 +112,12 @@ public class MapEngineController {
 
 	}
 
+	 /**
+     * Gets the edit map commands from the user and processes them.
+     *
+     * @return A {@link ResponseWrapper} indicating the result of the command execution.
+     * @throws GeneralException If there is an error during command execution.
+     */
 	public ResponseWrapper getEditMapCommandsFromUser() throws GeneralException {
 
 		String l_userEnteredCommand = d_inputForMapCommands.nextLine();
