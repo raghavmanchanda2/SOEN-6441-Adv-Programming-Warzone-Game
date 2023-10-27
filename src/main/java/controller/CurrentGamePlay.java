@@ -160,11 +160,15 @@ public class CurrentGamePlay {
                 }
                 else if (l_userInput.toLowerCase().equals("showmap")) {
                     System.out.println("->Calling business file for showmap");
-                    d_MapModel.showMap();
+                    this.d_mapFileAlteration.showmap();
                 }
                 else if (l_userInput.toLowerCase().equals("continue")) {
-                    d_AssignReinforcements.assignReinforcements();
-                    exit(0);
+                    if (d_MapModel.getPlayers().isEmpty() || d_MapModel.getPlayers().size()<2){
+                        System.out.println("Minimum 2 Players required to play the game");
+                    } else {
+                        d_AssignReinforcements.assignReinforcements();
+                    }
+
                 } else {
                     continue;
                 }

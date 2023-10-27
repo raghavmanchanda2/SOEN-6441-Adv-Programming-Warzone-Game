@@ -170,9 +170,8 @@ public class Player {
      * @param p_MapModel The game map object
      */
     public void calculateReinforcementArmies(MapModel p_MapModel) {
-        if (getCapturedCountries().size() > 0) {
+        if (!getCapturedCountries().isEmpty()) {
             int reinforcements = (int) Math.floor(getCapturedCountries().size() / 3f);
-            //reinforcements += getBonusIfKingOfContinents(p_MapModel);
             setReinforcementArmies(reinforcements > 2 ? reinforcements : 3);
         } else {
             setReinforcementArmies(3);
@@ -180,7 +179,6 @@ public class Player {
         d_ArmiesToIssue = getReinforcementArmies();
         d_logger.setLogMessage("The Player " + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
     }
-
 
     public String readFromPlayer() {
         return this.d_PlayerStrategy.createCommand();

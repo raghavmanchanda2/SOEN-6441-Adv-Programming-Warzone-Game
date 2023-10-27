@@ -18,10 +18,7 @@ import Constants.ProjectConfig;
 import GamePhase.MapPhaseState;
 import logger.ConsoleWriter;
 import logger.Logger;
-import model.Continent;
-import model.Country;
-import model.MapModel;
-import model.ResponseWrapper;
+import model.*;
 
 /**
  * class that defines creating, saving, reading and loading map files into the game
@@ -303,11 +300,11 @@ public class MapFileAlteration {
  	ResponseWrapper l_resp=this.validateMap();
              if(l_resp.getStatusValue()==404)
                {
-                       System.out.format("\n Map cannot be showed as Validation Failed \n");
+                       System.out.format("\nMap cannot be displayed as Validation Failed \n");
                        return l_resp;
                }
 
-		d_logger.setLogMessage(" Continents: ");
+		d_logger.setLogMessage("\nContinents: ");
 		d_logger.setLogMessage("********************");
 		d_logger.setLogMessage("  Continent's Name  ");
 		d_logger.setLogMessage("********************");
@@ -334,18 +331,23 @@ public class MapFileAlteration {
 
 		System.out.format("****************************************************************************************************%n");
 
-		System.out.format("\nPlayers in this game are : ");
 
-		d_logger.setLogMessage("Continents allotted to players: ");
+		d_logger.setLogMessage("\nContinents allotted to players: ");
 
 		System.out.format("**************************************************%n");
 		System.out.format("     Players     !     Allotted Continents       %n");
 		System.out.format("**************************************************%n");
+		String l_Table1 = "- %-15s- %-30s- %n";
 
+		for (Player l_Player : this.d_mapModel.getPlayers().values()) {
+			System.out.format(l_Table1, l_Player.getName(),
+					l_Player.createACaptureList(l_Player.getCapturedCountries()),
+					l_Player.getReinforcementArmies());
+		}
 
 		System.out.format("**************************************************%n");
-		
-		return new ResponseWrapper(200," Show Map Done Successfully");
+
+		return new ResponseWrapper(200," \nShow Map Done Successfully");
 
 	}
 	

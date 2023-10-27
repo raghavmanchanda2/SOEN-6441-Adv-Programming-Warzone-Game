@@ -88,8 +88,6 @@ public class OrderIssue {
         }
         skipPlayers.clear();
         d_orderExecute.orderExecute();
-        d_logger.setLogMessage("All phases executed as per Build 1 requirements. Ending game...");
-        System.exit(0);
 
     }
 
