@@ -103,8 +103,12 @@ public class MapEngineController {
 			}
 			return mapResponse;
 		case "continue":
+			
+			
 			d_logGenrator.clearLogs();
-			return new ResponseWrapper(204, "Return from current command");
+			return new ResponseWrapper(201, "Return from current command and move to game play");
+			
+			
 		default:
 			return new ResponseWrapper(404, INCORRECT_COMMAND); // nothing entered please enter proper
 																			// command

@@ -18,7 +18,12 @@ import Constants.ProjectConfig;
 import GamePhase.MapPhaseState;
 import logger.ConsoleWriter;
 import logger.Logger;
-import model.*;
+import model.Continent;
+import model.Country;
+import model.GameModel;
+import model.MapModel;
+import model.Player;
+import model.ResponseWrapper;
 
 /**
  * class that defines creating, saving, reading and loading map files into the game
@@ -34,13 +39,16 @@ public class MapFileAlteration {
 	private BufferedWriter d_bufferWriter;
 	
 	private MapModel d_mapModel;
+	private GameModel gameModel;
 	private Logger d_logger;
 	private ConsoleWriter d_consoleWriter;
+	
 	/**
 	 * method for creating a new MapModel object 
 	 */
 	public MapFileAlteration() {
 		d_mapModel = MapModel.getInstance();
+		gameModel  = GameModel.getInstance();
 		d_logger = new Logger();
 		d_consoleWriter = new ConsoleWriter();
 		d_logger.addObserver(d_consoleWriter);
@@ -59,6 +67,7 @@ public class MapFileAlteration {
 	 */
 	public void readMapFile() {
 		this.d_mapModel.clearMap();
+		System.out.println("ROhit");
 		try {
 			
 			d_mapFileReader = new FileReader(ProjectConfig.D_MAP_FILES_PATH+MapPhaseState.D_CURRENT_MAP);
@@ -300,11 +309,11 @@ public class MapFileAlteration {
  	ResponseWrapper l_resp=this.validateMap();
              if(l_resp.getStatusValue()==404)
                {
-                       System.out.format("\nMap cannot be displayed as Validation Failed \n");
+                       System.out.format("\n Map cannot be showed as Validation Failed \n");
                        return l_resp;
                }
 
-		d_logger.setLogMessage("\nContinents: ");
+		d_logger.setLogMessage(" Continents: ");
 		d_logger.setLogMessage("********************");
 		d_logger.setLogMessage("  Continent's Name  ");
 		d_logger.setLogMessage("********************");
@@ -331,23 +340,28 @@ public class MapFileAlteration {
 
 		System.out.format("****************************************************************************************************%n");
 
+		System.out.format("\nPlayers in this game are : ");
 
-		d_logger.setLogMessage("\nContinents allotted to players: ");
+		d_logger.setLogMessage("Continents allotted to players: ");
 
 		System.out.format("**************************************************%n");
-		System.out.format("     Players     !     Allotted Continents       %n");
+		System.out.format("     Players     !     Allotted Countries       %n");
 		System.out.format("**************************************************%n");
-		String l_Table1 = "- %-15s- %-30s- %n";
-
-		for (Player l_Player : this.d_mapModel.getPlayers().values()) {
-			System.out.format(l_Table1, l_Player.getName(),
-					l_Player.createACaptureList(l_Player.getCapturedCountries()),
-					l_Player.getReinforcementArmies());
+        
+		if(this.gameModel.getPlayers() != null ) {
+			for(Player player : gameModel.getPlayers()) {
+            	System.out.format("    " + player.getPlayerName() + "   !   " );
+            	if(player.getCountriesHold() != null) {
+            		for(Country country : player.getCountriesHold())
+                    	System.out.format("    " + country.getCountryId());
+            	}
+            	System.out.println();
+            }
 		}
-
+        	
 		System.out.format("**************************************************%n");
-
-		return new ResponseWrapper(200," \nShow Map Done Successfully");
+		
+		return new ResponseWrapper(200," Show Map Done Successfully");
 
 	}
 	

@@ -1,9 +1,10 @@
 import GamePhase.MapPhaseState;
-import controller.CurrentGamePlay;
+
 import controller.WarzoneEngineController;
 import logger.ConsoleWriter;
 import logger.LogGenerator;
 import logger.Logger;
+import model.ResponseWrapper;
 
 /**
  * Class to start the game with multiple options to the user.
@@ -31,17 +32,16 @@ public class WarzoneEngine {
 	 */
 	private MapEngine d_mapEngine;
 
+	
+	
 	/**
 	 * to print the statements in the console
 	 */
 	private Logger d_logger;
 	private ConsoleWriter d_consoleWriter;
 
-	/**
-	 * Data member for Gameplay/StartUpPhase
-	 */
-	private CurrentGamePlay d_currentGamePlay;
 
+	private SingleGameModePlayEngine singleGameModePlayEngine;
 
 	/**
 	 * constructor for WarZoneEngine
@@ -51,7 +51,7 @@ public class WarzoneEngine {
 		d_mapEngine = new MapEngine();
 		d_logGenrator = new LogGenerator();
 		d_logGenrator.createFile();
-		d_currentGamePlay = new CurrentGamePlay();
+		singleGameModePlayEngine = new SingleGameModePlayEngine();
 		d_consoleWriter = new ConsoleWriter();
 		d_logger = new Logger();
 		d_logger.addObserver(d_consoleWriter);
@@ -101,11 +101,16 @@ public class WarzoneEngine {
 			if(userInput.equals("gamestart -new")) {
 				d_logGenrator.logInfoMsg("MAP ENGINE STARTS", 'I');
 				// sends to map engine
-				d_mapEngine.startMapEngine();
+				ResponseWrapper responseWrapper = d_mapEngine.startMapEngine();
+				
 				// clear Map states
 				MapPhaseState.clearMapPhaseStates();
-
-				d_currentGamePlay.startStartup();
+				
+				if(responseWrapper.getStatusValue() == 201) {
+					//start game
+					singleGameModePlayEngine.startGamePlayMode();
+				}
+				
 				break;
 			}
 			else if(userInput.equals("gameend -end")) {

@@ -18,7 +18,7 @@ public class Country {
 	private String d_countryId;
 	private String d_countryName;
 	private String d_Continent;
-	private Player d_Player;
+	
 	private Continent d_continent;
 	private Map<Country,List<Country>> d_connectedCountries;
 
@@ -143,21 +143,7 @@ public class Country {
 		return d_Armies;
 	}
 
-	/**
-	 * getter method to get player object
-	 * @return player
-	 */
-	public Player getPlayer() {
-		return d_Player;
-	}
-
-	/**
-	 * setter method to get player object
-	 */
-	public void setPlayer(Player p_Player) {
-		this.d_Player = p_Player;
-	}
-
+	
 	/**
 	 * method to create list of neigbours/borders of countries
 	 * @param p_Neighbors

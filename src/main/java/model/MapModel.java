@@ -2,7 +2,7 @@ package model;
 
 import logger.ConsoleWriter;
 import logger.Logger;
-import model.player.PlayerStrategy;
+
 import persistence.MapFileAlteration;
 
 import java.util.*;
@@ -28,18 +28,16 @@ public class MapModel {
 	private static MapModel d_MapModel;
 
 	private Logger d_logger;
-	private ConsoleWriter d_consoleWriter;
+	
+
+
 	HashMap<String, Country> countryHashMap = new HashMap<>();
 
-	private HashMap<String, Player> d_Players = new HashMap<>();
-
-	private Player d_CurrentPlayer;
-	private Boolean d_GameLoaded = false;
+	
+	
 
 	public MapModel() {
-		d_logger = new Logger();
-		d_consoleWriter = new ConsoleWriter();
-		d_logger.addObserver(d_consoleWriter);
+		
 	}
 
 	/**
@@ -200,22 +198,156 @@ public class MapModel {
 		}
 	}
 
-	/**
-	 * method to retrieve player
-	 * @param p_Id
-	 * @return the specific player from the map value
-	 */
-	public Player getPlayer(String p_Id) {
-		return d_Players.get(p_Id);
-	}
 	
 	/**
-	 * returns the mapping of players
-	 * @return d_Players
+	 * Method for validating the map once created. It can produce the following message:
+	 * 1. In map there are no continents
+	 * 2. Continent Value is not good
+	 * 3. Map is not created Properly
+	 * 4. Duplicate Continent or Country Found in map
+	 * 5. Countries Should be Atleast 2 in map
+	 * 6. Country's Continent Data is missing
+	 * 7. Country's Continent not available in the list
+	 * 8. Border Data for Countries is not consistent with Countries that are added
+	 * 9. Countries Border Missing
+	 * 10. VALIDATION SUCCESSFUL
+	 * @return alert for the specific message, either successful if not, what is the error message
 	 */
-	public HashMap<String, Player> getPlayers() {
-		return d_Players;
+	public ResponseWrapper validateMap() {
+
+		if(getContinents() == null  ) {
+			return new ResponseWrapper(404, "In map there are no continents");
+		}
+		if(getCountries() == null) {
+			return new ResponseWrapper(404, "In map there are no countries");
+		}
+		Set<Continent> l_continents = new HashSet<Continent>(getContinents());
+		Set<Country> l_countries = new HashSet<Country>(getCountries());
+
+		for(Continent cont : l_continents)
+		{
+			try {
+				Integer.parseInt(cont.getContientValue());
+
+			} catch (Exception exc) {
+				return new ResponseWrapper(404, " COntinent Value is not good");
+			}
+
+		}
+
+		if ("".equals(getMapName()) || getMapName() == null || getContinents().size() == 0
+				|| getCountries().isEmpty() || getContinentCountries().size() == 0
+				|| getBorders().isEmpty()) {
+
+			return new ResponseWrapper(404, "Map is not created Properly");
+
+		} else if (l_continents.size() != getContinents().size()
+				|| l_countries.size() != getCountries().size()) {
+			return new ResponseWrapper(404, "Duplicate Continent or Country Found in map");
+
+		} else if (l_countries.size() < 2) {
+			return new ResponseWrapper(404, " Countries Should be Atleast 2 in map ");
+
+		}
+
+
+
+		Boolean l_countryContinentNotExists = getCountries().stream()
+				.anyMatch((country) -> country.getContinent() == null
+						|| country.getContinent().getContientValue() == null
+						|| "".equals(country.getContinent().getContinentId())
+						|| "".equals(country.getContinent().getContientValue()));
+
+		if (Boolean.TRUE.equals(l_countryContinentNotExists)) {
+			return new ResponseWrapper(404, "Country's Continent Data is missing");
+		}
+
+		Boolean l_countryContinentExistsInContinentsList=false;
+		for(Country count : getCountries())
+		{
+			for(Continent conti : l_continents)
+			{
+				if(count.getContinent().getContinentId().contains(conti.getContinentId()))
+				{
+					l_countryContinentExistsInContinentsList=true;
+					break;
+				}
+			}
+			if(Boolean.FALSE.equals(l_countryContinentExistsInContinentsList))
+			{
+				break;
+			}
+
+		}
+
+		if (Boolean.FALSE.equals(l_countryContinentExistsInContinentsList)) {
+			return new ResponseWrapper(404, " Country's Continent not available in the list ");
+
+		}
+
+
+
+		Boolean l_countryBorderRelevantData=false;
+		for(Map.Entry<Country, List<Country>> mapEntry : getBorders().entrySet()) {
+			boolean isCountryExitInList = false;
+			if(mapEntry.getKey() != null) {
+				for(Country country : l_countries) {
+					if(country.getCountryId().equals(mapEntry.getKey().getCountryId())) {
+						isCountryExitInList = true;
+					}
+				}
+			}
+
+			if (! isCountryExitInList) {
+				l_countryBorderRelevantData = true;
+				break ;
+			}
+
+
+			for(Country neighbourCountries : mapEntry.getValue()) {
+				if(neighbourCountries != null) {
+					for(Country country : l_countries) {
+						if(country.getCountryId().equals(neighbourCountries.getCountryId())) {
+							isCountryExitInList = true;
+						}
+					}
+
+				}else {
+					isCountryExitInList = true;
+
+				}
+
+				if (! isCountryExitInList) {
+					l_countryBorderRelevantData = true;
+					break ;
+				}
+
+
+			}
+		}
+
+
+		if (Boolean.TRUE.equals(l_countryBorderRelevantData)) {
+			return new ResponseWrapper(404,
+					" Border Data for Countries is not consistent with Countries that are added ");
+
+		}
+
+
+
+
+		Boolean l_countryBorderNotExists = getBorders().entrySet().stream()
+				.anyMatch(borderMap -> borderMap.getValue().size() == 0) ? true : false;
+
+		if (Boolean.TRUE.equals(l_countryBorderNotExists)) {
+			return new ResponseWrapper(404, " Countries Border Missing ");
+		}
+
+		return new ResponseWrapper(200, " VALIDATION SUCCESSFUL ");
 	}
+
+
+	
 
 	
 	/**
@@ -231,94 +363,32 @@ public class MapModel {
 		}
 		return countryHashMap.get(p_Id);
 	}
-
-
 	
 	/**
-	 * method to add player
-	 * @param p_PlayerName
-	 * @throws Exception
+	 * method to return list of countries
+	 * @param countriesList
+	 * @return list of countries
 	 */
-	public void addPlayer(String p_PlayerName) throws Exception {
-		if (this.getPlayers().containsKey(p_PlayerName)) {
-			throw new Exception(p_PlayerName  + "exists already.");
+	public String getCountriesList(List<Country> countriesList) {
+		String l_countList = "";
+		for (Country country : countriesList) {
+			l_countList += country.getCountryId() + "-";
 		}
-		Player l_Player = new Player(PlayerStrategy.getStrategy("human"));
-		l_Player.setName(p_PlayerName);
-		this.getPlayers().put(p_PlayerName, l_Player);
-		d_logger.setLogMessage(p_PlayerName + " added successfully");
-	}
-
-	public void removePlayer(String p_PlayerName) throws Exception {
-		Player l_Player = this.getPlayer(p_PlayerName);
-		if (Objects.isNull(l_Player)) {
-			throw new Exception("No player with name: " + p_PlayerName);
-		}
-		this.getPlayers().remove(l_Player.getName());
-		d_logger.setLogMessage(p_PlayerName + " removed successfully");
-	}
-
-	public void allot() {
-		int l_Index = 0;
-		List<Player> l_Players = d_MapModel.getPlayers().values().stream().collect(Collectors.toList());
-
-		List<Country> l_ListOfCountries =
-				d_MapModel.getCountries();
-
-		Collections.shuffle(l_ListOfCountries);
-		for (Country l_Country : l_ListOfCountries) {
-			Player l_Player = l_Players.get(l_Index);
-			l_Player.getCapturedCountries().add(l_Country);
-			l_Country.setPlayer(l_Player);
-			d_logger.setLogMessage(l_Country.getCountryId() + " Allotted to " + l_Player.getName());
-
-			if (l_Index < d_MapModel.getPlayers().size() - 1) {
-				l_Index++;
-			} else {
-				l_Index = 0;
-			}
-		}
+		return l_countList.length() > 0 ? l_countList.substring(0, l_countList.length() - 1) : "";
 	}
 	
-	/**
-	 * method to return the player
-	 * @return
-	 */
-	public Player getD_CurrentPlayer() {
-		return d_CurrentPlayer;
-	}
 
-	/**
-	 * Set the current Player
-	 *
-	 * @param d_CurrentPlayer player
-	 */
-	public void setD_CurrentPlayer(Player d_CurrentPlayer) {
-		this.d_CurrentPlayer = d_CurrentPlayer;
-	}
 	
-	/**
-	 * method to determine if game is loaded or not
-	 * @return d_GameLoaded
-	 */
-	public Boolean getD_GameLoaded() {
-		return d_GameLoaded;
-	}
 	
-	/**
-	 * method to load that specific game
-	 * @param d_GameLoaded
-	 */
-	public void setD_GameLoaded(Boolean d_GameLoaded) {
-		this.d_GameLoaded = d_GameLoaded;
-	}
+	
+	
+	
 
 	/**
 	 * method for clearing the map and all its parameters
 	 */
 	public void clearMap() {
 
-		MapModel.getInstance().getPlayers().clear();
 		
 		if( MapModel.getInstance().getContinents() != null) {
 			MapModel.getInstance().getContinents().clear();

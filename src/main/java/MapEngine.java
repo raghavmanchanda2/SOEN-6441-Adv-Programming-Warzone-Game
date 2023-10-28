@@ -69,20 +69,22 @@ public class MapEngine {
 	/**
 	 * Starts the game and handles all related map commands and sends alert message in case
 	 * of error map inputs.
+	 * @return 
 	 */
-	public void startMapEngine() {
-		
+	public ResponseWrapper startMapEngine() {
+		ResponseWrapper mainMapCommandResponse;
 		while(true) {
 			this.printAvailableMapCommands();
-			ResponseWrapper mainMapCommandResponse;
+			
 			try {
 				mainMapCommandResponse = d_mapEngineController.getMainMapCommandsFromUser();
 			} catch (GeneralException exception) {
 				mainMapCommandResponse=new ResponseWrapper(404, exception.getMessage());
 			}
 			d_logger.setLogMessage(mainMapCommandResponse.getDescription());
-				if (mainMapCommandResponse.getStatusValue() == 204){
-					break;
+				if (mainMapCommandResponse.getStatusValue() == 201){
+					return mainMapCommandResponse;
+			
 				}else if(mainMapCommandResponse.getStatusValue() == 200) {
 					while(true) {
 						this.printEditMapCommands();
@@ -94,7 +96,8 @@ public class MapEngine {
 						}
 						d_logger.setLogMessage(editMapCommandResponse.getDescription());
 						if(editMapCommandResponse.getStatusValue() == 204) {
-							break;
+							
+							return editMapCommandResponse;
 						}
 					}
 				}

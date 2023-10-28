@@ -18,9 +18,7 @@ public class Continent {
 	private String d_contientValue;
 	private List<Country> d_continentCountries;
 
-	private Set<Country> d_Countries;
-
-	private int d_AwardArmies;
+	
 
 	public Continent() {
 	}
@@ -126,20 +124,7 @@ public class Continent {
 		this.d_contientValue = p_contientValue;
 	}
 
-	public Set<Country> getCountries() {
-		if (d_Countries == null) {
-			d_Countries = new HashSet<>();
-		}
-		return d_Countries;
-	}
-
-	public int getAwardArmies() {
-		return d_AwardArmies;
-	}
-
-	public void setD_AwardArmies(int d_AwardArmies) {
-		this.d_AwardArmies = d_AwardArmies;
-	}
+	
 	
 
 }
