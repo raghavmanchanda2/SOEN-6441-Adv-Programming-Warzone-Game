@@ -1,10 +1,9 @@
 unnamed package
 business
+business.Order
 Constants
 controller
 GamePhase
 logger
 model
-model.orders
-model.player
 persistence

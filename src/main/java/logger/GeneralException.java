@@ -7,10 +7,13 @@ import java.util.List;
 /**
  * class for handling exceptions based on the messages passed to its method
  * @author Raghav
- * @version build 1
+ * @version build 2
  */
 public class GeneralException extends Exception {
 
+	/**
+	 * default constructor
+	 */
 	public GeneralException() {
 	}
 
@@ -18,7 +21,7 @@ public class GeneralException extends Exception {
 	
 	/**
 	 * constructor to initialize p_message
-	 * @param p_message exception message
+	 * @param p_message - exception message
 	 */
 	public GeneralException(String p_message) {
 		super(p_message);
@@ -30,9 +33,9 @@ public class GeneralException extends Exception {
 	 * Method to validate the input command.
 	 * The input command cannot be null, empty string or contain a special character
 	 * 
-	 * @param p_message input command
-	 * @return validated input command
-	 * @throws GeneralException if input command is invalid
+	 * @param p_message - input command
+	 * @return validated - input command
+	 * @throws GeneralException - if input command is invalid
 	 */
 	public String validateCommand(String p_message) throws GeneralException {
 		

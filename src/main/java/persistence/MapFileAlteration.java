@@ -28,7 +28,7 @@ import model.ResponseWrapper;
 /**
  * class that defines creating, saving, reading and loading map files into the game
  * @author Rohit, Raghav
- * @version build 1
+ * @version build 2
  */
 public class MapFileAlteration {
 	
@@ -172,6 +172,7 @@ public class MapFileAlteration {
 	 * Data is extracted from the list of continents, countries, map of continent countries and map of borders
 	 * with the following tags: MAP, CONTINENTS_TABLE, COUNTRIES_TABLE, BORDERS_TABLE respectively.
 	 * Use buffer variable to efficiently transfer data
+	 * @param p_mapFileName - name of map file
 	 */
 	private void writeMapFile(String p_mapFileName) {
 		try {
@@ -223,7 +224,7 @@ public class MapFileAlteration {
 	
 	/**
 	 * Method to add a continent in the map and returns alert of successful operation
-	 * @param p_continent a continent object to be added to the map
+	 * @param p_continent - a continent object to be added to the map
 	 * @return ReponseWrapper temp object to alert player of the status after adding the continent
 	 */
 	public ResponseWrapper addContinent(Continent p_continent) {
@@ -241,7 +242,7 @@ public class MapFileAlteration {
 	
 	/**
 	 * Method to add a country in the map and returns alert of successful operation
-	 * @param p_country a country object to be added to the map
+	 * @param p_country - a country object to be added to the map
 	 * @return ReponseWrapper temp object to alert player of the status after adding the country
 	 */
 	public ResponseWrapper addCountry(Country p_country) {
@@ -265,8 +266,8 @@ public class MapFileAlteration {
 	
 	/**
 	 * Method for adding a specific country as a neighbor of another country
-	 * @param p_mainCountry the key country
-	 * @param p_neighbourCountry the neighboring country to the key country
+	 * @param p_mainCountry - the key country
+	 * @param p_neighbourCountry - the neighboring country to the key country
 	 * @return ReponseWrapper temp object to alert player of the status after adding a neighboring country
 	 */
 	public ResponseWrapper addNeighbour(Country p_mainCountry, Country p_neighbourCountry) {
@@ -286,7 +287,7 @@ public class MapFileAlteration {
 	
 	/**
 	 * Method for saving a map in the event of creation or editing
-	 * @param p_mapFileName
+	 * @param p_mapFileName - name of map file
 	 * @return alert to show map has been successfully saved
 	 */
 	public ResponseWrapper saveMap(String p_mapFileName) {
@@ -367,7 +368,7 @@ public class MapFileAlteration {
 	
 	/**
 	 * method to get countries list in the form of a string
-	 * @param countriesList
+	 * @param countriesList - list of countries
 	 * @return list of countries as a string if the string length is greater than 0, else return empty
 	 */
 	public String getCountriesList(List<Country> countriesList) {
@@ -388,7 +389,7 @@ public class MapFileAlteration {
 	 * When deleting a continent we need to ensure that all countries in that continent is deleted
 	 * and ensure that the remaining countries do not share a border with the deleted countries.
 	 * 
-	 * @param p_continent
+	 * @param p_continent - continent to be removed
 	 * @return alert to player to show successful deletion of continent
 	 */
 	public ResponseWrapper removeContinent(Continent p_continent) {
@@ -455,7 +456,7 @@ public class MapFileAlteration {
 	 * When deleting a country, we should ensure that other countries that used to border that country reflect
 	 * that change and also delete that country from their borders list.
 	 * 
-	 * @param country
+	 * @param country - country to be removed
 	 * @return alert to player to show successful deletion of country
 	 */
 	public ResponseWrapper removeCountry(Country country) {
@@ -517,8 +518,8 @@ public class MapFileAlteration {
 	 * The borders map is searched by the country key, its neighbor list is access and search
 	 * until param: neighbourCountry is found in the list and deleted
 	 * 
-	 * @param mainCountry key value in the borders map
-	 * @param neighbourCountry country to be removed in the list of countries in borders map
+	 * @param mainCountry - key value in the borders map
+	 * @param neighbourCountry - country to be removed in the list of countries in borders map
 	 * @return alert that neighboring country has been successfully removed
 	 */
 	public ResponseWrapper removeNeighbour(Country mainCountry,Country neighbourCountry) {	
@@ -697,6 +698,10 @@ public class MapFileAlteration {
 		return new ResponseWrapper(200, " VALIDATION SUCCESSFUL ");
 	}
 	
+	/**
+	 * getter method for MapModel
+	 * @return d_mapModel - map model
+	 */
 	public MapModel getMapModel() {
 		return d_mapModel;
 	}

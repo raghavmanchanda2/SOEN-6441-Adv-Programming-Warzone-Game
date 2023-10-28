@@ -31,13 +31,17 @@ import model.ResponseWrapper;
  *
  * @see ExecuteMapsCommands
  * @author Rohit
- * @version 1.0
+ * @version build 2
  */
 public class MapEngineController {
 
 	private Scanner d_inputForMapCommands;
 	private ExecuteMapsCommands d_executeMapsCommands;
 	private LogGenerator d_logGenrator;
+	
+	/**
+	 * default error message for incorrect input command
+	 */
 	public static final String INCORRECT_COMMAND="Please enter proper command";
 	private GeneralException gException=new GeneralException();
 

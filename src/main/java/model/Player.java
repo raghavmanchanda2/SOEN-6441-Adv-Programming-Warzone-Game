@@ -7,6 +7,11 @@ import java.util.Map;
 
 import business.Order.Order;
 
+/**
+ * Player class which holds the issue order and next order in the list of orders
+ * @author Rohit
+ * @version build 2
+ */
 public class Player {
 
 	private String playerName;

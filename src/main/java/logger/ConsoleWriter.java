@@ -8,7 +8,7 @@ import java.util.Observer;
  * class that keeps track and modifies log messages from the console
  * 
  * @author Raghav
- * @version build 1
+ * @version build 2
  *
  */
 public class ConsoleWriter implements Observer {
@@ -18,8 +18,8 @@ public class ConsoleWriter implements Observer {
 	/**
 	 * Method to update the current object's log message
 	 * 
-	 * @param p_observable Object that is the source of change 
-	 * @param p_logObject Object that contains the information about the change
+	 * @param p_observable - Object that is the source of change 
+	 * @param p_logObject - Object that contains the information about the change
 	 */
 	@Override
 	public void update(Observable p_observable, Object p_logObject) {
@@ -37,7 +37,7 @@ public class ConsoleWriter implements Observer {
 	
 	/**
 	 * Setter method to set the log message
-	 * @param logMsg
+	 * @param logMsg log message
 	 */
 	public void setLogMsg(String logMsg) {
 		this.d_logMsg = logMsg;

@@ -89,6 +89,7 @@ public class WarzoneEngine {
 
 	/**
 	 * method to start the game
+	 * @throws Exception - input command is incorrect
 	 */
 
 	public synchronized void gameStarts() throws Exception{

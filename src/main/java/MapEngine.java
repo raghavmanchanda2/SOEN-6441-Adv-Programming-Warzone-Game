@@ -11,6 +11,9 @@ import model.ResponseWrapper;
  */
 public class MapEngine {
 	
+	/**
+	 * defines current map
+	 */
 	public static String D_CURRENT_MAP ;
 	private MapEngineController d_mapEngineController;
 	
@@ -69,7 +72,7 @@ public class MapEngine {
 	/**
 	 * Starts the game and handles all related map commands and sends alert message in case
 	 * of error map inputs.
-	 * @return 
+	 * @return response
 	 */
 	public ResponseWrapper startMapEngine() {
 		ResponseWrapper mainMapCommandResponse;

@@ -31,7 +31,7 @@ import persistence.MapFileAlteration;
  * </p>
  *
  * @author Rohit
- * @version 1.0
+ * @version build 2
  */
 public class ExecuteMapsCommands {
 	
@@ -44,10 +44,10 @@ public class ExecuteMapsCommands {
 		d_mapFileAlteration = new MapFileAlteration();
 	}
 
-	 /**
+	/**
      * Adds a continent to the map.
      *
-     * @param p_continent The continent to be added.
+     * @param p_continent - The continent to be added.
      * @return A {@link ResponseWrapper} object indicating the result of the operation.
      */
 	public ResponseWrapper addContinent(Continent p_continent) {
@@ -56,11 +56,11 @@ public class ExecuteMapsCommands {
 	}
 
 	/**
-    * Removes a continent from the map.
-    *
-    * @param p_continent The continent to be removed.
-    * @return A {@link ResponseWrapper} object indicating the result of the operation.
-    */
+	 * Removes a continent from the map.
+	 *
+	 * @param p_continent - The continent to be removed.
+	 * @return A {@link ResponseWrapper} object indicating the result of the operation.
+	 */
 	public ResponseWrapper removeContinent(Continent p_continent) {
 
 		return this.d_mapFileAlteration.removeContinent(p_continent);
@@ -68,7 +68,7 @@ public class ExecuteMapsCommands {
 	
 	/**
 	 * Method to add country from the map
-	 * @param p_country
+	 * @param p_country - country to be added
 	 * @return alert message that country has been properly added
 	 */
 	public ResponseWrapper addCountry(Country p_country) {
@@ -78,7 +78,7 @@ public class ExecuteMapsCommands {
 	
 	/**
 	 * Method to remove country from the map
-	 * @param p_country
+	 * @param p_country - country to be added
 	 * @return alert message that country has been properly removed
 	 */
 	public ResponseWrapper removeCountry(Country p_country) {
@@ -88,8 +88,8 @@ public class ExecuteMapsCommands {
 
 	/**
 	 * Adds neighboring to a specific country 
-	 * @param p_mainCountry
-	 * @param p_neighbourCountry
+	 * @param p_mainCountry - specific country 
+	 * @param p_neighbourCountry - neighbor country to be added
 	 * @return alert message that a neighbor has successfully been added to a country
 	 */
 	public ResponseWrapper addNeighbour(Country p_mainCountry, Country p_neighbourCountry) {
@@ -97,9 +97,9 @@ public class ExecuteMapsCommands {
 	}
 
 	/**
-	 * Removes neighbor to a specific country
-	 * @param p_country
-	 * @param p_neighbourCountry
+	 * Removes neighbor from a specific country
+	 * @param p_country - specific country 
+	 * @param p_neighbourCountry - country to be removed
 	 * @return alert message that a neighbor has successfully been removed from a country
 	 */
 	public ResponseWrapper removeNeighbour(Country p_country, Country p_neighbourCountry) {
@@ -118,7 +118,7 @@ public class ExecuteMapsCommands {
 	
 	/**
 	 * method to save current state of map
-	 * @param p_mapFileName
+	 * @param p_mapFileName - name of map file
 	 * @return alert message that map has successfully been saved
 	 */
 	public ResponseWrapper saveMap(String p_mapFileName) {
@@ -137,7 +137,7 @@ public class ExecuteMapsCommands {
 	/**
 	 * It will open the map if the map is already in the map folder or else it will create a new map in the
 	 * map folder
-	 * @param p_mapFileName
+	 * @param p_mapFileName - name of map file
 	 * @return alert message if the map has been successfully created or edited
 	 */
 	public ResponseWrapper editOrCreateMap(String p_mapFileName) {
@@ -174,7 +174,7 @@ public class ExecuteMapsCommands {
 	
 	/**
 	 * method for validating map to be implemented in the future
-	 * @param mapFileName
+	 * @param mapFileName - name of map file
 	 * @return null
 	 */
 	public ResponseWrapper validateMap(String mapFileName) {

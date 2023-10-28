@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 /**
  * class that defines all entities in the map (continents, countries, borders) and their operations
  * @author Rohit
- * @version build 1
+ * @version build 2
  *
  */
 public class MapModel {
@@ -35,7 +35,9 @@ public class MapModel {
 
 	
 	
-
+	/**
+	 * default constructor
+	 */
 	public MapModel() {
 		
 	}
@@ -61,7 +63,7 @@ public class MapModel {
 	
 	/**
 	 * setter method to modify the countries on the map
-	 * @param countries
+	 * @param countries - list of countries
 	 */
 	public void setCountries(List<Country> countries) {
 		this.countries = countries;
@@ -77,7 +79,7 @@ public class MapModel {
 	
 	/**
 	 * setter method to modify the map's name
-	 * @param mapName
+	 * @param mapName - updated map name
 	 */
 	public void setMapName(String mapName) {
 		this.mapName = mapName;
@@ -93,7 +95,7 @@ public class MapModel {
 	
 	/**
 	 * setter method that modifies the list of continents on the map
-	 * @param continents
+	 * @param continents - updated list of continents
 	 */
 	public void setContinents(List<Continent> continents) {
 		this.continents = continents;
@@ -109,7 +111,7 @@ public class MapModel {
 	
 	/**
 	 * setter method to modify the map's continents and their associated countries
-	 * @param continentCountries
+	 * @param continentCountries - map of continents and their list of associated countries
 	 */
 	public void setContinentCountries(Map<Continent, List<Country>> continentCountries) {
 		this.continentCountries = continentCountries;
@@ -125,7 +127,7 @@ public class MapModel {
 	
 	/**
 	 * setter method to modify the countries' borders
-	 * @param borders
+	 * @param borders - map of countries and their list of associated countries they share a border
 	 */
 	public void setBorders(Map<Country, List<Country>> borders) {
 		this.borders = borders;
@@ -135,7 +137,7 @@ public class MapModel {
 	 * method for adding a new continent on the map.
 	 * If the map does not contain any continents, initialize map continents with an array list
 	 * If the map does not contain a mapping of continents with associated countries, initialize the continent countries with a HashMap
-	 * @param continent
+	 * @param continent - continent to be added to the map
 	 */
 	public void addContinent(Continent continent) {
 		
@@ -155,8 +157,8 @@ public class MapModel {
 	 * If it does, add that country into the map (continentCountries)
 	 * If the map does not have any borders set, initialize the border with a linked hash-map and add that country
 	 * 
-	 * @param continent
-	 * @param country
+	 * @param continent - continent
+	 * @param country - country
 	 */
 	public void addContinentCountries(Continent continent, Country country) {
 		if(continent != null) {
@@ -183,8 +185,8 @@ public class MapModel {
 	
 	/**
 	 * method to add a neighboring country to the map of borders using mainCountry as search key 
-	 * @param mainCountry
-	 * @param neighbourCountry
+	 * @param mainCountry - country we want to add a border with
+	 * @param neighbourCountry - country that will share border and be inserted in the list
 	 */
 	public void addBorders(Country mainCountry,Country neighbourCountry) {
 		
@@ -352,8 +354,8 @@ public class MapModel {
 	
 	/**
 	 * Method to return the specific country
-	 * @param p_Id
-	 * @return country object
+	 * @param p_Id - country's ID
+	 * @return country that was searched by ID
 	 */
 	public Country getCountry(String p_Id) {
 
@@ -366,8 +368,8 @@ public class MapModel {
 	
 	/**
 	 * method to return list of countries
-	 * @param countriesList
-	 * @return list of countries
+	 * @param countriesList - list of countries in the map
+	 * @return a string of the list of all countries
 	 */
 	public String getCountriesList(List<Country> countriesList) {
 		String l_countList = "";

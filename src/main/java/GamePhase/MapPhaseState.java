@@ -5,11 +5,14 @@ package GamePhase;
  * class containing method for clearing current phase of map
  * 
  * @author Rohit
- * @version build 1
+ * @version build 2
  *
  */
 public class MapPhaseState {
 	
+	/**
+	 * current phase of the map
+	 */
 	public static String D_CURRENT_MAP;
 	
 	
