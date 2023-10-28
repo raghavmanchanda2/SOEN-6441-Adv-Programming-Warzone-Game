@@ -1,7 +1,9 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import business.Order.Order;
 
@@ -13,11 +15,12 @@ public class Player {
 	private int reinforcementArmies = 0; // holding countries / 3 down to
 	private int bonusArmies = 0; // continent 
 	private int currentArmies = baseArmies + reinforcementArmies + bonusArmies;
+	
+
 	private List<Country> countriesHold;
+	private Map<Country,Integer> currentArmyInCountry;
 	
-	
-	
-	private ArrayList<Order> orders_list;
+	private List<Order> orders_list;
 	
 	public Player(String playerName) {
 		this.playerName = playerName;
@@ -29,6 +32,16 @@ public class Player {
 	}
 
 
+	public Map<Country, Integer> getCurrentArmyInCountry() {
+		return currentArmyInCountry;
+	}
+
+
+	public void setCurrentArmyInCountry(Map<Country, Integer> currentArmyInCountry) {
+		this.currentArmyInCountry = currentArmyInCountry;
+	}
+
+
 	public void setCountriesHold(List<Country> countriesHold) {
 		this.countriesHold = countriesHold;
 	}
@@ -37,9 +50,14 @@ public class Player {
 		if(this.countriesHold == null) {
 			this.countriesHold = new ArrayList<>();
 		}
+		if(this.currentArmyInCountry == null) {
+			this.currentArmyInCountry = new HashMap<>();
+		}
 		this.countriesHold.add(country);
+		this.currentArmyInCountry.put(country, 0);
 	}
 
+	
 	public String getPlayerName() {
 		return playerName;
 	}
@@ -49,11 +67,23 @@ public class Player {
 		this.playerName = playerName;
 	}
 
+	public int getCurrentArmies() {
+		return currentArmies;
+	}
 
-	public boolean createOrder(List<Country> map, List<Player> players) {
-		return false;
+
+	public void setCurrentArmies(int currentArmies) {
+		this.currentArmies = currentArmies;
 	}
 	
+	
+	
+	public void addOrder(Order order) {
+		if(orders_list == null) {
+			this.orders_list = new ArrayList();
+		}
+		this.orders_list.add(order);
+	}
 	
 	public Order getNextOrder() {
 		

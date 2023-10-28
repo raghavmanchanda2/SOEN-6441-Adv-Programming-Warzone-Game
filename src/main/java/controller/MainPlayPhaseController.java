@@ -6,6 +6,7 @@ import business.ExecuteMapsCommands;
 import business.MainPlayPhaseBusinessCommands;
 import business.SingleGamePlayerCommands;
 import logger.GeneralException;
+import model.Player;
 import model.ResponseWrapper;
 
 public class MainPlayPhaseController {
@@ -23,7 +24,7 @@ public class MainPlayPhaseController {
 		
 	}
 	
-	public ResponseWrapper getMainPlaySetUpCommandsFromUser() throws GeneralException {
+	public ResponseWrapper getMainPlaySetUpCommandsFromUser(Player currentPlayer) throws GeneralException {
 		String l_userEnteredMainPlayCommands = d_MainPlaylSetupCommands.nextLine();
 
 		if (l_userEnteredMainPlayCommands.trim().isEmpty()) {
@@ -38,10 +39,16 @@ public class MainPlayPhaseController {
 
 		case "deploy":
 			
-			return mainPlayPhaseBusinessCommands.deploy(l_splitInitialSetupCommand[1], Integer.parseInt(l_splitInitialSetupCommand[1]));
+			return mainPlayPhaseBusinessCommands.deploy(currentPlayer,l_splitInitialSetupCommand[1], Integer.parseInt(l_splitInitialSetupCommand[2]));
+			
+		case "advance":
+			return mainPlayPhaseBusinessCommands.advance(currentPlayer,l_splitInitialSetupCommand[1],l_splitInitialSetupCommand[2],Integer.parseInt(l_splitInitialSetupCommand[3]));
 		
+		
+		default:
+			return new ResponseWrapper(404, INCORRECT_COMMAND); 
 		}
-		return null;
+		
 
 	}
 	
