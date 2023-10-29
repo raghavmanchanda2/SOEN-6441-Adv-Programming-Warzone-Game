@@ -44,6 +44,8 @@ public class MainPlayPhaseController {
 		case "advance":
 			return mainPlayPhaseBusinessCommands.advance(currentPlayer,l_splitInitialSetupCommand[1],l_splitInitialSetupCommand[2],Integer.parseInt(l_splitInitialSetupCommand[3]));
 		
+		case "bomb":
+			return mainPlayPhaseBusinessCommands.bomb(currentPlayer, l_splitInitialSetupCommand[1]);
 		
 		default:
 			return new ResponseWrapper(404, INCORRECT_COMMAND); 

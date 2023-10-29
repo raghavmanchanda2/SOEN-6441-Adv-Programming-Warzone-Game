@@ -1,14 +1,18 @@
 package business;
 
 import model.Country;
+import model.MapModel;
 import model.Player;
 import model.ResponseWrapper;
 import business.Order.*;
 
 public class MainPlayPhaseBusinessCommands {
 	
+	private MapModel mapModel;
 	
-	
+	public MainPlayPhaseBusinessCommands() {
+		mapModel = MapModel.getInstance();
+	}
 	
 	public ResponseWrapper doReinforcements() {
 		// do reinforcements
@@ -58,10 +62,32 @@ public class MainPlayPhaseBusinessCommands {
 			currentPlayer.addOrder(advance);
 			return new ResponseWrapper(200, " Advance order added in queue");
 		}else {
-			return new ResponseWrapper(204,"from coutry doesn't belongs to you or targetted country is not your neighbour");
+			return new ResponseWrapper(204,"from country doesn't belongs to you or targetted country is not your neighbour");
 		}
 		
 	}
 	
+	
+	public ResponseWrapper bomb(Player currentPlayer, String targetCountryName) {
+		Country targetCountry = null;
+		
+		for(Country country : mapModel.getCountries()) {
+			if(country.getCountryId().equals(targetCountryName)) {
+				targetCountry = country;
+			}
+		}
+		
+		Order bomb = new BombOrder(currentPlayer, targetCountry);
+		if(bomb.valid()) {
+			currentPlayer.addOrder(bomb);
+			return new ResponseWrapper(200, " Bomb order added in queue");
+		}else {
+			return new ResponseWrapper(204,"One of the following occured: \n"
+										+ "1. You do not possess a bomb card\n"
+										+ "2. You are targetting a country that belongs to you\n"
+										+ "3. You are targetting a country that is not adjacent to one of your countries\n"
+										+ "4. That country does not exist in the map\n");
+		}
+	}
 	
 }

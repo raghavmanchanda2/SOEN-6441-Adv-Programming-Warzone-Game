@@ -14,16 +14,19 @@ import business.Order.Order;
  */
 public class Player {
 
+	private static final int MAX_CARD_LIMIT = 3;
+	
 	private String playerName;
 	//private int armiesHold = 5; // base armies
 	private int baseArmies = 3;
 	private int reinforcementArmies = 0; // holding countries / 3 down to
 	private int bonusArmies = 0; // continent 
 	private int currentArmies = baseArmies + reinforcementArmies + bonusArmies;
-	
+	private boolean d_can_get_card_this_turn;
 
 	private List<Country> countriesHold;
 	private Map<Country,Integer> currentArmyInCountry;
+	private List<Card> d_cards = new ArrayList<>();
 	
 	private List<Order> orders_list;
 	

@@ -115,10 +115,11 @@ public class SingleGameModePlayEngine {
 					System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
 					break;
 				}
-				
+				 
 				
 			}
-			
+			// in execution if player capture country he will get card
+			// in execution if player goin to win
 			
 			
 			System.out.println(mainPlaySetUpResponse.getDescription());

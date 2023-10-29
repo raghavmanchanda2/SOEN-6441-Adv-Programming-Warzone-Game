@@ -185,7 +185,9 @@ public class Country {
 	}
 
 
-
+	public void setArmy(int p_NumOfArmies) {
+		d_Armies = p_NumOfArmies;
+	}
 	
 	
 }
