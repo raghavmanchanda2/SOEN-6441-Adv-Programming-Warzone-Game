@@ -32,7 +32,7 @@ public class WarzoneEngine {
 	 */
 	private MapEngine d_mapEngine;
 
-	
+	hello;
 	
 	/**
 	 * to print the statements in the console
