@@ -31,15 +31,12 @@ public class WarzoneEngine {
 	 * MapEngine object to offer map options
 	 */
 	private MapEngine d_mapEngine;
-
-	hello;
 	
 	/**
 	 * to print the statements in the console
 	 */
 	private Logger d_logger;
 	private ConsoleWriter d_consoleWriter;
-
 
 	private SingleGameModePlayEngine singleGameModePlayEngine;
 
