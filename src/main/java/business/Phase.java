@@ -51,8 +51,9 @@ public abstract class Phase {
 
 	public abstract ResponseWrapper editOrCreateMap(String p_mapFileName) throws GeneralException;
 
-	public abstract ResponseWrapper bomb(Player currentPlayer, String targetCountryName)
-			throws GeneralException;
+	public abstract ResponseWrapper bomb(Player currentPlayer, String targetCountryName) throws GeneralException;
+	
+	public abstract ResponseWrapper blockade(Player currentPlayer, String targetCountryName) throws GeneralException;
 
 	public abstract ResponseWrapper doReinforcements() throws GeneralException;
 

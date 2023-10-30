@@ -104,15 +104,21 @@ public class SingleGamePlayerCommands extends Phase{
 	}
 
 	@Override
-	public ResponseWrapper bomb(Player currentPlayer, String targetCountryName)
-			throws GeneralException {
+	public ResponseWrapper bomb(Player currentPlayer, String targetCountryName) throws GeneralException {
 		return printInvalidCommandInState();
 	}
 
 	@Override
+	public ResponseWrapper blockade(Player currentPlayer, String targetCountryName) throws GeneralException {
+		return printInvalidCommandInState();
+	}
+	
+	@Override
 	public ResponseWrapper doReinforcements() throws GeneralException {
 		return printInvalidCommandInState();
 	}
+
+	
 	
 	
 

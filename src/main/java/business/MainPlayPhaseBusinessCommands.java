@@ -90,6 +90,25 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 										+ "4. That country does not exist in the map\n");
 		}
 	}
+	
+	@Override
+	public ResponseWrapper blockade(Player currentPlayer, String targetCountryName) throws GeneralException {
+		Country targetCountry = null;
+		
+		for(Country country : currentPlayer.getCountriesHold()) {
+			if(country.getCountryId().equals(targetCountryName)) {
+				targetCountry = country;
+			}
+		}
+		
+		Order blockade = new BlockadeOrder(currentPlayer, targetCountry);
+		if(blockade.valid()) {
+			currentPlayer.addOrder(blockade);
+			return new ResponseWrapper(200, " Blockade order added in queue");
+		}else {
+			return new ResponseWrapper(204, "Can only perform blockade on your own country\n");
+		}
+	}
 
 	@Override
 	public ResponseWrapper showMap() throws GeneralException {

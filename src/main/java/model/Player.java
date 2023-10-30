@@ -26,7 +26,7 @@ public class Player {
 
 	private List<Country> countriesHold;
 	private Map<Country,Integer> currentArmyInCountry;
-//	private List<Card> d_cards = new ArrayList<>();
+	private List<Card> d_cards = new ArrayList<>();
 	
 	private List<Order> orders_list;
 	
@@ -63,6 +63,18 @@ public class Player {
 		}
 		this.countriesHold.add(country);
 		this.currentArmyInCountry.put(country, 0);
+	}
+	
+	
+	public void removeCountryHold(Country country) {
+		if(this.countriesHold == null) {
+			this.countriesHold = new ArrayList<>();
+		}
+		if(this.currentArmyInCountry == null) {
+			this.currentArmyInCountry = new HashMap<>();
+		}
+		this.countriesHold.remove(country);
+		this.currentArmyInCountry.remove(country);
 	}
 
 	

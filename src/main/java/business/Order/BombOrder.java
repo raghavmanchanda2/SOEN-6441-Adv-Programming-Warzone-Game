@@ -3,6 +3,11 @@ package business.Order;
 import model.Country;
 import model.Player;
 
+/**
+ * 
+ * @author Kevin
+ * @version build 2
+ */
 public class BombOrder implements Order{
 
 	private Country targetCountry;
@@ -16,6 +21,8 @@ public class BombOrder implements Order{
 		
 	}
 	
+
+	
 	@Override
 	public void execute() {
 		
@@ -28,10 +35,15 @@ public class BombOrder implements Order{
 		
 	}
 
+	//implemented removing bomb card after using it
+	
 	@Override
 	public boolean valid() {
 		
-		if(!player.getCountriesHold().contains(targetCountry)) {
+		if(targetCountry == null) {
+			return false;
+		}
+		else if(!player.getCountriesHold().contains(targetCountry)) {
 			for(Country country : player.getCountriesHold()) {
 				if(country.getNeighbors().contains(targetCountry)) {
 					return true;

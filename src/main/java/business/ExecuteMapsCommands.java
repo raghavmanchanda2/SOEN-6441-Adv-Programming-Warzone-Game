@@ -269,9 +269,16 @@ public class ExecuteMapsCommands extends Phase {
 	public ResponseWrapper bomb(Player currentPlayer, String targetCountryName) throws GeneralException {
 		return printInvalidCommandInState();
 	}
+	
+	@Override
+	public ResponseWrapper blockade(Player currentPlayer, String targetCountryName) throws GeneralException {
+		return printInvalidCommandInState();
+	}
 
 	@Override
 	public ResponseWrapper doReinforcements() throws GeneralException {
 		return printInvalidCommandInState();
 	}
+
+	
 }

@@ -51,6 +51,10 @@ public class MainPlayPhaseController {
 		
 		case "bomb":
 			return playPhase.bomb(currentPlayer, l_splitInitialSetupCommand[1]);
+			
+		case "blockade":
+			
+			return playPhase.blockade(currentPlayer,l_splitInitialSetupCommand[1]);
 		
 		case "loadmap":
 			return playPhase.loadMap(null);
@@ -87,6 +91,8 @@ public class MainPlayPhaseController {
 		case "editcontinent":
 			return playPhase.editContinent(null, null);
 		
+
+			
 		default:
 			return new ResponseWrapper(404, INCORRECT_COMMAND); 
 		}
