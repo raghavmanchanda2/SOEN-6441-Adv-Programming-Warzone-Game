@@ -26,7 +26,7 @@ public class Player {
 
 	private List<Country> countriesHold;
 	private Map<Country,Integer> currentArmyInCountry;
-	private List<Card> d_cards = new ArrayList<>();
+//	private List<Card> d_cards = new ArrayList<>();
 	
 	private List<Order> orders_list;
 	

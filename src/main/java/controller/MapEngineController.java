@@ -15,6 +15,7 @@ package controller;
 import java.util.Scanner;
 
 import business.ExecuteMapsCommands;
+import business.Phase;
 import logger.GeneralException;
 import logger.LogGenerator;
 import model.Continent;
@@ -38,6 +39,7 @@ public class MapEngineController {
 	private Scanner d_inputForMapCommands;
 	private ExecuteMapsCommands d_executeMapsCommands;
 	private LogGenerator d_logGenrator;
+	private Phase mapPhase;
 	
 	/**
 	 * default error message for incorrect input command
@@ -61,6 +63,10 @@ public class MapEngineController {
 		
 	}
 
+	public void setMapPhase(Phase mapPhase) {
+		this.mapPhase = mapPhase;
+	}
+
 	/**
      * Default Constructor for the `MapEngineController` class.
      * Initializes the input scanner, map command executor, and log generator.
@@ -69,6 +75,7 @@ public class MapEngineController {
 		d_inputForMapCommands = new Scanner(System.in);
 		d_executeMapsCommands = new ExecuteMapsCommands();
 		this.d_logGenrator = new LogGenerator();
+		setMapPhase(d_executeMapsCommands);
 	}
 
 	/**
@@ -94,8 +101,8 @@ public class MapEngineController {
 
 		case "editmap":
 			
-			ResponseWrapper mapResponse = d_executeMapsCommands.editOrCreateMap(l_splitMainMapCommand[1]);
-			ResponseWrapper l_response= d_executeMapsCommands.validateMap();
+			ResponseWrapper mapResponse = mapPhase.editOrCreateMap(l_splitMainMapCommand[1]);
+			ResponseWrapper l_response= mapPhase.validateMap();
 			if(l_response.getStatusValue()==404)
 			{
 				System.out.println("Validation Failed : " + l_response.getDescription());
@@ -214,28 +221,52 @@ public class MapEngineController {
 				} else {
 					return new ResponseWrapper(404, INCORRECT_COMMAND);
 				}
-
-				
+		
 			}
 			break;
 		case "showmap":
 			
 			
-			return d_executeMapsCommands.showMap();
+			return mapPhase.showMap();
 			
 			
 		case "savemap":
 			
-			return d_executeMapsCommands.saveMap(l_splittedCommands[1]);
+			return mapPhase.saveMap(l_splittedCommands[1]);
 			
 
 		case "validatemap":
 			
-			return d_executeMapsCommands.validateMap();
+			return mapPhase.validateMap();
 			
 		case "exit":
+			
 			d_logGenrator.clearLogs();
 			return new ResponseWrapper(204, "Return from current command");
+			
+		case "deploy":
+			
+			return mapPhase.deploy(null, null, 0);
+			
+		case "advance":
+			
+			return mapPhase.advance(null, null, null, 0);
+			
+		case "bomb":
+			
+			return mapPhase.bomb(null, null);
+			
+		case "loadmap":
+			
+			return mapPhase.loadMap(null);
+			
+		case "gameplayer":
+			
+			return mapPhase.addPlayerInGame(l_userEnteredCommand);
+			
+		case "assigncountries":
+			
+			return mapPhase.assignCountries();
 		
 		default:
 			return new ResponseWrapper(404, INCORRECT_COMMAND);

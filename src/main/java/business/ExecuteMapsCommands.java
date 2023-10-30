@@ -16,8 +16,10 @@ import java.io.File;
 import java.io.IOException;
 import Constants.ProjectConfig;
 import GamePhase.MapPhaseState;
+import logger.GeneralException;
 import model.Continent;
 import model.Country;
+import model.Player;
 import model.ResponseWrapper;
 import persistence.MapFileAlteration;
 
@@ -33,7 +35,7 @@ import persistence.MapFileAlteration;
  * @author Rohit
  * @version build 2
  */
-public class ExecuteMapsCommands {
+public class ExecuteMapsCommands extends Phase {
 	
 	private MapFileAlteration d_mapFileAlteration;
 	
@@ -111,6 +113,7 @@ public class ExecuteMapsCommands {
 	 * method to show current state of map
 	 * @return alert message that map is properly showing
 	 */
+	@Override
 	public ResponseWrapper showMap() {
 		return this.d_mapFileAlteration.showmap();
 		
@@ -121,6 +124,7 @@ public class ExecuteMapsCommands {
 	 * @param p_mapFileName - name of map file
 	 * @return alert message that map has successfully been saved
 	 */
+	@Override
 	public ResponseWrapper saveMap(String p_mapFileName) {
 		return this.d_mapFileAlteration.saveMap(p_mapFileName);
 	}
@@ -129,6 +133,7 @@ public class ExecuteMapsCommands {
 	 * method to check if the map is valid
 	 * @return alert message that map is valid or not
 	 */
+	@Override
 	public ResponseWrapper validateMap() {
 		
 		return this.d_mapFileAlteration.validateMap();
@@ -140,7 +145,8 @@ public class ExecuteMapsCommands {
 	 * @param p_mapFileName - name of map file
 	 * @return alert message if the map has been successfully created or edited
 	 */
-	public ResponseWrapper editOrCreateMap(String p_mapFileName) {
+	@Override
+	public ResponseWrapper editOrCreateMap(String p_mapFileName) throws GeneralException {
 
 		if (new File(ProjectConfig.D_MAP_FILES_PATH + p_mapFileName).exists()) {
 			// load map to the game and show as well for better understanding
@@ -171,14 +177,101 @@ public class ExecuteMapsCommands {
 
 	}
 
-	
-	/**
-	 * method for validating map to be implemented in the future
-	 * @param mapFileName - name of map file
-	 * @return null
-	 */
-	public ResponseWrapper validateMap(String mapFileName) {
-		return null;
+	@Override
+	public ResponseWrapper advance(Player currentPlayer, String countryNameFrom, String countryNameTo,
+			int numerOfarmies) throws GeneralException {
+		return printInvalidCommandInState();
+	}
 
+	@Override
+	public ResponseWrapper deploy(Player currentPlayer, String country, int numerOfarmies) throws GeneralException {
+		return printInvalidCommandInState();
+	}
+
+	@Override
+	public ResponseWrapper assignCountries() throws GeneralException {
+		return printInvalidCommandInState();
+	}
+
+	@Override
+	public ResponseWrapper editContinent(Continent p_continent, String command) throws GeneralException {
+		if(command.equals("-add"))
+		{
+			return this.addContinent(p_continent);
+		}
+		else if (command.equals("-remove"))
+		{
+			return this.removeContinent(p_continent);
+		}
+		else 
+		{
+			return new ResponseWrapper(404, "Incorrect Command");
+		}
+	}
+
+	@Override
+	public ResponseWrapper addPlayerInGame(String playerName) throws GeneralException {
+		return printInvalidCommandInState();
+	}
+
+	@Override
+	public ResponseWrapper removeplayerFromGame(String playerName) throws GeneralException {
+		return printInvalidCommandInState();
+	}
+
+	@Override
+	public ResponseWrapper afterCommitReinforcement() throws GeneralException {
+		return printInvalidCommandInState();
+	}
+
+	@Override
+	public ResponseWrapper editNeighbour(Country p_mainCountry, Country p_neighbourCountry, String command)
+			throws GeneralException {
+		if(command.equals("-add"))
+		{
+			 return this.addNeighbour(p_mainCountry, p_neighbourCountry);
+		}
+		else if (command.equals("-remove"))
+		{
+			return this.removeNeighbour(p_mainCountry, p_neighbourCountry);
+		}
+		else 
+		{
+			return new ResponseWrapper(404, "Incorrect Command");
+		}
+	}
+
+	@Override
+	public ResponseWrapper editCountry(Country p_country, String command) throws GeneralException {
+		
+		if(command.equals("-add"))
+		{
+			return this.addCountry(p_country);
+		}
+		else if (command.equals("-remove"))
+		{
+			return this.removeCountry(p_country);
+		}
+		else 
+		{
+			return new ResponseWrapper(404, "Incorrect Command");
+		}
+		
+	}
+
+	@Override
+	public ResponseWrapper loadMap(String map) throws GeneralException {
+		return printInvalidCommandInState();
+	}
+
+
+	@Override
+	public ResponseWrapper bomb(Player currentPlayer, String targetCountryName) throws GeneralException {
+		return printInvalidCommandInState();
+	}
+
+	@Override
+	public ResponseWrapper doReinforcements() throws GeneralException {
+		return printInvalidCommandInState();
 	}
 }

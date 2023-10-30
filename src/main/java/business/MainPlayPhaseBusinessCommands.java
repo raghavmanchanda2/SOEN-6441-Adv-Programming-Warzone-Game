@@ -1,12 +1,14 @@
 package business;
 
+import model.Continent;
 import model.Country;
 import model.MapModel;
 import model.Player;
 import model.ResponseWrapper;
 import business.Order.*;
+import logger.GeneralException;
 
-public class MainPlayPhaseBusinessCommands {
+public class MainPlayPhaseBusinessCommands extends Phase {
 	
 	private MapModel mapModel;
 	
@@ -14,15 +16,14 @@ public class MainPlayPhaseBusinessCommands {
 		mapModel = MapModel.getInstance();
 	}
 	
-	public ResponseWrapper doReinforcements() {
-		// do reinforcements
-		
-		
-		return null;
+	@Override
+	public ResponseWrapper doReinforcements() throws GeneralException{
+		return printInvalidCommandInState();
 		
 	}
 	
-	public ResponseWrapper deploy(Player currentPlayer, String country , int numerOfarmies) {
+	@Override
+	public ResponseWrapper deploy(Player currentPlayer, String country , int numerOfarmies) throws GeneralException{
 		Country targettedCountry = null;
 		for(Country countryInList : currentPlayer.getCountriesHold()) {
 			if(countryInList.getCountryId().equals(country)) {
@@ -42,8 +43,8 @@ public class MainPlayPhaseBusinessCommands {
 		
 	}
 	
-
-	public ResponseWrapper advance(Player currentPlayer, String countryNameFrom, String countryNameTo, int numerOfarmies) {
+	@Override
+	public ResponseWrapper advance(Player currentPlayer, String countryNameFrom, String countryNameTo, int numerOfarmies) throws GeneralException{
 		Country countryFrom = null;
 		Country countryTo = null;
 		for(Country countryInList : currentPlayer.getCountriesHold()) {
@@ -67,8 +68,8 @@ public class MainPlayPhaseBusinessCommands {
 		
 	}
 	
-	
-	public ResponseWrapper bomb(Player currentPlayer, String targetCountryName) {
+	@Override
+	public ResponseWrapper bomb(Player currentPlayer, String targetCountryName) throws GeneralException{
 		Country targetCountry = null;
 		
 		for(Country country : mapModel.getCountries()) {
@@ -88,6 +89,67 @@ public class MainPlayPhaseBusinessCommands {
 										+ "3. You are targetting a country that is not adjacent to one of your countries\n"
 										+ "4. That country does not exist in the map\n");
 		}
+	}
+
+	@Override
+	public ResponseWrapper showMap() throws GeneralException {
+		return printInvalidCommandInState();
+	}
+
+	@Override
+	public ResponseWrapper assignCountries() throws GeneralException {
+		return printInvalidCommandInState();
+	}
+
+	@Override
+	public ResponseWrapper editContinent(Continent p_continent, String command) throws GeneralException {
+		return printInvalidCommandInState();
+	}
+
+	@Override
+	public ResponseWrapper addPlayerInGame(String playerName) throws GeneralException {
+		return printInvalidCommandInState();
+	}
+
+	@Override
+	public ResponseWrapper removeplayerFromGame(String playerName) throws GeneralException {
+		printInvalidCommandInState();
+		return new ResponseWrapper(404, "Incorrect Command");
+	}
+
+	@Override
+	public ResponseWrapper afterCommitReinforcement() throws GeneralException {
+		return printInvalidCommandInState();
+	}
+
+	@Override
+	public ResponseWrapper editNeighbour(Country p_mainCountry, Country p_neighbourCountry, String command) throws GeneralException {
+		return printInvalidCommandInState();
+	}
+
+	@Override
+	public ResponseWrapper editCountry(Country p_country, String command) throws GeneralException {
+		return printInvalidCommandInState();
+	}
+
+	@Override
+	public ResponseWrapper validateMap() throws GeneralException {
+		return printInvalidCommandInState();
+	}
+
+	@Override
+	public ResponseWrapper loadMap(String map) throws GeneralException {
+		return printInvalidCommandInState();
+	}
+
+	@Override
+	public ResponseWrapper saveMap(String p_mapFileName) throws GeneralException {
+		return printInvalidCommandInState();
+	}
+
+	@Override
+	public ResponseWrapper editOrCreateMap(String p_mapFileName) throws GeneralException {
+		return printInvalidCommandInState();
 	}
 	
 }
