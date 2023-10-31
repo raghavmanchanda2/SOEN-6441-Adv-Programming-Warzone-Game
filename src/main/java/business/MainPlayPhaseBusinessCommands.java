@@ -22,19 +22,25 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 		
 	}
 	
+	/**
+	 * Method that converts input string commands into objects to be used for deploy execution
+	 * @param p_currentPlayer - Current player object that is inputing string command
+	 * @param p_country - Country where armies will be deployed in
+	 * @param p_numerOfarmies - Number of armies that will be deployed
+	 */
 	@Override
-	public ResponseWrapper deploy(Player currentPlayer, String country , int numerOfarmies) throws GeneralException{
+	public ResponseWrapper deploy(Player p_currentPlayer, String p_country , int p_numerOfarmies) throws GeneralException{
 		Country targettedCountry = null;
-		for(Country countryInList : currentPlayer.getCountriesHold()) {
-			if(countryInList.getCountryId().equals(country)) {
+		for(Country countryInList : p_currentPlayer.getCountriesHold()) {
+			if(countryInList.getCountryId().equals(p_country)) {
 				targettedCountry = countryInList;
 			}
 		}
 		
 		
-		Order deploy = new DeployOrder(targettedCountry,numerOfarmies,currentPlayer);
+		Order deploy = new DeployOrder(targettedCountry,p_numerOfarmies,p_currentPlayer);
 		if(deploy.valid()) {
-			currentPlayer.addOrder(deploy);
+			p_currentPlayer.addOrder(deploy);
 			return new ResponseWrapper(200, " Deploy order added in queue");
 		}else {
 			return new ResponseWrapper(204,"Targetted coutry doesn't belongs to you");
@@ -43,24 +49,31 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 		
 	}
 	
+	/**
+	 * Method that converts input string commands into objects to be used for advance execution
+	 * @param p_currentPlayer - Current player object that is inputing string command
+	 * @param p_countryNameFrom - Source country where armies are moving from
+	 * @param p_countryNameTo - Destination country where armies are moving to
+	 * @param p_numerOfarmies - Number of armies being displaced or attacking
+	 */
 	@Override
-	public ResponseWrapper advance(Player currentPlayer, String countryNameFrom, String countryNameTo, int numerOfarmies) throws GeneralException{
+	public ResponseWrapper advance(Player p_currentPlayer, String p_countryNameFrom, String p_countryNameTo, int p_numerOfarmies) throws GeneralException{
 		Country countryFrom = null;
 		Country countryTo = null;
-		for(Country countryInList : currentPlayer.getCountriesHold()) {
-			if(countryInList.getCountryId().equals(countryNameFrom)) {
+		for(Country countryInList : p_currentPlayer.getCountriesHold()) {
+			if(countryInList.getCountryId().equals(p_countryNameFrom)) {
 				countryFrom = countryInList;
 				for(Country countryInNeighbours : countryInList.getNeighbors()) {
-					if(countryInNeighbours.getCountryId().equals(countryNameTo)) {
+					if(countryInNeighbours.getCountryId().equals(p_countryNameTo)) {
 						countryTo = countryInNeighbours;
 					}
 				}
 			}
 		}
 		
-		Order advance = new AdvanceOrder(countryFrom,countryTo,numerOfarmies,currentPlayer);
+		Order advance = new AdvanceOrder(countryFrom,countryTo,p_numerOfarmies,p_currentPlayer);
 		if(advance.valid()) {
-			currentPlayer.addOrder(advance);
+			p_currentPlayer.addOrder(advance);
 			return new ResponseWrapper(200, " Advance order added in queue");
 		}else {
 			return new ResponseWrapper(204,"from country doesn't belongs to you or targetted country is not your neighbour");
@@ -68,19 +81,26 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 		
 	}
 	
+	/**
+	 * Method that converts input string commands into objects to be used for bomb execution
+	 * @param p_currentPlayer - Current player object that is inputing string command
+	 * @param p_targetCountryName - Name of country that will be bombed
+	 * @return alert message that bomb is successful or unsuccessful
+	 */
 	@Override
-	public ResponseWrapper bomb(Player currentPlayer, String targetCountryName) throws GeneralException{
+	public ResponseWrapper bomb(Player p_currentPlayer, String p_targetCountryName) throws GeneralException{
 		Country targetCountry = null;
 		
 		for(Country country : mapModel.getCountries()) {
-			if(country.getCountryId().equals(targetCountryName)) {
+			if(country.getCountryId().equals(p_targetCountryName)) {
 				targetCountry = country;
+				break;
 			}
 		}
 		
-		Order bomb = new BombOrder(currentPlayer, targetCountry);
+		Order bomb = new BombOrder(p_currentPlayer, targetCountry);
 		if(bomb.valid()) {
-			currentPlayer.addOrder(bomb);
+			p_currentPlayer.addOrder(bomb);
 			return new ResponseWrapper(200, " Bomb order added in queue");
 		}else {
 			return new ResponseWrapper(204,"One of the following occured: \n"
@@ -91,23 +111,67 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 		}
 	}
 	
+	/**
+	 * Method that converts input string commands into objects to be used for blockade execution
+	 * @param p_currentPlayer - Current player object that is inputing string command
+	 * @param p_targetCountryName - Name of country in which a blockade is performed on
+	 * @return alert message that blockade is successful or unsuccessful
+	 */
 	@Override
-	public ResponseWrapper blockade(Player currentPlayer, String targetCountryName) throws GeneralException {
+	public ResponseWrapper blockade(Player p_currentPlayer, String p_targetCountryName) throws GeneralException {
 		Country targetCountry = null;
 		
-		for(Country country : currentPlayer.getCountriesHold()) {
-			if(country.getCountryId().equals(targetCountryName)) {
+		for(Country country : p_currentPlayer.getCountriesHold()) {
+			if(country.getCountryId().equals(p_targetCountryName)) {
 				targetCountry = country;
+				break;
 			}
 		}
 		
-		Order blockade = new BlockadeOrder(currentPlayer, targetCountry);
+		Order blockade = new BlockadeOrder(p_currentPlayer, targetCountry);
 		if(blockade.valid()) {
-			currentPlayer.addOrder(blockade);
+			p_currentPlayer.addOrder(blockade);
 			return new ResponseWrapper(200, " Blockade order added in queue");
 		}else {
 			return new ResponseWrapper(204, "Can only perform blockade on your own country\n");
 		}
+	}
+	
+	/**
+	 * Method that converts input string commands into objects to be used for airlift execution
+	 * @param p_currentPlayer - Current player object that is inputing string command
+	 * @param p_countryNameFrom - Source country that will airlift the armies to a destination
+	 * @param p_countryNameTo - Destination Country that will receive armies from airlift
+	 * @param p_numArmies - Number of armies being displaced by airlift
+	 * @return alert message that airlift is successful or unsuccessful
+	 */
+	@Override
+	public ResponseWrapper airlift(Player p_currentPlayer, String p_countryNameFrom, String p_countryNameTo, int p_numArmies)  throws GeneralException {
+		Country countryFrom = null;
+		Country countryTo = null;
+		
+		for(Country country : p_currentPlayer.getCountriesHold()) {
+			if(country.getCountryId().equals(p_countryNameFrom)) {
+				countryFrom = country;
+			}
+			
+			if(country.getCountryId().equals(p_countryNameTo)) {
+				countryTo = country;
+			}
+		}
+		
+		Order airlift = new AirliftOrder(p_currentPlayer, countryFrom, countryTo, p_numArmies);
+		if(airlift.valid()) {
+			p_currentPlayer.addOrder(airlift);
+			return new ResponseWrapper(200, " Airlift order added in queue");
+		}else {
+			return new ResponseWrapper(204, "One of the following occured: \n"
+										+ "1. You do not possess an airlift card\n"
+										+ "2. Country you are airlifting from does not belongs to you\n"
+										+ "3. Country you are airlifting to does not belongs to you\n"
+										+ "4. That country does not exist in the map\n");
+		}
+		
 	}
 
 	@Override

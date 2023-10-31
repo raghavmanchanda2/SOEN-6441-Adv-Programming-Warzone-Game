@@ -274,6 +274,11 @@ public class ExecuteMapsCommands extends Phase {
 	public ResponseWrapper blockade(Player currentPlayer, String targetCountryName) throws GeneralException {
 		return printInvalidCommandInState();
 	}
+	
+	@Override
+	public ResponseWrapper airlift(Player currentPlayer, String countryNameFrom, String countryNameTo, int numArmies)  throws GeneralException {
+		return printInvalidCommandInState();
+	}
 
 	@Override
 	public ResponseWrapper doReinforcements() throws GeneralException {

@@ -14,14 +14,22 @@ public abstract class Phase {
 	public Phase() {
 		d_logger = new Logger();
 	}
-	public abstract ResponseWrapper advance(Player currentPlayer, String countryNameFrom, String countryNameTo,
-			int numerOfarmies) throws GeneralException;
+	
+	public abstract ResponseWrapper deploy(Player currentPlayer, String country, int numerOfarmies) throws GeneralException;
+	
+	public abstract ResponseWrapper advance(Player currentPlayer, String countryNameFrom, String countryNameTo, int numerOfarmies) throws GeneralException;
 
+	public abstract ResponseWrapper bomb(Player currentPlayer, String targetCountryName) throws GeneralException;
+	
+	public abstract ResponseWrapper blockade(Player currentPlayer, String targetCountryName) throws GeneralException;
+	
+	public abstract ResponseWrapper airlift(Player currentPlayer, String countryNameFrom, String countryNameTo, int numArmies) throws GeneralException;
+
+	
+	
+	
+	
 	public abstract ResponseWrapper showMap() throws GeneralException;
-
-
-	public abstract ResponseWrapper deploy(Player currentPlayer, String country, int numerOfarmies)
-			throws GeneralException;
 
 	public ResponseWrapper printInvalidCommandInState() {
 		return new ResponseWrapper(404, "Incorrect Command in Current State");
@@ -50,10 +58,6 @@ public abstract class Phase {
 	public abstract ResponseWrapper saveMap(String p_mapFileName) throws GeneralException;
 
 	public abstract ResponseWrapper editOrCreateMap(String p_mapFileName) throws GeneralException;
-
-	public abstract ResponseWrapper bomb(Player currentPlayer, String targetCountryName) throws GeneralException;
-	
-	public abstract ResponseWrapper blockade(Player currentPlayer, String targetCountryName) throws GeneralException;
 
 	public abstract ResponseWrapper doReinforcements() throws GeneralException;
 

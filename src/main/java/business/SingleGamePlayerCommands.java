@@ -114,6 +114,11 @@ public class SingleGamePlayerCommands extends Phase{
 	}
 	
 	@Override
+	public ResponseWrapper airlift(Player currentPlayer, String countryNameFrom, String countryNameTo, int numArmies)  throws GeneralException {
+		return printInvalidCommandInState();
+	}
+	
+	@Override
 	public ResponseWrapper doReinforcements() throws GeneralException {
 		return printInvalidCommandInState();
 	}
