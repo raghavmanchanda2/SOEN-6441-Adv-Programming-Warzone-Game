@@ -14,7 +14,7 @@ public class LogEntryBuffer extends Observable {
 	
 	/**
 	 * Set log message and notify observers
-	 * @param p_logMsg log message
+	 * @param p_updateMsg log message
 	 */
 	
 	public void setLogMessage(String ...p_updateMsg) {
