@@ -3,7 +3,11 @@ package logger;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.FileHandler;
+import java.util.logging.Formatter;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
@@ -13,22 +17,38 @@ import java.util.logging.SimpleFormatter;
  * @author Raghav
  * @version build 1
  */
-public class LogGenerator {
+public class LogGenerator extends Formatter implements Observer {
 
 	private static final Logger D_SYSTEM_LOG = Logger.getLogger("systemLogFile");
 	private static final String D_LOG_FILE_PATH = Paths.get("").toAbsolutePath() + "/src/main/java/logger/" + "/systemLog.log";
 	private static FileHandler d_sytsemLogFileHandler;
 	
+    private static LogGenerator logInstance;
+    
+    private LogGenerator()
+    {
+    	
+    }
+    
+    public static LogGenerator getInstance() {
+        if (logInstance == null) {
+        	logInstance = new LogGenerator();
+        	logInstance.createFile();
+        }
+        return logInstance;
+    }
+	
 	/**
 	 * Method for setting up file creation using class Logger and FileHandler
 	 */
 	public void createFile() {
-		
+
 		try {
 			d_sytsemLogFileHandler = new FileHandler(D_LOG_FILE_PATH, true);
 			D_SYSTEM_LOG.addHandler(d_sytsemLogFileHandler);
-			SimpleFormatter l_formatter = new SimpleFormatter();
-			d_sytsemLogFileHandler.setFormatter(l_formatter);
+			d_sytsemLogFileHandler.setFormatter(LogGenerator.getInstance());
+			this.writeLogOnConsole(D_SYSTEM_LOG,false);
+
 		} catch (SecurityException | IOException l_exception) {
 			l_exception.printStackTrace();
 		}
@@ -82,6 +102,19 @@ public class LogGenerator {
 				System.err.println("Failed to delete the log file.");
 			}
 		}
+	}
+
+	@Override
+	public void update(Observable p_observable, Object p_logObject) {
+		String l_msg=(String) p_logObject;
+		D_SYSTEM_LOG.info(l_msg);
+		
+	}
+
+	@Override
+	public String format(LogRecord record) {
+		// Customize the log entry format here
+        return record.getMessage() + "\n";
 	}
 
 }

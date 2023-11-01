@@ -7,7 +7,7 @@ import controller.MapEngineController;
 import controller.SingleGameModePlayEngineController;
 import logger.ConsoleWriter;
 import logger.GeneralException;
-import logger.Logger;
+import logger.LogEntryBuffer;
 import model.GameModel;
 import model.Player;
 import model.ResponseWrapper;

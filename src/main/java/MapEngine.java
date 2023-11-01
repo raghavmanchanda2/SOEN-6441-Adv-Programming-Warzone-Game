@@ -1,7 +1,8 @@
 import controller.MapEngineController;
 import logger.ConsoleWriter;
 import logger.GeneralException;
-import logger.Logger;
+import logger.LogEntryBuffer;
+import logger.LogGenerator;
 import model.ResponseWrapper;
 
 /**
@@ -17,8 +18,9 @@ public class MapEngine {
 	public static String D_CURRENT_MAP ;
 	private MapEngineController d_mapEngineController;
 	
-	private Logger d_logger;
+	private LogEntryBuffer d_logger;
 	private ConsoleWriter d_consoleWriter;
+	private LogGenerator d_logGenrator;
 	
 	
 	/**
@@ -26,9 +28,12 @@ public class MapEngine {
 	 */
 	public MapEngine() {
 		d_mapEngineController = new MapEngineController();
-		d_logger = new Logger();
+		d_logger = new LogEntryBuffer();
+		d_logGenrator = LogGenerator.getInstance();
 		d_consoleWriter = new ConsoleWriter();
 		d_logger.addObserver(d_consoleWriter);
+		d_logger.addObserver(d_logGenrator);
+		
 	}
 	
 	/**

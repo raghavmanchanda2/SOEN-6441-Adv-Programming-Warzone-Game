@@ -1,7 +1,7 @@
 package business;
 
 import logger.GeneralException;
-import logger.Logger;
+import logger.LogEntryBuffer;
 import model.Continent;
 import model.Country;
 import model.Player;
@@ -9,10 +9,10 @@ import model.ResponseWrapper;
 
 public abstract class Phase {
 
-	private Logger d_logger;
+	private LogEntryBuffer d_logger;
 	
 	public Phase() {
-		d_logger = new Logger();
+		d_logger = new LogEntryBuffer();
 	}
 	
 	public abstract ResponseWrapper deploy(Player currentPlayer, String country, int numerOfarmies) throws GeneralException;

@@ -17,7 +17,8 @@ import java.util.stream.Collectors;
 import Constants.ProjectConfig;
 import GamePhase.MapPhaseState;
 import logger.ConsoleWriter;
-import logger.Logger;
+import logger.LogEntryBuffer;
+import logger.LogGenerator;
 import model.Continent;
 import model.Country;
 import model.GameModel;
@@ -40,8 +41,9 @@ public class MapFileAlteration {
 	
 	private MapModel d_mapModel;
 	private GameModel gameModel;
-	private Logger d_logger;
+	private LogEntryBuffer d_logger;
 	private ConsoleWriter d_consoleWriter;
+	private LogGenerator d_logGenrator;
 	
 	/**
 	 * method for creating a new MapModel object 
@@ -49,9 +51,11 @@ public class MapFileAlteration {
 	public MapFileAlteration() {
 		d_mapModel = MapModel.getInstance();
 		gameModel  = GameModel.getInstance();
-		d_logger = new Logger();
+		d_logger = new LogEntryBuffer();
 		d_consoleWriter = new ConsoleWriter();
+		d_logGenrator = LogGenerator.getInstance();
 		d_logger.addObserver(d_consoleWriter);
+		d_logger.addObserver(d_logGenrator);
 	}
 	
 	/**
@@ -154,7 +158,7 @@ public class MapFileAlteration {
 							}
 							
 						}catch(IndexOutOfBoundsException | NullPointerException ex) {
-							//System.out.println(ex+"rrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+
 						}
 							
 					}

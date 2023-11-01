@@ -74,7 +74,7 @@ public class MapEngineController {
 	public MapEngineController() {
 		d_inputForMapCommands = new Scanner(System.in);
 		d_executeMapsCommands = new ExecuteMapsCommands();
-		this.d_logGenrator = new LogGenerator();
+		this.d_logGenrator = LogGenerator.getInstance();
 		setMapPhase(d_executeMapsCommands);
 	}
 

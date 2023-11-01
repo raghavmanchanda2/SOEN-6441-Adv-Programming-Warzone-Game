@@ -3,7 +3,7 @@ import GamePhase.MapPhaseState;
 import controller.WarzoneEngineController;
 import logger.ConsoleWriter;
 import logger.LogGenerator;
-import logger.Logger;
+import logger.LogEntryBuffer;
 import model.ResponseWrapper;
 
 /**
@@ -35,7 +35,7 @@ public class WarzoneEngine {
 	/**
 	 * to print the statements in the console
 	 */
-	private Logger d_logger;
+	private LogEntryBuffer d_logger;
 	private ConsoleWriter d_consoleWriter;
 
 	private SingleGameModePlayEngine singleGameModePlayEngine;
@@ -46,12 +46,12 @@ public class WarzoneEngine {
 	public WarzoneEngine() {
 		d_warzoneEngineController = new WarzoneEngineController();
 		d_mapEngine = new MapEngine();
-		d_logGenrator = new LogGenerator();
-		d_logGenrator.createFile();
+		d_logGenrator = LogGenerator.getInstance();
 		singleGameModePlayEngine = new SingleGameModePlayEngine();
 		d_consoleWriter = new ConsoleWriter();
-		d_logger = new Logger();
+		d_logger = new LogEntryBuffer();
 		d_logger.addObserver(d_consoleWriter);
+		d_logger.addObserver(d_logGenrator);
 
 	}
 

@@ -1,7 +1,7 @@
 package model;
 
 import logger.ConsoleWriter;
-import logger.Logger;
+import logger.LogEntryBuffer;
 
 import persistence.MapFileAlteration;
 
@@ -27,7 +27,7 @@ public class MapModel {
 
 	private static MapModel d_MapModel;
 
-	private Logger d_logger;
+	private LogEntryBuffer d_logger;
 	
 
 
