@@ -30,8 +30,11 @@ public class Player {
 	
 	private List<Order> orders_list;
 	
+	private Player peaceWith;
+	
 	public Player(String playerName) {
 		this.playerName = playerName;
+		d_can_get_card_this_turn = true;
 	}
 	
 	
@@ -76,7 +79,51 @@ public class Player {
 		this.countriesHold.remove(country);
 		this.currentArmyInCountry.remove(country);
 	}
-
+	
+	
+	
+	//-------------------------------------------
+	public void addCountry(Country country) {
+		if(this.countriesHold == null) {
+			this.countriesHold = new ArrayList<>();
+		}
+		
+		this.countriesHold.add(country);
+		country.setCountryOwner(this);
+	}
+	
+	public void removeCountry(Country country) {
+		if(this.countriesHold == null) {
+			this.countriesHold = new ArrayList<>();
+		}
+		
+		this.countriesHold.remove(country);
+	}
+	
+	public Country getCountry(Country p_country) {
+		for(Country country : countriesHold) {
+			if(country == p_country) {
+				return country;
+			}
+		}
+		return null;
+	}
+	
+	public Player getPeaceWith() {
+		return peaceWith;
+	}
+	
+	public void setPeaceWith(Player player) {
+		peaceWith = player;
+	}
+	
+	public void resetPeaceWith() {
+		peaceWith = null;
+	}
+	
+	//-------------------------------------------
+	
+	
 	
 	public String getPlayerName() {
 		return playerName;

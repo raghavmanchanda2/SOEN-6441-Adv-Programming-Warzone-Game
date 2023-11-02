@@ -2,6 +2,7 @@ package business;
 
 import model.Continent;
 import model.Country;
+import model.GameModel;
 import model.MapModel;
 import model.Player;
 import model.ResponseWrapper;
@@ -11,9 +12,11 @@ import logger.GeneralException;
 public class MainPlayPhaseBusinessCommands extends Phase {
 	
 	private MapModel mapModel;
+	private GameModel gameModel;
 	
 	public MainPlayPhaseBusinessCommands() {
 		mapModel = MapModel.getInstance();
+		gameModel = GameModel.getInstance();
 	}
 	
 	@Override
@@ -172,6 +175,30 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 										+ "4. That country does not exist in the map\n");
 		}
 		
+	}
+	
+	/**
+	 * Method that converts input string commands into objects to be used for diplomacy execution
+	 * @param currentPlayer - player executing diplomacy with another player
+	 * @param otherPlayer - player with whom a peace order is executed on
+	 * @return alert message that diplomacy is successful or unsuccessful
+	 */
+	@Override
+	public ResponseWrapper diplomacy(Player currentPlayer, String otherPlayer) throws GeneralException{
+		Player peaceWith = null;
+		
+		for(Player player : gameModel.getPlayers()) {
+			if(player.getPlayerName().equals(otherPlayer)) {
+				peaceWith = player;
+			}
+		}
+		
+		Order diplomacy = new DiplomacyOrder(currentPlayer, peaceWith);
+		if(diplomacy.valid()) {
+			return new ResponseWrapper(200, " Diplomacy order added in queue");
+		}else {
+			return new ResponseWrapper(204, " Player you want to make peace with does not exist");
+		}
 	}
 
 	@Override

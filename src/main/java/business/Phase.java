@@ -25,7 +25,7 @@ public abstract class Phase {
 	
 	public abstract ResponseWrapper airlift(Player currentPlayer, String countryNameFrom, String countryNameTo, int numArmies) throws GeneralException;
 
-	
+	public abstract ResponseWrapper diplomacy(Player currentPlayer, String peaceWith) throws GeneralException;
 	
 	
 	

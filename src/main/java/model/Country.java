@@ -24,7 +24,13 @@ public class Country {
 
 	private Set<Country> d_Neighbors;
 
-	private int d_Armies;
+	
+	//-------------------------------------------
+	private int d_Armies = 2;
+	
+	private Player d_countryOwner = null;
+	
+	//-------------------------------------------
 
 	/**
 	 * default constructor
@@ -189,5 +195,26 @@ public class Country {
 		d_Armies = p_NumOfArmies;
 	}
 	
+	//-------------------------------------------
+	public Player getCountryOwner() {
+		return d_countryOwner;
+	}
+	
+	public void setCountryOwner(Player player) {
+		d_countryOwner = player;
+	}
+	
+	public void setNeutral() {
+		d_countryOwner = null;
+	}
+	
+	public void armyUnitDefeat() {
+		--d_Armies;
+	}
+	
+	public void armiesRemove(int p_NumberOfArmies) {
+		d_Armies -= p_NumberOfArmies;
+	}
+	//-------------------------------------------
 	
 }

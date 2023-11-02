@@ -119,6 +119,11 @@ public class SingleGamePlayerCommands extends Phase{
 	}
 	
 	@Override
+	public ResponseWrapper diplomacy(Player currentPlayer, String peaceWith) throws GeneralException{
+		return printInvalidCommandInState();
+	}
+	
+	@Override
 	public ResponseWrapper doReinforcements() throws GeneralException {
 		return printInvalidCommandInState();
 	}

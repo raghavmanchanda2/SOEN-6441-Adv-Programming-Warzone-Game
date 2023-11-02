@@ -26,22 +26,27 @@ public class DeployOrder implements Order{
 		}
 		player.setCurrentArmies(player.getCurrentArmies()-to_deploy_armies);
 		player.addCountryHold(targetCountry);
-		player.getCurrentArmyInCountry().put(targetCountry, to_deploy_armies);
+		//player.getCurrentArmyInCountry().put(targetCountry, to_deploy_armies);
+		
+		targetCountry.armiesDeploy(to_deploy_armies);
+		
+		
+		
 		
 	}
 
 	@Override
 	public boolean valid() {
 		
-		for(Country country : this.player.getCountriesHold()) {
-			if(this.targetCountry == null) {
-				return false;
-			}
-			if(this.targetCountry.equals(country)) {
-				return true;
-			}
+		if(targetCountry == null || to_deploy_armies > player.getCurrentArmies() || to_deploy_armies <= 0 ) {
+			return false;
 		}
+		else if(player.getCountriesHold().contains(targetCountry)) {
+			return true;
+		}
+		
 		return false;
+		
 	}
 
 	@Override

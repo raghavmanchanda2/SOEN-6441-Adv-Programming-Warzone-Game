@@ -1,17 +1,32 @@
 package business.Order;
 
+import model.Player;
+
 public class DiplomacyOrder implements Order{
+	
+	Player currentPlayer, peaceWith;
+	
+	public DiplomacyOrder(Player currentPlayer, Player peaceWith) {
+		this.currentPlayer = currentPlayer;
+		this.peaceWith = peaceWith;
+	}
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-		
+		currentPlayer.setPeaceWith(peaceWith);
+		peaceWith.setPeaceWith(currentPlayer);
 	}
 
 	@Override
 	public boolean valid() {
-		// TODO Auto-generated method stub
-		return false;
+
+		if(peaceWith == null) {
+			return false;
+		}
+		else {
+			return true;
+		}
+		
 	}
 
 	@Override

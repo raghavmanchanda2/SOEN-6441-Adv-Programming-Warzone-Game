@@ -25,9 +25,11 @@ public class BlockadeOrder implements Order{
 
 		player.removeCountryHold(targetCountry);
 		
-		int doubleArmies = 2 * targetCountry.getArmies();
+		int doubleArmies = 3 * targetCountry.getArmies();
 		
 		targetCountry.setArmy(doubleArmies);
+		
+		targetCountry.setNeutral();
 		
 	}
 

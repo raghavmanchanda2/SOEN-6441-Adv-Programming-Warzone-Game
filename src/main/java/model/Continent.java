@@ -18,6 +18,9 @@ public class Continent {
 	private String d_contientValue;
 	private List<Country> d_continentCountries;
 
+	//-------------------------------------------
+	private Player d_continentOwner = null;
+	//-------------------------------------------
 	
 	/**
 	 * Default constructor
@@ -161,6 +164,9 @@ public class Continent {
 	}
 
 	
+	public void setContinentOwner(Player player) {
+		d_continentOwner = player;
+	}
 	
 
 }

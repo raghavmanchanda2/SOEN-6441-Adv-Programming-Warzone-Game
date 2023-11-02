@@ -28,13 +28,13 @@ public class AirliftOrder implements Order{
 
 	@Override
 	public void execute() {
-		int originCountryArmyBefore = player.getCurrentArmyInCountry().get(originCountry);
+		int originCountryArmyBefore = originCountry.getArmies();
 		int originCountryArmyAfter = originCountryArmyBefore - armies_to_move;
-		player.getCurrentArmyInCountry().put(originCountry, originCountryArmyAfter);
+		originCountry.setArmy(originCountryArmyAfter);
 		
-		int destinationCountryArmyBefore = player.getCurrentArmyInCountry().get(destinationCountry);
+		int destinationCountryArmyBefore = destinationCountry.getArmies();
 		int destinationCountryArmyAfter = destinationCountryArmyBefore + armies_to_move;
-		player.getCurrentArmyInCountry().put(destinationCountry, destinationCountryArmyAfter);
+		destinationCountry.setArmy(destinationCountryArmyAfter);
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class AirliftOrder implements Order{
 			return false;
 		}
 		else 
-		if(player.getCurrentArmyInCountry().get(originCountry) < armies_to_move && armies_to_move > 0) {
+		if(originCountry.getArmies() <= armies_to_move && armies_to_move > 0) {
 			return true;
 		}
 		
