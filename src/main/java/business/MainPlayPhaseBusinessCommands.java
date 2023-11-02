@@ -43,7 +43,7 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 			p_currentPlayer.addOrder(deploy);
 			return new ResponseWrapper(200, " Deploy order added in queue");
 		}else {
-			return new ResponseWrapper(204,"Targetted coutry doesn't belongs to you");
+			return new ResponseWrapper(204,"Targeted country doesn't belong to you");
 		}
 		
 		
@@ -71,19 +71,19 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 			}
 		}
 		
-		Order advance = new AdvanceOrder(countryFrom,countryTo,p_numerOfarmies,p_currentPlayer);
+		Order advance = new AdvanceOrder(countryFrom, countryTo, p_numerOfarmies, p_currentPlayer);
 		if(advance.valid()) {
 			p_currentPlayer.addOrder(advance);
 			return new ResponseWrapper(200, " Advance order added in queue");
 		}else {
-			return new ResponseWrapper(204,"from country doesn't belongs to you or targetted country is not your neighbour");
+			return new ResponseWrapper(204,"from country doesn't belong to you or targeted country is not your neighbour");
 		}
 		
 	}
 	
 	/**
 	 * Method that converts input string commands into objects to be used for bomb execution
-	 * @param p_currentPlayer - Current player object that is inputing string command
+	 * @param p_currentPlayer - Current player object that is inputting string command
 	 * @param p_targetCountryName - Name of country that will be bombed
 	 * @return alert message that bomb is successful or unsuccessful
 	 */

@@ -71,7 +71,7 @@ public class MapFileAlteration {
 	 */
 	public void readMapFile() {
 		this.d_mapModel.clearMap();
-		System.out.println("ROhit");
+
 		try {
 			
 			d_mapFileReader = new FileReader(ProjectConfig.D_MAP_FILES_PATH+MapPhaseState.D_CURRENT_MAP);
@@ -314,7 +314,7 @@ public class MapFileAlteration {
  	ResponseWrapper l_resp=this.validateMap();
              if(l_resp.getStatusValue()==404)
                {
-                       System.out.format("\n Map cannot be showed as Validation Failed \n");
+                       System.out.format("\nMap cannot be displayed as Validation Failed \n");
                        return l_resp;
                }
 

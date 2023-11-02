@@ -19,7 +19,7 @@ public class GameModelAlteration {
 		Player player = new Player(playerName);
 		this.gameModel.addPlayerInPlayersList(player);
 		
-		return new ResponseWrapper(200,"Player added successfully");
+		return new ResponseWrapper(200,"Player added successfully : " + playerName);
 		
 	}
 	public ResponseWrapper removeplayerFromGame(String playerName) {
