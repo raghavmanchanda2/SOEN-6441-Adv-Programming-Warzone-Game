@@ -41,7 +41,7 @@ public class ExecuteMapsCommands extends Phase {
 	private static final String COMMAND_ADD = "-add";
 	private static final String COMMAND_REMOVE = "-remove";
 	private static final String INCORRECT_COMMAND = "Incorrect Command";
-	
+
 	/**
      * Constructs an `ExecuteMapsCommands` object.
      */
