@@ -38,6 +38,9 @@ import persistence.MapFileAlteration;
 public class ExecuteMapsCommands extends Phase {
 	
 	private MapFileAlteration d_mapFileAlteration;
+	private static final String COMMAND_ADD = "-add";
+	private static final String COMMAND_REMOVE = "-remove";
+	private static final String INCORRECT_COMMAND = "Incorrect Command";
 	
 	/**
      * Constructs an `ExecuteMapsCommands` object.
@@ -90,7 +93,7 @@ public class ExecuteMapsCommands extends Phase {
 
 	/**
 	 * Adds neighboring to a specific country 
-	 * @param p_mainCountry - specific country 
+	 * @param p_mainCountry - specific  country
 	 * @param p_neighbourCountry - neighbor country to be added
 	 * @return alert message that a neighbor has successfully been added to a country
 	 */
@@ -195,17 +198,17 @@ public class ExecuteMapsCommands extends Phase {
 
 	@Override
 	public ResponseWrapper editContinent(Continent p_continent, String command) throws GeneralException {
-		if(command.equals("-add"))
+		if(command.equals(COMMAND_ADD))
 		{
 			return this.addContinent(p_continent);
 		}
-		else if (command.equals("-remove"))
+		else if (command.equals(COMMAND_REMOVE))
 		{
 			return this.removeContinent(p_continent);
 		}
 		else 
 		{
-			return new ResponseWrapper(404, "Incorrect Command");
+			return new ResponseWrapper(404, INCORRECT_COMMAND);
 		}
 	}
 
@@ -227,34 +230,34 @@ public class ExecuteMapsCommands extends Phase {
 	@Override
 	public ResponseWrapper editNeighbour(Country p_mainCountry, Country p_neighbourCountry, String command)
 			throws GeneralException {
-		if(command.equals("-add"))
+		if(command.equals(COMMAND_ADD))
 		{
 			 return this.addNeighbour(p_mainCountry, p_neighbourCountry);
 		}
-		else if (command.equals("-remove"))
+		else if (command.equals(COMMAND_REMOVE))
 		{
 			return this.removeNeighbour(p_mainCountry, p_neighbourCountry);
 		}
 		else 
 		{
-			return new ResponseWrapper(404, "Incorrect Command");
+			return new ResponseWrapper(404, INCORRECT_COMMAND);
 		}
 	}
 
 	@Override
 	public ResponseWrapper editCountry(Country p_country, String command) throws GeneralException {
 		
-		if(command.equals("-add"))
+		if(command.equals(COMMAND_ADD))
 		{
 			return this.addCountry(p_country);
 		}
-		else if (command.equals("-remove"))
+		else if (command.equals(COMMAND_REMOVE))
 		{
 			return this.removeCountry(p_country);
 		}
 		else 
 		{
-			return new ResponseWrapper(404, "Incorrect Command");
+			return new ResponseWrapper(404, INCORRECT_COMMAND);
 		}
 		
 	}
