@@ -55,9 +55,6 @@ public class MapEngineController {
 		SHOW_MAP("showmap"), SAVE_MAP("savemap"), EDIT_MAP("editmap"), VALIDATE_MAP("validatemap"), NONE("nothing");
 
 
-		private static final String COMMAND_ADD = "-add";
-		private static final String COMMAND_REMOVE = "-remove";
-
 		public final String l_exactCommand;
 
 		MapCommands(String p_exactCommand) {
@@ -66,6 +63,9 @@ public class MapEngineController {
 
 
 	}
+
+	private static final String COMMAND_ADD = "-add";
+	private static final String COMMAND_REMOVE = "-remove";
 
 	public void setMapPhase(Phase mapPhase) {
 		this.mapPhase = mapPhase;
