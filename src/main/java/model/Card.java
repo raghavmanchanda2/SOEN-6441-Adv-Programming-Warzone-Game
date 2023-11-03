@@ -21,6 +21,7 @@ public class Card
 	}
 	
 	private CardType cardType;
+	private static final Random random = new Random();
 	
 	public Card(CardType cardType)
 	{
@@ -35,7 +36,6 @@ public class Card
 	
 	public static Card generateRandomCard()
 	{
-		Random random = new Random();
 			
 		int randomID = random.nextInt(4) + 1;
 			
