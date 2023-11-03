@@ -266,7 +266,7 @@ public class MapEngineController {
 		}
 	}
 
-	private ResponseWrapper handleEditNeighborCommand(p_splittedCommands){
+	private ResponseWrapper handleEditNeighborCommand(String[] p_splittedCommands){
 		switch (p_splittedCommands[1]) {
 			case COMMAND_ADD:
 				if (p_splittedCommands.length == 4) {
