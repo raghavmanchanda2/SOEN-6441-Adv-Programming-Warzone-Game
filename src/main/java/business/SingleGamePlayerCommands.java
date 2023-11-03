@@ -42,7 +42,7 @@ public class SingleGamePlayerCommands extends Phase{
 	@Override
 	public ResponseWrapper removeplayerFromGame(String playerName) throws GeneralException {
 		
-		return this.gameModelAlteration.removeplayerFromGame(playerName);
+		return this.gameModelAlteration.removePlayerFromGame(playerName);
 	}
 
 	@Override

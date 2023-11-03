@@ -113,7 +113,8 @@ public class WarzoneEngine {
 			}
 			else if(userInput.equals("gameend -end")) {
 				System.exit(0);
-			} else if (userInput.equals("404")){
+			} else {
+				System.out.println("Please Enter Proper Command!");
 				continue;
 			}
 			

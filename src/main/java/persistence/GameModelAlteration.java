@@ -1,9 +1,9 @@
 package persistence;
 
-import model.GameModel;
-import model.MapModel;
-import model.Player;
-import model.ResponseWrapper;
+import model.*;
+
+import java.util.Collections;
+import java.util.List;
 
 public class GameModelAlteration {
 	
@@ -19,10 +19,10 @@ public class GameModelAlteration {
 		Player player = new Player(playerName);
 		this.gameModel.addPlayerInPlayersList(player);
 		
-		return new ResponseWrapper(200,"Player added successfully : " + playerName);
+		return new ResponseWrapper(200,"Player added successfully: " + playerName);
 		
 	}
-	public ResponseWrapper removeplayerFromGame(String playerName) {
+	public ResponseWrapper removePlayerFromGame(String playerName) {
 		
 		for(Player player: this.gameModel.getPlayers()) {
 			if(player.getPlayerName().equals(playerName)) {
@@ -30,12 +30,24 @@ public class GameModelAlteration {
 				break;
 			}
 		}
-		return new ResponseWrapper(200,"Player removed successfully");
+		return new ResponseWrapper(200,"Player removed successfully.");
 	}
 	public ResponseWrapper assignCountries() {
-		
-		for(int assignCountry = 0 ; assignCountry < this.gameModel.getPlayers().size() ; assignCountry++) {
-			this.gameModel.getPlayers().get(assignCountry).addCountryHold(this.mapModel.getCountries().get(assignCountry));
+		int index = 0;
+		List<Player> l_inGamePlayers = this.gameModel.getPlayers();
+
+		List<Country> l_availableCountriesList = this.mapModel.getCountries();
+		Collections.shuffle(l_availableCountriesList);
+
+		for (Country l_Country : l_availableCountriesList) {
+			Player l_Player = l_inGamePlayers.get(index);
+			l_Player.addCountryHold(l_Country);
+
+			if (index < this.gameModel.getPlayers().size() - 1) {
+				index++;
+			} else {
+				index = 0;
+			}
 		}
 		
 		return new ResponseWrapper(200, "Countries Assigned");

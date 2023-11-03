@@ -41,6 +41,8 @@ public class MapFileAlteration {
 	
 	private MapModel d_mapModel;
 	private GameModel gameModel;
+
+	String l_tablePattern = "- %-25s- %-20s- %-70s%n";
 	private LogEntryBuffer d_logger;
 	private ConsoleWriter d_consoleWriter;
 	private LogGenerator d_logGenrator;
@@ -334,11 +336,14 @@ public class MapFileAlteration {
 		// Showing Countries in the Continent and their details
 		System.out.format("\n Countries in this Map and their details are : \n");
 
+		String country_title = "Country";
+		String continent_title = "Continent";
+		String neighbors_title = "Country";
 		System.out.format("****************************************************************************************************%n");
-		System.out.format("        Country   !     Continent    !     Neighbours                                  %n");
+		System.out.format(l_tablePattern, country_title, continent_title, neighbors_title);
 		System.out.format("****************************************************************************************************%n");
 		for (Map.Entry<Country, List<Country>> entry : this.d_mapModel.getBorders().entrySet()) {
-			String l_tablePattern = "- %-25s- %-20s- %-70s%n";
+
 			System.out.format(l_tablePattern, entry.getKey().getCountryId(), entry.getKey().getContinent().getContinentId(),
 					this.getCountriesList(entry.getValue()));
 		}
@@ -347,9 +352,9 @@ public class MapFileAlteration {
 
 		System.out.format("\nPlayers in this game are : ");
 
-		d_logger.setLogMessage("Continents allotted to players: ");
+		System.out.format("\nCountries allotted to players: ");
 
-		System.out.format("**************************************************%n");
+		System.out.format("\n**************************************************%n");
 		System.out.format("     Players     !     Allotted Countries       %n");
 		System.out.format("**************************************************%n");
         
@@ -358,7 +363,7 @@ public class MapFileAlteration {
             	System.out.format("    " + player.getPlayerName() + "   !   " );
             	if(player.getCountriesHold() != null) {
             		for(Country country : player.getCountriesHold())
-                    	System.out.format("    " + country.getCountryId());
+                    	System.out.format(" -" + country.getCountryId());
             	}
             	System.out.println();
             }

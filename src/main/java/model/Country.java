@@ -1,9 +1,6 @@
 package model;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -26,7 +23,7 @@ public class Country {
 
 	
 	//-------------------------------------------
-	private int d_Armies = 2;
+	private int d_Armies = 0;
 	
 	private Player d_countryOwner = null;
 	
@@ -174,13 +171,7 @@ public class Country {
 	 * @return A hyphen-separated string containing the country IDs of neighbors.
 	 * Returns an empty string if the set of neighbors is empty.
 	 */
-	public String createNeighboursList(Set<Country> p_Neighbors) {
-		String l_result = "";
-		for (Country l_Neighbor : p_Neighbors) {
-			l_result += l_Neighbor.getCountryId() + "-";
-		}
-		return l_result.length() > 0 ? l_result.substring(0, l_result.length() - 1) : "";
-	}
+
 
 	/**
 	 * player deploys a certain amount of armies in the country
