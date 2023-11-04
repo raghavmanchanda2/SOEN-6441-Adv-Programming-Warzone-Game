@@ -205,9 +205,6 @@ public class MapEngineController {
 
 
 		}
-
-		return new ResponseWrapper(404, INCORRECT_COMMAND);
-
 	}
 
 	private ResponseWrapper handleEditContinentCommand(String[] p_splittedCommands) {
@@ -253,7 +250,7 @@ public class MapEngineController {
 
 			case COMMAND_REMOVE:
 				if (p_splittedCommands.length == 3) {
-					Country p_country = new Country(p_splittedCommands[2]);
+					Country l_country = new Country(p_splittedCommands[2]);
 					return d_executeMapsCommands.removeCountry(l_country);
 				} else {
 					// please provide proper parameters
@@ -271,7 +268,7 @@ public class MapEngineController {
 			case COMMAND_ADD:
 				if (p_splittedCommands.length == 4) {
 					Country l_country = new Country(p_splittedCommands[2]);
-					Country l_neighbourCountry = new Country(p_splittedCommands[3]);
+					Country p_neighbourCountry = new Country(p_splittedCommands[3]);
 					return d_executeMapsCommands.addNeighbour(l_country, p_neighbourCountry);
 
 				} else {
