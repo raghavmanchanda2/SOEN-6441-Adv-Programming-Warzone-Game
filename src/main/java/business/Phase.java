@@ -1,7 +1,6 @@
 package business;
 
 import logger.GeneralException;
-import logger.LogEntryBuffer;
 import model.Continent;
 import model.Country;
 import model.Player;
@@ -17,13 +16,7 @@ import model.ResponseWrapper;
 public abstract class Phase {
 	
 	
-	/**
-	 * Object of logEntry Buffer
-	 */
-	private LogEntryBuffer d_logger;
-	
 	protected Phase() {
-		d_logger = new LogEntryBuffer();
 	}
 	
 	/**
@@ -31,8 +24,8 @@ public abstract class Phase {
 	 * @param p_currentPlayer - Current player object that is inputing string command
 	 * @param p_country - Country where armies will be deployed in
 	 * @param p_numerOfarmies - Number of armies that will be deployed
+	 * @return alert message that deploy is successful or unsuccessful
 	 */
-	
 	public abstract ResponseWrapper deploy(Player p_currentPlayer, String p_country, int p_numerOfarmies) throws GeneralException;
 	
 	/**
@@ -41,6 +34,7 @@ public abstract class Phase {
 	 * @param p_countryNameFrom - Source country where armies are moving from
 	 * @param p_countryNameTo - Destination country where armies are moving to
 	 * @param p_numerOfarmies - Number of armies being displaced or attacking
+	 * @return alert message that advance is successful or unsuccessful
 	 */
 	public abstract ResponseWrapper advance(Player p_currentPlayer, String p_countryNameFrom, String p_countryNameTo, int p_numerOfarmies) throws GeneralException;
 
@@ -103,9 +97,10 @@ public abstract class Phase {
      * Edit a continent to the map.
      *
      * @param p_continent - The continent to be added or removed
+     * @param p_command - Check command is add or remove
      * @return A {@link ResponseWrapper} object indicating the result of the operation.
      */
-	public abstract ResponseWrapper editContinent(Continent p_continent, String command) throws GeneralException;
+	public abstract ResponseWrapper editContinent(Continent p_continent, String p_command) throws GeneralException;
 
 	/**
      * Add a player to the game

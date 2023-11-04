@@ -40,6 +40,7 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 	 * @param p_currentPlayer - Current player object that is inputing string command
 	 * @param p_country - Country where armies will be deployed in
 	 * @param p_numerOfarmies - Number of armies that will be deployed
+	 * @return alert message that deploy is successful or unsuccessful
 	 */
 	@Override
 	public ResponseWrapper deploy(Player p_currentPlayer, String p_country , int p_numerOfarmies) throws GeneralException{
@@ -68,6 +69,7 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 	 * @param p_countryNameFrom - Source country where armies are moving from
 	 * @param p_countryNameTo - Destination country where armies are moving to
 	 * @param p_numerOfarmies - Number of armies being displaced or attacking
+	 * @return alert message that advance is successful or unsuccessful
 	 */
 	@Override
 	public ResponseWrapper advance(Player p_currentPlayer, String p_countryNameFrom, String p_countryNameTo, int p_numerOfarmies) throws GeneralException{
@@ -190,7 +192,7 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 	/**
 	 * Method that converts input string commands into objects to be used for diplomacy execution
 	 * @param p_currentPlayer - player executing diplomacy with another player
-	 * @param otherPlayer - player with whom a peace order is executed on
+	 * @param p_otherPlayer - player with whom a peace order is executed on
 	 * @return alert message that diplomacy is successful or unsuccessful
 	 */
 	@Override

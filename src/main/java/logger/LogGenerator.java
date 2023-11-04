@@ -44,7 +44,7 @@ public class LogGenerator extends Formatter implements Observer {
     
     /**
      * Method to get Instance of Log Generator
-     * @return
+     * @return log generator instance
      */
     public static LogGenerator getInstance() {
         if (logInstance == null) {

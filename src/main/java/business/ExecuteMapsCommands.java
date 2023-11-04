@@ -118,7 +118,7 @@ public class ExecuteMapsCommands extends Phase {
 	 * @return alert message that map is properly showing
 	 */
 	@Override
-	public ResponseWrapper showMap() {
+	public ResponseWrapper showMap() throws GeneralException{
 		return this.d_mapFileAlteration.showmap();
 		
 	}
@@ -129,7 +129,7 @@ public class ExecuteMapsCommands extends Phase {
 	 * @return alert message that map has successfully been saved
 	 */
 	@Override
-	public ResponseWrapper saveMap(String p_mapFileName) {
+	public ResponseWrapper saveMap(String p_mapFileName) throws GeneralException{
 		return this.d_mapFileAlteration.saveMap(p_mapFileName);
 	}
 	
@@ -138,7 +138,7 @@ public class ExecuteMapsCommands extends Phase {
 	 * @return alert message that map is valid or not
 	 */
 	@Override
-	public ResponseWrapper validateMap() {
+	public ResponseWrapper validateMap() throws GeneralException{
 		
 		return this.d_mapFileAlteration.validateMap();
 	}
@@ -187,6 +187,7 @@ public class ExecuteMapsCommands extends Phase {
 	 * @param p_countryNameFrom - Source country where armies are moving from
 	 * @param p_countryNameTo - Destination country where armies are moving to
 	 * @param p_numerOfarmies - Number of armies being displaced or attacking
+	 * @return alert message that advance is successful or unsuccessful
 	 */
 	@Override
 	public ResponseWrapper advance(Player p_currentPlayer, String p_countryNameFrom, String p_countryNameTo,
@@ -199,6 +200,7 @@ public class ExecuteMapsCommands extends Phase {
 	 * @param p_currentPlayer - Current player object that is inputing string command
 	 * @param p_country - Country where armies will be deployed in
 	 * @param p_numerOfarmies - Number of armies that will be deployed
+	 * @return alert message that deploy is successful or unsuccessful
 	 */
 	@Override
 	public ResponseWrapper deploy(Player p_currentPlayer, String p_country, int p_numerOfarmies) throws GeneralException {

@@ -29,7 +29,7 @@ public class SingleGamePlayerCommands extends Phase{
 	 * @return alert message that map is valid or not
 	 */
 	@Override
-	public ResponseWrapper loadMap(String p_map) {
+	public ResponseWrapper loadMap(String p_map) throws GeneralException{
 		
 		MapPhaseState.D_CURRENT_MAP = p_map;
 		d_mapFileAlteration.readMapFile();
@@ -78,6 +78,7 @@ public class SingleGamePlayerCommands extends Phase{
 	 * @param p_countryNameFrom - Source country where armies are moving from
 	 * @param p_countryNameTo - Destination country where armies are moving to
 	 * @param p_numerOfarmies - Number of armies being displaced or attacking
+	 * @return alert message that advance is successful or unsuccessful
 	 */
 	@Override
 	public ResponseWrapper advance(Player p_currentPlayer, String p_countryNameFrom, String p_countryNameTo,
@@ -85,6 +86,10 @@ public class SingleGamePlayerCommands extends Phase{
 		return printInvalidCommandInState();
 	}
 
+	/**
+	 * method to show current state of map
+	 * @return alert message that map is properly showing
+	 */
 	@Override
 	public ResponseWrapper showMap() throws GeneralException {
 		return this.d_mapFileAlteration.showmap();
@@ -95,6 +100,7 @@ public class SingleGamePlayerCommands extends Phase{
 	 * @param p_currentPlayer - Current player object that is inputing string command
 	 * @param p_country - Country where armies will be deployed in
 	 * @param p_numerOfarmies - Number of armies that will be deployed
+	 * @return alert message that deploy is successful or unsuccessful
 	 */
 	@Override
 	public ResponseWrapper deploy(Player p_currentPlayer, String p_country, int p_numerOfarmies) throws GeneralException {
