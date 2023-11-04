@@ -26,14 +26,20 @@ public class AdvanceOrder implements Order{
 	
 	@Override
 	public void execute() {
-
+		
 		if(player.getCountriesHold().contains(targetCountry)) {
 			targetCountry.armiesDeploy(to_deploy_armies);
+		}
+		else if(player.getPeaceWith() == targetCountry.getCountryOwner()) {
+			System.out.println("You have a peace treaty with: " 
+								+ targetCountry.getCountryOwner().getPlayerName() 
+								+ " - attack is cancelled on county: "
+								+ targetCountry.getCountryId());
 		}
 		else {
 			int totalAttackingArmy = to_deploy_armies;
 			int totalDefendingArmy = targetCountry.getArmies();
-
+			
 			for(int i = 0; i < totalAttackingArmy; ++i) {
 				attack = random.nextInt(10) + 1;
 				if(targetCountry.getArmies() == 0) {
@@ -43,7 +49,7 @@ public class AdvanceOrder implements Order{
 					targetCountry.armyUnitDefeat();
 				}
 			}
-
+			
 			for(int i = 0; i < totalDefendingArmy; ++i) {
 				defense = random.nextInt(10) + 1;
 				if(totalAttackingArmy == 0) {
@@ -54,26 +60,24 @@ public class AdvanceOrder implements Order{
 					fromCountry.armyUnitDefeat();
 				}
 			}
-
+			
 			if(totalAttackingArmy > 0 && targetCountry.getArmies() == 0) {
 				fromCountry.armiesRemove(totalAttackingArmy);
 				targetCountry.armiesDeploy(totalAttackingArmy);
-
+				
 				player.addCountry(targetCountry);
 			}
 		}
-
+		
 	}
-
 
 	@Override
 	public boolean valid() {
-
+		
 		if(fromCountry == null || targetCountry == null) {
 			return false;
-		}else if(to_deploy_armies <= fromCountry.getArmies()) {
+		}else if(to_deploy_armies < fromCountry.getArmies()) {
 			return true;
-
 		}
 
 		return false;

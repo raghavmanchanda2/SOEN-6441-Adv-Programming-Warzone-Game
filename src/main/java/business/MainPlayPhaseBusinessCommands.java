@@ -9,6 +9,12 @@ import model.ResponseWrapper;
 import business.Order.*;
 import logger.GeneralException;
 
+/**
+ * MainPlayPhaseBusinessCommands class to issue the commands of user
+ * @author kevin
+ * @author raghav
+ * @version build 2
+ */
 public class MainPlayPhaseBusinessCommands extends Phase {
 	
 	private MapModel mapModel;
@@ -19,6 +25,10 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 		gameModel = GameModel.getInstance();
 	}
 	
+	/**
+	 * Reinforcement the army
+	 * @return alert message that map has successfully been saved
+	 */
 	@Override
 	public ResponseWrapper doReinforcements() throws GeneralException{
 		return printInvalidCommandInState();
@@ -179,21 +189,21 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 	
 	/**
 	 * Method that converts input string commands into objects to be used for diplomacy execution
-	 * @param currentPlayer - player executing diplomacy with another player
+	 * @param p_currentPlayer - player executing diplomacy with another player
 	 * @param otherPlayer - player with whom a peace order is executed on
 	 * @return alert message that diplomacy is successful or unsuccessful
 	 */
 	@Override
-	public ResponseWrapper diplomacy(Player currentPlayer, String otherPlayer) throws GeneralException{
+	public ResponseWrapper diplomacy(Player p_currentPlayer, String p_otherPlayer) throws GeneralException{
 		Player peaceWith = null;
 		
 		for(Player player : gameModel.getPlayers()) {
-			if(player.getPlayerName().equals(otherPlayer)) {
+			if(player.getPlayerName().equals(p_otherPlayer)) {
 				peaceWith = player;
 			}
 		}
 		
-		Order diplomacy = new DiplomacyOrder(currentPlayer, peaceWith);
+		Order diplomacy = new DiplomacyOrder(p_currentPlayer, peaceWith);
 		if(diplomacy.valid()) {
 			return new ResponseWrapper(200, " Diplomacy order added in queue");
 		}else {
@@ -201,62 +211,128 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 		}
 	}
 
+	/**
+	 * method to show current state of map
+	 * @return alert message that map is properly showing
+	 */
 	@Override
 	public ResponseWrapper showMap() throws GeneralException {
 		return printInvalidCommandInState();
 	}
 
+	/**
+	 * method to assign countries to the player
+	 * @return alert message that command is invalid
+	 */
 	@Override
 	public ResponseWrapper assignCountries() throws GeneralException {
 		return printInvalidCommandInState();
 	}
 
+	/**
+     * Edit a continent to the map.
+     *
+     * @param p_continent - The continent to be added or removed
+     * @param p_command - The command to be added or removed
+     * @return A {@link ResponseWrapper} object indicating the result of the operation.
+     */
 	@Override
-	public ResponseWrapper editContinent(Continent p_continent, String command) throws GeneralException {
+	public ResponseWrapper editContinent(Continent p_continent, String p_command) throws GeneralException {
 		return printInvalidCommandInState();
 	}
 
+	/**
+     * Add a player to the game
+     *
+     * @param p_playerName - player name to be added
+     * @return A {@link ResponseWrapper} object indicating the result of the operation
+     */
 	@Override
-	public ResponseWrapper addPlayerInGame(String playerName) throws GeneralException {
+	public ResponseWrapper addPlayerInGame(String p_playerName) throws GeneralException {
 		return printInvalidCommandInState();
 	}
 
+	/**
+     * Remove a player from the game
+     *
+     * @param p_playerName - player name to be removed
+     * @return A {@link ResponseWrapper} object indicating the result of the operation
+     */
 	@Override
-	public ResponseWrapper removeplayerFromGame(String playerName) throws GeneralException {
+	public ResponseWrapper removeplayerFromGame(String p_playerName) throws GeneralException {
 		printInvalidCommandInState();
 		return new ResponseWrapper(404, "Incorrect Command");
 	}
 
+	/**
+     * Commit the reinforcement
+     * @return A {@link ResponseWrapper} object indicating the result of the operation
+     */
 	@Override
 	public ResponseWrapper afterCommitReinforcement() throws GeneralException {
 		return printInvalidCommandInState();
 	}
 
+	/**
+     * Edit a neighbor of the country to the map.
+     *
+     * @param p_mainCountry - The country where neighboring country has to be added or removed
+     * @param p_neighbourCountry - The neighboring country to be added or removed
+     * @param p_command - Check command is add or remove
+     * @return A {@link ResponseWrapper} object indicating the result of the operation
+     */
 	@Override
-	public ResponseWrapper editNeighbour(Country p_mainCountry, Country p_neighbourCountry, String command) throws GeneralException {
+	public ResponseWrapper editNeighbour(Country p_mainCountry, Country p_neighbourCountry, String p_command) throws GeneralException {
 		return printInvalidCommandInState();
 	}
 
+	/**
+     * Edit a country to the map.
+     *
+     * @param p_country - The country to be added or removed
+     * @param p_command - The command to be added or removed
+     * @return A {@link ResponseWrapper} object indicating the result of the operation.
+     */
 	@Override
-	public ResponseWrapper editCountry(Country p_country, String command) throws GeneralException {
+	public ResponseWrapper editCountry(Country p_country, String p_command) throws GeneralException {
 		return printInvalidCommandInState();
 	}
 
+	/**
+	 * method to check if the map is valid
+	 * @return alert message that map is valid or not
+	 */
 	@Override
 	public ResponseWrapper validateMap() throws GeneralException {
 		return printInvalidCommandInState();
 	}
 
+	/**
+	 * method to check if the map is valid
+	 * @param p_map - map name that has to be loaded
+	 * @return alert message that map is valid or not
+	 */
 	@Override
-	public ResponseWrapper loadMap(String map) throws GeneralException {
+	public ResponseWrapper loadMap(String p_map) throws GeneralException {
 		return printInvalidCommandInState();
 	}
 
+	/**
+	 * method to save current state of map
+	 * @param p_mapFileName - name of map file
+	 * @return alert message that map has successfully been saved
+	 */
 	@Override
 	public ResponseWrapper saveMap(String p_mapFileName) throws GeneralException {
 		return printInvalidCommandInState();
 	}
 
+	/**
+	 * It will open the map if the map is already in the map folder or else it will create a new map in the
+	 * map folder
+	 * @param p_mapFileName - name of map file
+	 * @return alert message if the map has been successfully created or edited
+	 */
 	@Override
 	public ResponseWrapper editOrCreateMap(String p_mapFileName) throws GeneralException {
 		return printInvalidCommandInState();

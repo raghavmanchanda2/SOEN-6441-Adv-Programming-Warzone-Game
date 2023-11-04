@@ -50,7 +50,7 @@ class AirliftOrderTest {
 		P1.addCountryHold(d_USA);
 		P1.addCountryHold(d_Mexico);
 		
-		P1.getCountry(d_Canada).setArmy(5);
+		P1.getCountry(d_Canada).setArmy(6);
 		P1.getCountry(d_USA).setArmy(10);
 		P1.getCountry(d_Mexico).setArmy(15);
 		
