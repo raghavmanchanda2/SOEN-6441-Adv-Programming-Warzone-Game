@@ -54,9 +54,9 @@ class AdvanceOrderTest {
 		P2.getCountry(d_USA).setCountryOwner(P2);
 		
 		P1.getCountry(d_Canada).setArmy(5);
-		P2.getCountry(d_USA).setArmy(10);
+		P2.getCountry(d_USA).setArmy(100);
 		
-		advance_order = new AdvanceOrder(d_USA, d_Canada, 10, P2);
+		advance_order = new AdvanceOrder(d_USA, d_Canada, 99, P2);
 	}
 
 	@Test

@@ -30,6 +30,12 @@ public class AdvanceOrder implements Order{
 		if(player.getCountriesHold().contains(targetCountry)) {
 			targetCountry.armiesDeploy(to_deploy_armies);
 		}
+		else if(player.getPeaceWith() == targetCountry.getCountryOwner()) {
+			System.out.println("You have a peace treaty with: " 
+								+ targetCountry.getCountryOwner().getPlayerName() 
+								+ " - attack is cancelled on county: "
+								+ targetCountry.getCountryId());
+		}
 		else {
 			int totalAttackingArmy = to_deploy_armies;
 			int totalDefendingArmy = targetCountry.getArmies();
@@ -70,18 +76,8 @@ public class AdvanceOrder implements Order{
 		
 		if(fromCountry == null || targetCountry == null) {
 			return false;
-		}else if(to_deploy_armies <= fromCountry.getArmies()) {
+		}else if(to_deploy_armies < fromCountry.getArmies()) {
 			return true;
-			
-			
-//			for(Country country : this.player.getCountriesHold()) {
-//				for(Country countryi : country.getNeighbors()) {
-//					System.out.println("n                      " + countryi.getCountryId());
-//				}
-//				if(this.fromCountry.equals(country) && country.getNeighbors().contains(targetCountry) ) {
-//					return true;
-//				}
-//			}
 		}
 
 		return false;

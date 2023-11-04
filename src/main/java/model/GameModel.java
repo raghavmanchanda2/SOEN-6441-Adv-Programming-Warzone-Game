@@ -71,7 +71,20 @@ public class GameModel {
 		
 	}
 	
-	
+	//--------------------------------------------------------------------------------------------------
+		public void printCardsListForCurrentPlayer() {
+			int card_num = 1;
+			System.out.println("CARDS CURRENTLY OWNED BY: " + currentPlayer.getPlayerName());
+			System.out.println("----------------------------------------------------");
+			
+			for(Card card : currentPlayer.getCardList()) {
+				System.out.println(card_num + ". " + card.getCardType().name());
+				++card_num;
+			}
+			System.out.println("----------------------------------------------------");
+		}
+		//--------------------------------------------------------------------------------------------------
+
 
 
 	

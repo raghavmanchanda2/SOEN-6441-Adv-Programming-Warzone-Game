@@ -29,6 +29,7 @@ public class Player {
 	private List<Card> d_cards = new ArrayList<>();
 	
 	private List<Order> orders_list;
+	private List<Order> cardOrders_list;
 	
 	private Player peaceWith;
 	
@@ -119,6 +120,10 @@ public class Player {
 	
 	public void resetPeaceWith() {
 		peaceWith = null;
+	}
+	
+	public List<Card> getCardList() {
+		return d_cards;
 	}
 	
 	//-------------------------------------------

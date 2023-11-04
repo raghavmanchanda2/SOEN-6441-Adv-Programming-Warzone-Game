@@ -47,7 +47,7 @@ public class AirliftOrder implements Order{
 			return false;
 		}
 		else 
-		if(originCountry.getArmies() <= armies_to_move && armies_to_move > 0) {
+		if(armies_to_move < originCountry.getArmies() && armies_to_move > 0) {
 			return true;
 		}
 		
