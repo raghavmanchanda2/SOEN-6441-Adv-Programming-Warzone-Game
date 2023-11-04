@@ -6,7 +6,7 @@ import java.util.Observable;
 /**
  * class for handling log messages
  * @author Raghav
- * @version build 1
+ * @version build 2
  */
 public class LogEntryBuffer extends Observable {
 	
@@ -51,12 +51,20 @@ public class LogEntryBuffer extends Observable {
 		notifyObservers(d_logMessage);
 	}
 
+	/**
+	 * Get log message 
+	 * @return
+	 */
 	public String getD_logMessage() {
 		return d_logMessage;
 	}
 
-	public void setD_logMessage(String d_logMessage) {
-		this.d_logMessage = d_logMessage;
+	/**
+	 * Set log message and notify observers
+	 * @param p_updateMsg log message
+	 */
+	public void setD_logMessage(String p_updateMsg) {
+		this.d_logMessage = p_updateMsg;
 	}
 
 }

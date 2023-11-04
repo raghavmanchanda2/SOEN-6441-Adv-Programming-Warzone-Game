@@ -15,14 +15,26 @@ import java.util.logging.SimpleFormatter;
 /**
  * class for log generation, file creation and log manipulation
  * @author Raghav
- * @version build 1
+ * @version build 2
  */
 public class LogGenerator extends Formatter implements Observer {
 
+	/**
+     * Logger instance defining the name of the log file
+     */
 	private static final Logger D_SYSTEM_LOG = Logger.getLogger("systemLogFile");
+	/**
+     * log file path defined
+     */
 	private static final String D_LOG_FILE_PATH = Paths.get("").toAbsolutePath() + "/src/main/java/logger/" + "/systemLog.log";
+	/**
+     * FileHandler instance created
+     */
 	private static FileHandler d_sytsemLogFileHandler;
 	
+	/**
+     * LogGenerator instance created
+     */
     private static LogGenerator logInstance;
     
     private LogGenerator()
@@ -30,6 +42,10 @@ public class LogGenerator extends Formatter implements Observer {
     	
     }
     
+    /**
+     * Method to get Instance of Log Generator
+     * @return
+     */
     public static LogGenerator getInstance() {
         if (logInstance == null) {
         	logInstance = new LogGenerator();
@@ -104,6 +120,12 @@ public class LogGenerator extends Formatter implements Observer {
 		}
 	}
 
+	/**
+	 * Method to update the current object's log message
+	 * 
+	 * @param p_observable - Object that is the source of change 
+	 * @param p_logObject - Object that contains the information about the change
+	 */
 	@Override
 	public void update(Observable p_observable, Object p_logObject) {
 		String l_msg=(String) p_logObject;
@@ -111,6 +133,11 @@ public class LogGenerator extends Formatter implements Observer {
 		
 	}
 
+	/**
+	 * Method to update log in observer
+	 * @param record to be formatted
+	 * @return formatted log message
+	 */
 	@Override
 	public String format(LogRecord record) {
 		// Customize the log entry format here
