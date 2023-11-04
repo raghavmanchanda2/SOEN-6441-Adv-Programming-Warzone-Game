@@ -4,7 +4,8 @@ import model.Player;
 
 public class DiplomacyOrder implements Order{
 	
-	Player currentPlayer, peaceWith;
+	Player currentPlayer;
+	Player peaceWith;
 	
 	public DiplomacyOrder(Player currentPlayer, Player peaceWith) {
 		this.currentPlayer = currentPlayer;
@@ -19,14 +20,7 @@ public class DiplomacyOrder implements Order{
 
 	@Override
 	public boolean valid() {
-
-		if(peaceWith == null) {
-			return false;
-		}
-		else {
-			return true;
-		}
-		
+		return peaceWith != null;
 	}
 
 	@Override

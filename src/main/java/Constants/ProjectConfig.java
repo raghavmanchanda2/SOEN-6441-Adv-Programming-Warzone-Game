@@ -17,11 +17,13 @@ import java.nio.file.Paths;
  * @version build 1
  */
 public class ProjectConfig {
+
+	private ProjectConfig(){}
 	
 	  /**
      * The path to map files in the project.
      */
-	public final static  String  D_MAP_FILES_PATH ;
+	public static final String  D_MAP_FILES_PATH ;
 	
 	static {
         // Initialize the path to map files based on the project's current position

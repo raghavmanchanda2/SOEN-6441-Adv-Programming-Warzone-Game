@@ -13,9 +13,7 @@ public class Country {
 	private int d_uniqueCountryId;
 	
 	private String d_countryId;
-	private String d_countryName;
-	private String d_Continent;
-	
+
 	private Continent d_continent;
 	private Map<Country,List<Country>> d_connectedCountries;
 

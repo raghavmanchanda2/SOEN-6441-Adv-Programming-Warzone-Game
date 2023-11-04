@@ -11,7 +11,7 @@ public abstract class Phase {
 
 	private LogEntryBuffer d_logger;
 	
-	public Phase() {
+	protected Phase() {
 		d_logger = new LogEntryBuffer();
 	}
 	

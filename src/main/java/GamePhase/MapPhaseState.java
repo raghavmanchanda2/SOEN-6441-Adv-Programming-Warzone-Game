@@ -9,6 +9,8 @@ package GamePhase;
  *
  */
 public class MapPhaseState {
+
+	private MapPhaseState(){}
 	
 	/**
 	 * current phase of the map

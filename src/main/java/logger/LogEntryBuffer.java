@@ -43,6 +43,7 @@ public class LogEntryBuffer extends Observable {
 	        case "end":
 	            d_logMessage = p_updateMsg[0] + System.lineSeparator();
 	            break;
+				default: break;
 		}
 		
     }

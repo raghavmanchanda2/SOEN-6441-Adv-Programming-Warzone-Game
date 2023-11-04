@@ -24,9 +24,7 @@ import java.util.Scanner;
  * @version 1.0
  */
 public class WarzoneEngineController {
-	
-	private Scanner d_inputForFeatureSelection;
-	
+
 	/**
 	 * Gets the user's selected game feature as an integer.
 	 * 
@@ -35,8 +33,8 @@ public class WarzoneEngineController {
 	public String getGameFeatureInputs() {
 		String l_selectedFeature = "";
 		try {
-			
-			d_inputForFeatureSelection = new Scanner(System.in);
+
+			Scanner d_inputForFeatureSelection = new Scanner(System.in);
 			l_selectedFeature = d_inputForFeatureSelection.nextLine();
 			
 		

@@ -2,11 +2,9 @@ package controller;
 
 import java.util.Scanner;
 
-import business.ExecuteMapsCommands;
 import business.Phase;
 import business.SingleGamePlayerCommands;
 import logger.GeneralException;
-import model.Continent;
 import model.ResponseWrapper;
 
 public class SingleGameModePlayEngineController {
@@ -14,14 +12,12 @@ public class SingleGameModePlayEngineController {
 	private Scanner d_inputForInitialSetupCommands;
 	private GeneralException gException;
 	public static final String INCORRECT_COMMAND="Please enter proper command";
-//	private ExecuteMapsCommands d_executeMapsCommands;
 	private SingleGamePlayerCommands singleGamePlayerCommands;
 	Phase singlePlayPhase;
 
 	public SingleGameModePlayEngineController() {
 		d_inputForInitialSetupCommands = new Scanner(System.in);
 		gException=new GeneralException();
-//		d_executeMapsCommands = new ExecuteMapsCommands();
 		singleGamePlayerCommands = new SingleGamePlayerCommands();
 		setPlayPhase(singleGamePlayerCommands);
 		}

@@ -26,14 +26,14 @@ public class AdvanceOrder implements Order{
 	
 	@Override
 	public void execute() {
-		
+
 		if(player.getCountriesHold().contains(targetCountry)) {
 			targetCountry.armiesDeploy(to_deploy_armies);
 		}
 		else {
 			int totalAttackingArmy = to_deploy_armies;
 			int totalDefendingArmy = targetCountry.getArmies();
-			
+
 			for(int i = 0; i < totalAttackingArmy; ++i) {
 				attack = random.nextInt(10) + 1;
 				if(targetCountry.getArmies() == 0) {
@@ -43,7 +43,7 @@ public class AdvanceOrder implements Order{
 					targetCountry.armyUnitDefeat();
 				}
 			}
-			
+
 			for(int i = 0; i < totalDefendingArmy; ++i) {
 				defense = random.nextInt(10) + 1;
 				if(totalAttackingArmy == 0) {
@@ -54,34 +54,26 @@ public class AdvanceOrder implements Order{
 					fromCountry.armyUnitDefeat();
 				}
 			}
-			
+
 			if(totalAttackingArmy > 0 && targetCountry.getArmies() == 0) {
 				fromCountry.armiesRemove(totalAttackingArmy);
 				targetCountry.armiesDeploy(totalAttackingArmy);
-				
+
 				player.addCountry(targetCountry);
 			}
 		}
-		
+
 	}
+
 
 	@Override
 	public boolean valid() {
-		
+
 		if(fromCountry == null || targetCountry == null) {
 			return false;
 		}else if(to_deploy_armies <= fromCountry.getArmies()) {
 			return true;
-			
-			
-//			for(Country country : this.player.getCountriesHold()) {
-//				for(Country countryi : country.getNeighbors()) {
-//					System.out.println("n                      " + countryi.getCountryId());
-//				}
-//				if(this.fromCountry.equals(country) && country.getNeighbors().contains(targetCountry) ) {
-//					return true;
-//				}
-//			}
+
 		}
 
 		return false;

@@ -1,8 +1,6 @@
 package model;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * class that defines the characteristics of a continent.
@@ -18,10 +16,6 @@ public class Continent {
 	private String d_contientValue;
 	private List<Country> d_continentCountries;
 
-	//-------------------------------------------
-	private Player d_continentOwner = null;
-	//-------------------------------------------
-	
 	/**
 	 * Default constructor
 	 */
@@ -165,7 +159,7 @@ public class Continent {
 
 	
 	public void setContinentOwner(Player player) {
-		d_continentOwner = player;
+		Player d_continentOwner = player;
 	}
 	
 
