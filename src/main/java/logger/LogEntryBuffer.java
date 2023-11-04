@@ -54,8 +54,7 @@ public class LogEntryBuffer extends Observable {
 
 	/**
 	 * Get log message 
-	 * @return
-	 */
+     */
 	public String getD_logMessage() {
 		return d_logMessage;
 	}
