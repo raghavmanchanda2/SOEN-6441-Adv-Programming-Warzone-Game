@@ -71,8 +71,12 @@ public abstract class Phase {
 	 * @return alert message that diplomacy is successful or unsuccessful
 	 */
 	public abstract ResponseWrapper diplomacy(Player p_currentPlayer, String p_otherPlayer) throws GeneralException;
-	
-	
+
+	/**
+	 * Method to commit the commands entered by individual players.
+	 * @throws GeneralException if anything goes wrong
+	 */
+	public abstract ResponseWrapper commit(Player p_currentPlayer) throws GeneralException;
 	/**
 	 * method to show current state of map
 	 * @return alert message that map is properly showing

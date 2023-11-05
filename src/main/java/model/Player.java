@@ -1,9 +1,6 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import business.Order.Order;
 
@@ -18,7 +15,8 @@ public class Player {
 	
 	private String playerName;
 	//private int armiesHold = 5; // base armies
-	private int baseArmies = 3;
+	private int baseArmies = 5;
+	private int armiesToIssue = 5;
 	private int reinforcementArmies = 0; // holding countries / 3 down to
 	private int bonusArmies = 0; // continent 
 	private int currentArmies = baseArmies + reinforcementArmies + bonusArmies;
@@ -27,8 +25,9 @@ public class Player {
 	private List<Country> countriesHold;
 	private Map<Country,Integer> currentArmyInCountry;
 	private List<Card> d_cards = new ArrayList<>();
-	
-	private List<Order> orders_list;
+
+	private Deque<Order> orders_list = new ArrayDeque<>();
+
 	private List<Order> cardOrders_list;
 	
 	private Player peaceWith;
@@ -37,8 +36,19 @@ public class Player {
 		this.playerName = playerName;
 		d_can_get_card_this_turn = true;
 	}
-	
-	
+
+	public int getArmiesToIssue() {
+		return armiesToIssue;
+	}
+
+	public void setArmiesToIssue(int armiesToIssue) {
+		this.armiesToIssue = armiesToIssue;
+	}
+
+	public Order nextOrder() {
+		return orders_list.poll();
+	}
+
 	public List<Country> getCountriesHold() {
 		return countriesHold;
 	}
@@ -147,26 +157,22 @@ public class Player {
 	public void setCurrentArmies(int currentArmies) {
 		this.currentArmies = currentArmies;
 	}
-	
-	
-	
+
+	public Deque<Order> getOrders() {
+		return orders_list;
+	}
+
+	public void setOrders(Deque<Order> d_Orders) {
+		this.orders_list = d_Orders;
+	}
+
 	public void addOrder(Order order) {
 		if(orders_list == null) {
-			this.orders_list = new ArrayList();
+			this.orders_list = new ArrayDeque<>();
 		}
 		this.orders_list.add(order);
 	}
 	
-	public Order getNextOrder() {
-		
-		if (!this.orders_list.isEmpty()) {
-			
-			Order to_return = this.orders_list.get(0); 
-			this.orders_list.remove(0);
-			
-			return to_return;
-		} else
-			return null;
-	}
+
 	
 }

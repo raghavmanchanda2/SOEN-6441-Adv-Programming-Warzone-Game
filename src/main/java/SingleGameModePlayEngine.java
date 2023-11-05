@@ -83,12 +83,11 @@ public class SingleGameModePlayEngine {
 		System.out.println(" ");
 		System.out.println("-> Deploy Order Command:  deploy countryID numarmies");
 		System.out.println("-> Advance Order Command: advance countrynamefrom countynameto numarmies");
-		System.out.println("-> Reinforcement");
 		System.out.println("-> Bomb Order Command: bomb countryID");
 		System.out.println("-> Airlift Order Command: airlift sourcecountryID targetcountryID numarmies");
 		System.out.println("-> Blockade Order Command: blockade countryID");
 		System.out.println("-> Diplomacy Order Command: negotiate playerID");
-		System.out.println("-> Commit");
+		System.out.println("-> Commit Orders: commit");
 		System.out.println(" ");
 		System.out.println("***** Input any command to proceed *****");
 		System.out.println("****(Getting input from the user...)****");
@@ -130,7 +129,7 @@ public class SingleGameModePlayEngine {
 				System.out.println("*****************************************************");
 				System.out.println(" Current Player  !  Initial Assigned  !  Left Armies");
 				System.out.println("*****************************************************");
-				System.out.format(l_Table, currentPlayer.getPlayerName(), currentPlayer.getCurrentArmies(),  currentPlayer.getCurrentArmies());
+				System.out.format(l_Table, currentPlayer.getPlayerName(), currentPlayer.getCurrentArmies(),  currentPlayer.getArmiesToIssue());
 				System.out.println("*****************************************************");
 				String country_title = "Country Name";
 				String armies_title = "Country Armies";

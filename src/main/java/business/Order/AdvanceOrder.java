@@ -87,7 +87,8 @@ public class AdvanceOrder implements Order{
 	@Override
 	public void printOrder() {
 		// TODO Auto-generated method stub
-		
+		System.out.println("Advance Order " + to_deploy_armies + " armies from " + fromCountry + " to " + targetCountry);
+		System.out.println("***************************************");
 	}
 
 }

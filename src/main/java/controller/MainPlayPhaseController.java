@@ -42,6 +42,9 @@ public class MainPlayPhaseController {
 		
 		switch (l_splitInitialSetupCommand[0]) {
 
+			case "commit":
+				return playPhase.commit(currentPlayer);
+
 		case "deploy":
 			
 			return playPhase.deploy(currentPlayer,l_splitInitialSetupCommand[1], Integer.parseInt(l_splitInitialSetupCommand[2]));
@@ -94,9 +97,7 @@ public class MainPlayPhaseController {
 		
 		case "editcontinent":
 			return playPhase.editContinent(null, null);
-		
 
-			
 		default:
 			return new ResponseWrapper(404, INCORRECT_COMMAND); 
 		}

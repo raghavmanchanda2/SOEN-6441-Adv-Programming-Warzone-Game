@@ -51,8 +51,8 @@ public class DeployOrder implements Order{
 
 	@Override
 	public void printOrder() {
-		
-		
+		System.out.println(player.getPlayerName() + " deployed " + to_deploy_armies + " armies at " + targetCountry.getCountryId());
+		System.out.println("***************************************");
 	}
 
 }
