@@ -24,14 +24,8 @@ public class DeployOrder implements Order{
 		if(player.getCurrentArmies() > to_deploy_armies) {
 			System.out.println("armies are less in your poll");
 		}
-		player.setCurrentArmies(player.getCurrentArmies()-to_deploy_armies);
-		player.addCountryHold(targetCountry);
-		//player.getCurrentArmyInCountry().put(targetCountry, to_deploy_armies);
 		
 		targetCountry.armiesDeploy(to_deploy_armies);
-		
-		
-		
 		
 	}
 
