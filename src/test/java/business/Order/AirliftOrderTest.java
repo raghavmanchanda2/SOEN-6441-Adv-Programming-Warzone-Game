@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import model.Card;
+import model.Card.CardType;
 import model.Continent;
 import model.Country;
 import model.MapModel;
@@ -54,13 +56,22 @@ class AirliftOrderTest {
 		P1.getCountry(d_USA).setArmy(10);
 		P1.getCountry(d_Mexico).setArmy(15);
 		
+		Card c = new Card(CardType.AIRLIFT);
+		
+		P1.addSpecificCard(c);
+		
 		airlift_order = new AirliftOrder(P1, d_Canada, d_USA, 5);
 	}
 
 	@Test
 	void testValid() {
+		System.out.println("Before Validation Stage");
+		P1.printCardList();
 		
 		assertTrue(airlift_order.valid());
+		
+		System.out.println("After Validation Stage");
+		P1.printCardList();
 		
 	}
 	

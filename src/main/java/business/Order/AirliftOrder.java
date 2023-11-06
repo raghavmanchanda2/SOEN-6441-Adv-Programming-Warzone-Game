@@ -1,6 +1,8 @@
 package business.Order;
 
 import model.Player;
+import model.Card;
+import model.Card.CardType;
 import model.Country;
 
 /**
@@ -28,6 +30,7 @@ public class AirliftOrder implements Order{
 
 	@Override
 	public void execute() {
+		
 		int originCountryArmyBefore = originCountry.getArmies();
 		int originCountryArmyAfter = originCountryArmyBefore - armies_to_move;
 		originCountry.setArmy(originCountryArmyAfter);
@@ -35,10 +38,23 @@ public class AirliftOrder implements Order{
 		int destinationCountryArmyBefore = destinationCountry.getArmies();
 		int destinationCountryArmyAfter = destinationCountryArmyBefore + armies_to_move;
 		destinationCountry.setArmy(destinationCountryArmyAfter);
+		
+		
 	}
 
 	@Override
 	public boolean valid() {
+		
+		boolean hasCard = false;
+		
+		for(Card card : player.getCardList()) {
+			if(card.getCardType() == Card.CardType.AIRLIFT) {
+				hasCard = true;
+			}
+		}
+		if(!hasCard) {
+			return false;
+		}
 		
 		if(originCountry == null || destinationCountry == null
 		|| !player.getCountriesHold().contains(originCountry) 
@@ -48,6 +64,14 @@ public class AirliftOrder implements Order{
 		}
 		else 
 		if(armies_to_move < originCountry.getArmies() && armies_to_move > 0) {
+			
+			for(Card card : player.getCardList()) {
+				if(card.getCardType() == Card.CardType.AIRLIFT) {
+					player.getCardList().remove(card);
+					break;
+				}
+			}
+			
 			return true;
 		}
 		

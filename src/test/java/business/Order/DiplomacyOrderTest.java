@@ -5,11 +5,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import model.Card;
 import model.Continent;
 import model.Country;
 import model.GameModel;
 import model.MapModel;
 import model.Player;
+import model.Card.CardType;
 
 class DiplomacyOrderTest {
 
@@ -54,13 +56,23 @@ class DiplomacyOrderTest {
 		P1.getCountry(d_Canada).setArmy(5);
 		P2.getCountry(d_USA).setArmy(10);
 		
+		Card c = new Card(CardType.DIPLOMACY);
+		
+		P1.addSpecificCard(c);
+		
 		diplomacy_order = new DiplomacyOrder(P1, P2);
 		
 	}
 
 	@Test
 	void testValid() {
+		System.out.println("Before Validation Stage");
+		P1.printCardList();
+		
 		assertTrue(diplomacy_order.valid());
+		
+		System.out.println("After Validation Stage");
+		P1.printCardList();
 	}
 	
 	@Test

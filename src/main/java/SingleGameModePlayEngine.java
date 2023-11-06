@@ -119,8 +119,16 @@ public class SingleGameModePlayEngine {
 		ResponseWrapper mainPlaySetUpResponse;
 		while(true) {
 			
+			gameModel.resetPeaceForAllPlayers();
+			
 			// do Reinforcements 
 			mainPlayPhaseBusinessCommands.doReinforcements();
+			
+			for(Player player : gameModel.getPlayers()) {
+				if(player.getCanAddCard()) {
+					player.addCard();
+				}
+			}
 			
 			while(true) {
 				// get player's turn 
@@ -136,7 +144,7 @@ public class SingleGameModePlayEngine {
 				String neighbors_title = "Neighbors";
 				System.out.format(l_Columns, country_title, armies_title, neighbors_title);
 				System.out.format("*****************************************************%n");
-
+				
 				Map<Country, List<Country>> neighbors = this.mapModel.getBorders();
 				for (Country l_Country : currentPlayer.getCountriesHold()) {
 					if (neighbors.containsKey(l_Country)){
@@ -144,6 +152,8 @@ public class SingleGameModePlayEngine {
 					}
 				}
 				System.out.format("*****************************************************\n");
+				
+				gameModel.printCardsListForCurrentPlayer();
 				// ask for attack commands phase  with player
 				mainPlaySetUpResponse = mainPlayPhaseController.getMainPlaySetUpCommandsFromUser(currentPlayer);
 				System.out.println(mainPlaySetUpResponse.getDescription());
