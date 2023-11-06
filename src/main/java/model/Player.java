@@ -6,7 +6,7 @@ import business.Order.Order;
 
 /**
  * Player class which holds the issue order and next order in the list of orders
- * @author Rohit
+ * @author Rohit, Kevins
  * @version build 2
  */
 public class Player {
@@ -34,7 +34,7 @@ public class Player {
 	
 	public Player(String playerName) {
 		this.playerName = playerName;
-		d_can_get_card_this_turn = true;
+		d_can_get_card_this_turn = false;
 	}
 
 	public int getArmiesToIssue() {
@@ -101,6 +101,7 @@ public class Player {
 		
 		this.countriesHold.add(country);
 		country.setCountryOwner(this);
+		d_can_get_card_this_turn = true;
 	}
 	
 	public void removeCountry(Country country) {
@@ -134,6 +135,113 @@ public class Player {
 	
 	public List<Card> getCardList() {
 		return d_cards;
+	}
+	
+	public void addCard()
+	{
+		Card newCard = Card.generateRandomCard();
+		
+		if(d_cards.size() < MAX_CARD_LIMIT)
+		{
+			d_cards.add(newCard);
+		}
+		else
+		{
+			cardLimitExceeded(newCard);
+		}
+	}
+	
+	public void addSpecificCard(Card card) {
+		
+		if(d_cards.size() < MAX_CARD_LIMIT) {
+			d_cards.add(card);
+		}
+		else {
+			cardLimitExceeded(card);
+		}
+	}
+	
+	private void cardLimitExceeded(Card newCard) {
+		System.out.println("Card limit that a player can possess has been exceeded, please choose the following options\n");
+		
+		System.out.println("The following cards are in your possession");
+		System.out.println("------------------------------------------");
+		
+		for(int i = 0; i < d_cards.size(); ++i)
+		{
+			System.out.println(i+1 + ".	" + d_cards.get(i).getCardType().name());
+		}
+		
+		System.out.println();
+		System.out.println("NEW CARD");
+		System.out.println("---------");
+		
+		System.out.println(newCard.getCardType().name()+"\n");
+		
+		
+		int card_num;
+		System.out.println("Please select which card you want to replace or PRESS 0 to keep current cards");
+		
+		while(true)
+		{
+			Scanner scan = new Scanner(System.in);
+			
+			
+			if(scan.hasNextInt()) {
+				card_num = scan.nextInt();
+				
+				if(card_num >= 0 && card_num <= MAX_CARD_LIMIT) {
+					break;
+				}
+				else
+				{
+					System.out.println("Invalid input");
+					
+					for(int i = 0; i < d_cards.size(); ++i)
+					{
+						System.out.println("Select " + (i+1) + " to replace:	" + d_cards.get(i).getCardType().name());
+					}
+					
+				}
+			}
+			else
+			{
+				System.out.println("Invalid input");
+				
+				for(int i = 0; i < d_cards.size(); ++i)
+				{
+					System.out.println("Select " + (i+1) + " to replace:	" + d_cards.get(i).getCardType().name());
+				}
+				
+				
+			}
+		}
+		
+		if(card_num != 0)
+		{
+			d_cards.set(card_num - 1, newCard);
+		}	
+	}
+	
+	public void printCardList() {
+		int card_num = 1;
+		System.out.println("CARDS CURRENTLY OWNED BY: " + playerName);
+		System.out.println("***********************************************************");
+		
+		for(Card card : d_cards) {
+			System.out.println(card_num + ". " + card.getCardType().name());
+			++card_num;
+		}
+		System.out.println("***********************************************************\n\n");
+	}
+	
+	public boolean getCanAddCard() {
+		return d_can_get_card_this_turn;
+	}
+	
+	public void endTurnCardReset()
+	{
+		d_can_get_card_this_turn = false;
 	}
 	
 	//-------------------------------------------

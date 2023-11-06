@@ -1,5 +1,6 @@
 package business.Order;
 
+import model.Card;
 import model.Player;
 
 public class DiplomacyOrder implements Order{
@@ -20,7 +21,31 @@ public class DiplomacyOrder implements Order{
 
 	@Override
 	public boolean valid() {
-		return peaceWith != null;
+		
+		boolean hasCard = false;
+		
+		for(Card card : currentPlayer.getCardList()) {
+			if(card.getCardType() == Card.CardType.DIPLOMACY) {
+				hasCard = true;
+			}
+		}
+		if(!hasCard) {
+			return false;
+		}
+		
+		if(peaceWith != null) {
+			
+			for(Card card : currentPlayer.getCardList()) {
+				if(card.getCardType() == Card.CardType.DIPLOMACY) {
+					currentPlayer.getCardList().remove(card);
+					break;
+				}
+			}
+			
+			return true;
+		}
+		
+		return false;
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package business.Order;
 
+import model.Card;
 import model.Country;
 import model.Player;
 
@@ -36,10 +37,29 @@ public class BlockadeOrder implements Order{
 	@Override
 	public boolean valid() {
 
+		boolean hasCard = false;
+		
+		for(Card card : player.getCardList()) {
+			if(card.getCardType() == Card.CardType.BLOCKADE) {
+				hasCard = true;
+			}
+		}
+		if(!hasCard) {
+			return false;
+		}
+		
 		if(targetCountry == null) {
 			return false;
 		}
 		else if(player.getCountriesHold().contains(targetCountry)) {
+			
+			for(Card card : player.getCardList()) {
+				if(card.getCardType() == Card.CardType.BLOCKADE) {
+					player.getCardList().remove(card);
+					break;
+				}
+			}
+			
 			return true;
 		}
 		

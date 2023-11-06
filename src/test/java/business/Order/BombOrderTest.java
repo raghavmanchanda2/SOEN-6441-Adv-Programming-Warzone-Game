@@ -6,10 +6,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import model.Card;
 import model.Continent;
 import model.Country;
 import model.MapModel;
 import model.Player;
+import model.Card.CardType;
 
 class BombOrderTest {
 	
@@ -54,21 +56,29 @@ class BombOrderTest {
 		P1.getCountry(d_Canada).setArmy(5);
 		P2.getCountry(d_USA).setArmy(10);
 		
+		Card c = new Card(CardType.BOMB);
+		
+		P1.addSpecificCard(c);
+		
 		bomb_order = new BombOrder(P1, d_USA);
 	}
 
 	@Test
 	void testValid() {
+		System.out.println("Before Validation Stage");
+		P1.printCardList();
 		
 		assertTrue(bomb_order.valid());
 		
+		System.out.println("After Validation Stage");
+		P1.printCardList();
 	}
 	
 	@Test
 	void testExecute() {
 		
 		bomb_order.execute();
-		
+
 		assertEquals(5, d_USA.getArmies());
 		
 	}
