@@ -6,6 +6,6 @@ import org.junit.platform.suite.api.Suite;
 @Suite
 @SelectClasses({ AdvanceOrderTest.class, AirliftOrderTest.class, BlockadeOrderTest.class, BombOrderTest.class,
 		DiplomacyOrderTest.class })
-public class businessOrderTestSuite {
+public class BusinessOrderTestSuite {
 
 }

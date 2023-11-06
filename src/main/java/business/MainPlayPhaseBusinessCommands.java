@@ -37,6 +37,8 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 	 */
 	@Override
 	public ResponseWrapper doReinforcements() throws GeneralException{
+		
+		
 		return printInvalidCommandInState();
 		
 	}

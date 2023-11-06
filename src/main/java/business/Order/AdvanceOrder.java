@@ -62,6 +62,7 @@ public class AdvanceOrder implements Order{
 			}
 			
 			if(totalAttackingArmy > 0 && targetCountry.getArmies() == 0) {
+				System.out.println(player.getPlayerName() + " HAS CAPTURED: " + targetCountry.getCountryId());
 				fromCountry.armiesRemove(totalAttackingArmy);
 				targetCountry.armiesDeploy(totalAttackingArmy);
 				

@@ -127,6 +127,7 @@ public class SingleGameModePlayEngine {
 			for(Player player : gameModel.getPlayers()) {
 				if(player.getCanAddCard()) {
 					player.addCard();
+					player.endTurnCardReset();
 				}
 			}
 			
