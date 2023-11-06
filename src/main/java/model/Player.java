@@ -45,6 +45,10 @@ public class Player {
 		this.armiesToIssue = armiesToIssue;
 	}
 
+	public void resetArmiesToIssue() {
+		this.armiesToIssue = 5;
+	}
+
 	public Order nextOrder() {
 		return orders_list.poll();
 	}
