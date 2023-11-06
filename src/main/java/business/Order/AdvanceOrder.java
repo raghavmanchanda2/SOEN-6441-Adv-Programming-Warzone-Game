@@ -65,6 +65,8 @@ public class AdvanceOrder implements Order{
 				fromCountry.armiesRemove(totalAttackingArmy);
 				targetCountry.armiesDeploy(totalAttackingArmy);
 				
+				targetCountry.getCountryOwner().removeCountry(targetCountry);
+				
 				player.addCountry(targetCountry);
 			}
 		}

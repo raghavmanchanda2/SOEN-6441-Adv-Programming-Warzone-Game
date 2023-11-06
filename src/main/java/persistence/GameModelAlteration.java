@@ -42,7 +42,8 @@ public class GameModelAlteration {
 		for (Country l_Country : l_availableCountriesList) {
 			Player l_Player = l_inGamePlayers.get(index);
 			l_Player.addCountryHold(l_Country);
-
+			l_Country.setCountryOwner(l_Player);
+			
 			if (index < this.gameModel.getPlayers().size() - 1) {
 				index++;
 			} else {
