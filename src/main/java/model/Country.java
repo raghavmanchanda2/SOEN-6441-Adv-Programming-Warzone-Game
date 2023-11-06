@@ -21,9 +21,9 @@ public class Country {
 
 	
 	//-------------------------------------------
-	private int d_Armies = 0;
+	private int d_Armies = 1;
 	
-	private Player d_countryOwner = null;
+	private Player d_countryOwner;
 	
 	//-------------------------------------------
 
