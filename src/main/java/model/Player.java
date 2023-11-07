@@ -21,6 +21,7 @@ public class Player {
 	private int bonusArmies = 0; // continent 
 	private int currentArmies = baseArmies + reinforcementArmies + bonusArmies;
 	private boolean d_can_get_card_this_turn;
+	private boolean commit;
 
 	private List<Country> countriesHold;
 	private Map<Country,Integer> currentArmyInCountry;
@@ -35,6 +36,7 @@ public class Player {
 	public Player(String playerName) {
 		this.playerName = playerName;
 		d_can_get_card_this_turn = false;
+		commit = false;
 	}
 
 	public int getArmiesToIssue() {
@@ -271,6 +273,18 @@ public class Player {
 		bonusArmies = 0;
 		currentArmies = baseArmies + CalculateReinforcementArmies() + CalculateBonusArmies();
 		armiesToIssue = currentArmies;
+	}
+	
+	public boolean getCommit() {
+		return commit;
+	}
+	
+	public void performCommit() {
+		commit = true;
+	}
+	
+	public void resetCommit() {
+		commit  = false;
 	}
 	
 	//-------------------------------------------

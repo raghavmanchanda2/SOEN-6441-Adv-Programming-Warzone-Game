@@ -259,6 +259,7 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 	@Override
 	public ResponseWrapper commit(Player player) throws GeneralException {
 		addCommitPlayer(player);
+		player.performCommit();
 		//player.resetArmiesToIssue();
 		return new ResponseWrapper(200, "");
 	}

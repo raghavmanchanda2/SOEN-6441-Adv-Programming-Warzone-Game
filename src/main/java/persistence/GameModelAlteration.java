@@ -18,6 +18,7 @@ public class GameModelAlteration {
 	public ResponseWrapper addPlayerInGame(String playerName) {
 		Player player = new Player(playerName);
 		this.gameModel.addPlayerInPlayersList(player);
+		this.gameModel.addPlayerQueue(player);
 		
 		return new ResponseWrapper(200,"Player added successfully: " + playerName);
 		

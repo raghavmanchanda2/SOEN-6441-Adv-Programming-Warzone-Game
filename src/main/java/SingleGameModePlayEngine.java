@@ -120,6 +120,7 @@ public class SingleGameModePlayEngine {
 		while(true) {
 			
 			gameModel.resetPeaceForAllPlayers();
+			gameModel.resetCommit();
 			
 			// do Reinforcements 
 			mainPlayPhaseBusinessCommands.doReinforcements();
@@ -134,7 +135,7 @@ public class SingleGameModePlayEngine {
 			while(true) {
 				// get player's turn 
 				this.printMainPlaySetupCommands();
-				Player currentPlayer = gameModel.getCurrentPlayer();
+				Player currentPlayer = gameModel.getNextPlayer();
 				System.out.println("*****************************************************");
 				System.out.println(" Current Player  !  Initial Assigned  !  Left Armies");
 				System.out.println("*****************************************************");
@@ -162,12 +163,15 @@ public class SingleGameModePlayEngine {
 
 				
 				
-				if (!gameModel.doNextPlayer()) {
-					// no next player do commit state
-					System.out.println("****************************************");
+//				if (!gameModel.doNextPlayer()) {
+//					// no next player do commit state
+//					System.out.println("****************************************");
+//					break;
+//				}
+				 
+				if(gameModel.checkAllCommit()) {
 					break;
 				}
-				 
 				
 			}
 			// in execution if player capture country he will get card

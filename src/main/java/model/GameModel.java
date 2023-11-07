@@ -2,14 +2,17 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Queue;
 
 public class GameModel {
 	private List<Player> players;
 	private Player currentPlayer;
 	private Map<Player,Boolean> commitState;
+	private Queue<Player> playerQ;
 	
 	
 	private static GameModel gameModel;
@@ -49,6 +52,9 @@ public class GameModel {
 		}
 		if(this.commitState == null) {
 			this.commitState = new HashMap<>();
+		}
+		if(this.playerQ == null) {
+			this.playerQ = new LinkedList<>();
 		}
 		this.players.add(player);
 		this.commitState.put(player, false);
@@ -96,6 +102,49 @@ public class GameModel {
 			for(Player player : players) {
 				player.resetPeaceWith();
 			}
+		}
+		
+		public Queue<Player> getPlayerQueue() {
+			return playerQ;
+		}
+		
+		public void addPlayerQueue(Player player) {
+			playerQ.add(player);
+		}
+		
+		public Player getNextPlayer() {
+			Player next = null;
+			Player put_back = null;
+			boolean found = false;
+			while(!found) {
+				next = playerQ.poll();
+				put_back = next;
+				if(next.getCommit()) {
+					playerQ.add(next);
+				}
+				else {
+					found = true;
+				}
+			}
+			currentPlayer = next;
+			playerQ.add(put_back);
+			return next;
+		}
+		
+		public void resetCommit() {
+			for(Player player : players) {
+				player.resetCommit();
+			}
+		}
+		
+		public boolean checkAllCommit() {
+			boolean allCommit = true;
+			for(Player player : players) {
+				if(player.getCommit() == false) {
+					allCommit = false;
+				}
+			}
+			return allCommit;
 		}
 	//--------------------------------------------------------------------------------------------------
 
