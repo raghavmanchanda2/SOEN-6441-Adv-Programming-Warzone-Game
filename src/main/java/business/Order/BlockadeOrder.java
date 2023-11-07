@@ -5,6 +5,7 @@ import model.Country;
 import model.Player;
 
 /**
+ * Class that defines blockade functionalities
  * 
  * @author Kevin
  * @version build 2
@@ -14,13 +15,20 @@ public class BlockadeOrder implements Order{
 	private Country targetCountry;
 	private Player player;
 	
+	/**
+	 * Parameterized constructor that to build a blockade order
+	 * @param p_player - player that wants to execute blockade order
+	 * @param p_targetCountry - blockade will occur in this country
+	 */
 	public BlockadeOrder(Player p_player, Country p_targetCountry) {
 		super();
 		player = p_player;
 		targetCountry = p_targetCountry;
 	}
 	
-	
+	/**
+	 * Triples the army in the target country and sets it to neutral
+	 */
 	@Override
 	public void execute() {
 
@@ -34,6 +42,11 @@ public class BlockadeOrder implements Order{
 		
 	}
 
+	/**
+	 * 1. check if player has a blockade card
+	 * 2. check if the target country belongs to the player
+	 * 3. If the above are true, remove blockade card from the player and return true
+	 */
 	@Override
 	public boolean valid() {
 
@@ -66,6 +79,9 @@ public class BlockadeOrder implements Order{
 		return false;
 	}
 
+	/**
+	 * Print execution of blockade order
+	 */
 	@Override
 	public void printOrder() {
 		// TODO Auto-generated method stub
