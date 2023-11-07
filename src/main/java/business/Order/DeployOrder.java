@@ -21,9 +21,6 @@ public class DeployOrder implements Order{
 	
 	@Override
 	public void execute() {
-		if(player.getCurrentArmies() > to_deploy_armies) {
-			System.out.println("armies are less in your poll");
-		}
 		
 		targetCountry.armiesDeploy(to_deploy_armies);
 		
@@ -32,7 +29,7 @@ public class DeployOrder implements Order{
 	@Override
 	public boolean valid() {
 		
-		if(targetCountry == null || to_deploy_armies > player.getCurrentArmies() || to_deploy_armies <= 0 ) {
+		if(targetCountry == null || to_deploy_armies > player.getArmiesToIssue() || to_deploy_armies <= 0 ) {
 			return false;
 		}
 		else if(player.getCountriesHold().contains(targetCountry)) {

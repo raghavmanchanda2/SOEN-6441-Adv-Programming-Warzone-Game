@@ -162,7 +162,7 @@ public class SingleGameModePlayEngine {
 
 				
 				
-				if (gameModel.doNextPlayer()) {
+				if (!gameModel.doNextPlayer()) {
 					// no next player do commit state
 					System.out.println("****************************************");
 					break;

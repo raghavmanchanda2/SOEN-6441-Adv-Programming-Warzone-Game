@@ -37,9 +37,17 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 	 */
 	@Override
 	public ResponseWrapper doReinforcements() throws GeneralException{
+		System.out.println("ENTER REINFORCEMENT PHASE!!!!");
 		
+		for(Continent continent : mapModel.getContinents()) {
+			continent.determineContinentOwner();
+		}
 		
-		return printInvalidCommandInState();
+		for(Player player : gameModel.getPlayers()) {
+			player.calculateCurrentArmies();
+		}
+		
+		return new ResponseWrapper(200, "Reinforcement phase complete");
 		
 	}
 	
@@ -251,7 +259,7 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 	@Override
 	public ResponseWrapper commit(Player player) throws GeneralException {
 		addCommitPlayer(player);
-		player.resetArmiesToIssue();
+		//player.resetArmiesToIssue();
 		return new ResponseWrapper(200, "");
 	}
 

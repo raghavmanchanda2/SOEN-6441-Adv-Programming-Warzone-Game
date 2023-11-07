@@ -16,7 +16,7 @@ public class Player {
 	private String playerName;
 	//private int armiesHold = 5; // base armies
 	private int baseArmies = 5;
-	private int armiesToIssue = 5;
+	private int armiesToIssue;
 	private int reinforcementArmies = 0; // holding countries / 3 down to
 	private int bonusArmies = 0; // continent 
 	private int currentArmies = baseArmies + reinforcementArmies + bonusArmies;
@@ -41,13 +41,14 @@ public class Player {
 		return armiesToIssue;
 	}
 
+	
 	public void setArmiesToIssue(int armiesToIssue) {
 		this.armiesToIssue = armiesToIssue;
 	}
 
-	public void resetArmiesToIssue() {
-		this.armiesToIssue = 5;
-	}
+//	public void resetArmiesToIssue() {
+//		this.armiesToIssue = 5;
+//	}
 
 	public Order nextOrder() {
 		return orders_list.poll();
@@ -246,6 +247,30 @@ public class Player {
 	public void endTurnCardReset()
 	{
 		d_can_get_card_this_turn = false;
+	}
+	
+	private int CalculateReinforcementArmies() {
+		reinforcementArmies = countriesHold.size()/3;
+		return reinforcementArmies;
+	}
+	
+	private int CalculateBonusArmies() {
+		MapModel map = MapModel.getInstance();
+		
+		for(Continent continent : map.getContinents()) {
+			if(continent.getContinentOwner() == this) {
+				int bonus = Integer.parseInt(continent.getContientValue());
+				bonusArmies += bonus;
+			}
+		}
+		
+		return bonusArmies;
+	}
+	
+	public void calculateCurrentArmies() {
+		bonusArmies = 0;
+		currentArmies = baseArmies + CalculateReinforcementArmies() + CalculateBonusArmies();
+		armiesToIssue = currentArmies;
 	}
 	
 	//-------------------------------------------
