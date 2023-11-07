@@ -51,6 +51,16 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 		
 	}
 	
+	public ResponseWrapper endGame(ResponseWrapper mainPlaySetUpResponse) throws GeneralException {
+		for(Player player : gameModel.getPlayers()) {
+			if(player.getCountriesHold().size() == mapModel.getCountries().size()) {
+				mainPlaySetUpResponse.setStatusValue(201);
+				return new ResponseWrapper(200, "Player: " + player.getPlayerName() + " CAPTURED ALL COUNTRIES IN THE MAP! GAME ENDS");
+			}
+		}
+		return null;
+	}
+	
 	/**
 	 * Method that converts input string commands into objects to be used for deploy execution
 	 * @param p_currentPlayer - Current player object that is inputting string command
@@ -109,7 +119,11 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 			p_currentPlayer.addOrder(advance);
 			return new ResponseWrapper(200, " Advance order added in queue");
 		}else {
-			return new ResponseWrapper(204,"from country doesn't belong to you or targeted country is not your neighbour");
+			return new ResponseWrapper(204,"One of the following occurred: \n"
+										+ "1. Source country does not belong to you\n"
+										+ "2. Destination Country is not a neighbouring country\n"
+										+ "3. Destination Country does not exist in the m;ap\n"
+										+ "4. YOU CANNOT MOVE ALL YOUR ARMIES, MUST LEAVE AT LEAST 1 BEHIND!!!\n");
 		}
 		
 	}
@@ -261,7 +275,7 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 		addCommitPlayer(player);
 		player.performCommit();
 		//player.resetArmiesToIssue();
-		return new ResponseWrapper(200, "");
+		return new ResponseWrapper(200, player + " has performed a commit");
 	}
 
 	/**

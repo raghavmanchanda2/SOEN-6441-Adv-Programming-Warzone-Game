@@ -176,7 +176,7 @@ public class SingleGameModePlayEngine {
 			}
 			// in execution if player capture country he will get card
 			// in execution if player goin to win
-			
+			mainPlayPhaseBusinessCommands.endGame(mainPlaySetUpResponse);
 			
 			System.out.println(mainPlaySetUpResponse.getDescription());
 			if(mainPlaySetUpResponse.getStatusValue() == 201) {
