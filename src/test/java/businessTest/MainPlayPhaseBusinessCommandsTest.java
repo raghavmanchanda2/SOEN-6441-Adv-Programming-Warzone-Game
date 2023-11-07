@@ -12,10 +12,13 @@ import model.Country;
 import model.GameModel;
 import model.MapModel;
 import model.Player;
+import model.ResponseWrapper;
 
 class MainPlayPhaseBusinessCommandsTest {
 
 	private MainPlayPhaseBusinessCommands mainPlayPhaseBusinessCommands = new MainPlayPhaseBusinessCommands();
+	
+	private ResponseWrapper finalResponse = new ResponseWrapper(0,"");
 	
 	private MapModel mapModel = MapModel.getInstance();
 	private GameModel gameModel = GameModel.getInstance();
@@ -69,6 +72,13 @@ class MainPlayPhaseBusinessCommandsTest {
 		
 		assertEquals(P1.getCurrentArmies(), 16);
 		
+	}
+	
+	@Test
+	void endGame() throws GeneralException {
+		mainPlayPhaseBusinessCommands.endGame(finalResponse);
+		
+		assertEquals(201, finalResponse.getStatusValue());
 	}
 
 }

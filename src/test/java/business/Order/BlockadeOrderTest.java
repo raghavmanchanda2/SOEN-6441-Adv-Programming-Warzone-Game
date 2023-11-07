@@ -79,6 +79,7 @@ class BlockadeOrderTest {
 		blockade_order.execute();
 		
 		assertEquals(45, d_Mexico.getArmies());
+		assertEquals(null, d_Mexico.getCountryOwner());
 		
 	}
 
