@@ -5,7 +5,7 @@ import org.junit.platform.suite.api.Suite;
 
 @Suite
 @SelectClasses({ AdvanceOrderTest.class, AirliftOrderTest.class, BlockadeOrderTest.class, BombOrderTest.class,
-		DiplomacyOrderTest.class })
+		DiplomacyOrderTest.class, DeployOrderTest.class})
 public class BusinessOrderTestSuite {
 
 }

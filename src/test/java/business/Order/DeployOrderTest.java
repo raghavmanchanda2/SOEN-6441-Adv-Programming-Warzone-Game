@@ -54,6 +54,8 @@ class DeployOrderTest {
 		P1.getCountry(d_USA).setArmy(10);
 		P1.getCountry(d_Mexico).setArmy(15);
 		
+		P1.setArmiesToIssue(5);
+		
 		int allArmies = P1.getArmiesToIssue();
 		
 		deploy_order = new DeployOrder(d_Canada, allArmies, P1);
