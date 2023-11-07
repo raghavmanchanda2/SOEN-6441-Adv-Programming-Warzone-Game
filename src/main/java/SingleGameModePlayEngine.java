@@ -115,6 +115,7 @@ public class SingleGameModePlayEngine {
 			}
 		}
 		
+		System.out.println("CONTINENT: " + mapModel.getContinents());
 		// Reinforcement attack and fortification
 		ResponseWrapper mainPlaySetUpResponse;
 		while(true) {

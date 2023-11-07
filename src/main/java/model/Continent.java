@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ public class Continent {
 	private String d_continentId;
 	private String d_continentName;
 	private String d_contientValue;
-	private List<Country> d_continentCountries;
+	private List<Country> d_continentCountries = new ArrayList();
 	
 	private Player d_continentOwner = null;
 	
@@ -189,6 +190,11 @@ public class Continent {
 			d_continentOwner = currentOwner;
 		}
 		
+	}
+	
+	
+	public void addToCountryList(Country country) {
+		d_continentCountries.add(country);
 	}
 	
 
