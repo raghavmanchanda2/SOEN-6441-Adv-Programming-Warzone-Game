@@ -109,7 +109,7 @@ public class SingleGameModePlayEngine {
 		// initial setup phase
 		while(true) {
 			this.printPlaySetupCommands();
-			initialSetupResponse = singleGameModePlayEngineController.getPlaySetupCommandsFromUser();
+			initialSetupResponse = singleGameModePlayEngineController.getPlaySetupCommands(singleGameModePlayEngineController.getPlaySetupCommandsFromUser());
 			System.out.println(initialSetupResponse.getDescription());
 			if(initialSetupResponse.getStatusValue() == 201) {
 				System.out.println("Moving to GamePlay Phase and can't be go back in initial set up phase");

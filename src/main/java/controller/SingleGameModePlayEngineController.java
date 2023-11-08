@@ -28,10 +28,14 @@ public class SingleGameModePlayEngineController {
 		this.singlePlayPhase = singlePlayPhase;
 	}
 	
-	public ResponseWrapper getPlaySetupCommandsFromUser() throws GeneralException {
+	public String getPlaySetupCommandsFromUser() {
 		
-		String l_userEnteredInitialSetupCommands = d_inputForInitialSetupCommands.nextLine();
-
+		return d_inputForInitialSetupCommands.nextLine();
+		
+	}
+	
+	public ResponseWrapper getPlaySetupCommands(String l_userEnteredInitialSetupCommands) throws GeneralException {
+		
 		if (l_userEnteredInitialSetupCommands.trim().isEmpty()) {
 			
 			return new ResponseWrapper(404, INCORRECT_COMMAND); 
