@@ -98,6 +98,13 @@ public class SingleGameModePlayEngineController {
 			
 			
 		case "continue":
+			if (Boolean.FALSE.equals(loadMapFirst)) {
+				return new ResponseWrapper(404, LOAD_MAP_FIRST);
+			} else if (singleGamePlayerCommands.getD_mapFileAlteration().getGameModel().getPlayers() == null
+					|| singleGamePlayerCommands.getD_mapFileAlteration().getGameModel().getPlayers().size() == 1) {
+				return new ResponseWrapper(404, "Player should be atleast 2");
+			}
+			
 			return new ResponseWrapper(201,"Move to Next Phase");
 			
 			

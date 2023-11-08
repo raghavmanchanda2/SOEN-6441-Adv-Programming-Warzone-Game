@@ -244,8 +244,22 @@ public class SingleGamePlayerCommands extends Phase{
 		return printInvalidCommandInState();
 	}
 
-	
-	
+	/**
+	 * method to get object
+	 * @return MapFileAlteration object
+	 */
+	public MapFileAlteration getD_mapFileAlteration() {
+		return d_mapFileAlteration;
+	}
+
+	/**
+	 * method to set object
+	 * @param d_mapFileAlteration - set MapFileAlteration object
+	 */
+	public void setD_mapFileAlteration(MapFileAlteration d_mapFileAlteration) {
+		this.d_mapFileAlteration = d_mapFileAlteration;
+	}
+
 	
 
 }

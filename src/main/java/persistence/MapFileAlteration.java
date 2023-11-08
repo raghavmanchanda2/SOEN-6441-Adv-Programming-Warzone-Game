@@ -726,4 +726,11 @@ public class MapFileAlteration {
 		return d_mapModel;
 	}
 
+	/**
+	 * getter method for MapModel
+	 * @return gameModel - game model
+	 */
+	public GameModel getGameModel() {
+		return gameModel;
+	}
 }
