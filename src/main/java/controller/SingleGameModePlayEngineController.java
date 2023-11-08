@@ -12,6 +12,8 @@ public class SingleGameModePlayEngineController {
 	private Scanner d_inputForInitialSetupCommands;
 	private GeneralException gException;
 	public static final String INCORRECT_COMMAND="Please enter proper command";
+	private static final String LOAD_MAP_FIRST = "Launch Load Map command first";
+	private static Boolean loadMapFirst=false;
 	private SingleGamePlayerCommands singleGamePlayerCommands;
 	Phase singlePlayPhase;
 
@@ -42,15 +44,25 @@ public class SingleGameModePlayEngineController {
 
 		case "loadmap":
 			System.out.print("in load map");
+			loadMapFirst=true;
 			return singlePlayPhase.loadMap(l_splitInitialSetupCommand[1]);
 			
 			
 		case "showmap":
+			if(Boolean.FALSE.equals(loadMapFirst))
+			{
+				return new ResponseWrapper(404, LOAD_MAP_FIRST);
+			}
 			return singlePlayPhase.showMap();
 			
 			
 			
 		case "gameplayer":
+			
+			if(Boolean.FALSE.equals(loadMapFirst))
+			{
+				return new ResponseWrapper(404, LOAD_MAP_FIRST);
+			}
 			
 			switch (l_splitInitialSetupCommand[1]) {
 
@@ -73,6 +85,11 @@ public class SingleGameModePlayEngineController {
 			
 		case "assigncountries":
 			
+			if(Boolean.FALSE.equals(loadMapFirst))
+			{
+				return new ResponseWrapper(404, LOAD_MAP_FIRST);
+			}
+			
 			return singlePlayPhase.assignCountries();
 			
 			
@@ -81,11 +98,20 @@ public class SingleGameModePlayEngineController {
 			
 			
 		case "savemap":
+			if(Boolean.FALSE.equals(loadMapFirst))
+			{
+				return new ResponseWrapper(404, LOAD_MAP_FIRST);
+			}
 			
 			return singlePlayPhase.saveMap(null);
 			
 
 		case "validatemap":
+			
+			if(Boolean.FALSE.equals(loadMapFirst))
+			{
+				return new ResponseWrapper(404, LOAD_MAP_FIRST);
+			}	
 			
 			return singlePlayPhase.validateMap();
 			

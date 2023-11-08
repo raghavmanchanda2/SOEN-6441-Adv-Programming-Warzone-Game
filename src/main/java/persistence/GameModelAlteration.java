@@ -25,11 +25,21 @@ public class GameModelAlteration {
 	}
 	public ResponseWrapper removePlayerFromGame(String playerName) {
 		
+		Boolean playerFoundToBeRemoved=false;
+		
+		if(this.gameModel.getPlayers()==null)
+		{
+			return new ResponseWrapper(200,"Player doesnt exist in the map");
+		}
 		for(Player player: this.gameModel.getPlayers()) {
 			if(player.getPlayerName().equals(playerName)) {
 				this.gameModel.getPlayers().remove(player);
 				break;
 			}
+		}
+		if(Boolean.FALSE.equals(playerFoundToBeRemoved))
+		{
+			return new ResponseWrapper(200,"Player doesnt exist in the map");
 		}
 		return new ResponseWrapper(200,"Player removed successfully.");
 	}

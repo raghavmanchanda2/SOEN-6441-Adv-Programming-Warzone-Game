@@ -121,6 +121,12 @@ public class SingleGameModePlayEngine {
 		ResponseWrapper mainPlaySetUpResponse;
 		while(true) {
 			
+			if(gameModel.getPlayers()==null)
+			{
+				System.out.println("Cannot Continue with GamePlay Phase as players are not defined or map is not choosen");
+				return new ResponseWrapper(404, "Cannot Continue with GamePlay Phase as players are not available");
+			}
+			
 			gameModel.resetPeaceForAllPlayers();
 			gameModel.resetCommit();
 			
