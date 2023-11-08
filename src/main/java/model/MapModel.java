@@ -163,6 +163,7 @@ public class MapModel {
 //				System.out.println(country.getCountryId() + "inside...............");
 				this.continentCountries.get(continent).add(country);	
 			}
+			continent.addToCountryList(country);
 		}
 				
 		if(this.borders == null) {
@@ -175,7 +176,7 @@ public class MapModel {
 		this.countries.add(country);
 		this.borders.put(country, new ArrayList<Country>());
 		
-		continent.addToCountryList(country);
+		
 		
 //		System.out.println(country.getCountryId() + "outside...............");
 		

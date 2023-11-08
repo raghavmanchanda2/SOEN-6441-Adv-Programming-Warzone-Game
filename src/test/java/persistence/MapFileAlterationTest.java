@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import GamePhase.MapPhaseState;
 import model.Continent;
 import model.Country;
 import persistence.MapFileAlteration;
@@ -384,6 +385,17 @@ class MapFileAlterationTest {
 		assertTrue(inContinentCountriesList);
 	}
 	
+	
+	// 
+	@Test
+	void readInvalidMap() {
+		
+		MapPhaseState.D_CURRENT_MAP = "continentMissing.map";
+		
+		d_MFA.readMapFile();
+		
+		assertEquals("Country's Continent Data is missing",d_MFA.validateMap().getDescription());
+	}
 
 }
 
