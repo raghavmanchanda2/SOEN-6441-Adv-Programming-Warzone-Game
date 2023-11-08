@@ -1,11 +1,9 @@
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import business.MainPlayPhaseBusinessCommands;
 import controller.MainPlayPhaseController;
-import controller.MapEngineController;
 import controller.SingleGameModePlayEngineController;
 import logger.ConsoleWriter;
 import logger.GeneralException;
@@ -31,6 +29,8 @@ public class SingleGameModePlayEngine {
 
 	String l_Table = "- %-21s - %-16s - %-22s%n";
 	String l_Columns = " %-16s  %-20s   %-22s%n";
+
+	StringBuilder stringBuilder = new StringBuilder();
 
 	public SingleGameModePlayEngine() {
 		singleGameModePlayEngineController = new SingleGameModePlayEngineController();
@@ -180,8 +180,10 @@ public class SingleGameModePlayEngine {
 	public String getCountriesList(List<Country> countriesList) {
 		String l_countList = "";
 		for (Country country : countriesList) {
-			l_countList += country.getCountryId() + "-";
+			stringBuilder.append(country.getCountryId());
+			stringBuilder.append("-");
 		}
+		l_countList = stringBuilder.toString();
 		return l_countList.length() > 0 ? l_countList.substring(0, l_countList.length() - 1) : "";
 	}
 
