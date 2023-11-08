@@ -46,6 +46,8 @@ public class MapFileAlteration {
 	private LogEntryBuffer d_logger;
 	private ConsoleWriter d_consoleWriter;
 	private LogGenerator d_logGenrator;
+
+	StringBuilder stringBuilder = new StringBuilder();
 	
 	/**
 	 * method for creating a new MapModel object 
@@ -120,18 +122,15 @@ public class MapFileAlteration {
 					
 				}else if(l_isCountriesTableContent) {
 					String[] l_countryRow = l_mapFileLine.trim().split("\\s+");
-//					System.out.println(l_countryRow[0] + l_countryRow [1] + l_countryRow[2]);
 					try {
 						Country l_country = new Country(Integer.parseInt(l_countryRow[0]), l_countryRow[1]);
-//						System.out.println(l_country.getCountryId() + "kkkkkkkkkkkkkkkkk");
 						
 						if(this.d_mapModel.getContinents().size() <= Integer.parseInt(l_countryRow[2])) {
 							this.d_mapModel.addContinentCountries(null, l_country);
 						}else {
 							this.d_mapModel.addContinentCountries(this.d_mapModel.getContinents().get(Integer.parseInt(l_countryRow[2])), l_country);	
 						}
-						
-//						System.out.println("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ");
+
 					}catch(IndexOutOfBoundsException ex) {
 						System.out.println(ex);
 					}
@@ -199,25 +198,38 @@ public class MapFileAlteration {
 			String l_mapFileData = "MAP\n" + MapPhaseState.D_CURRENT_MAP+"\nCONTINENTS_TABLE\n";
 			
 			for(Continent continent : this.d_mapModel.getContinents()) {
-				l_mapFileData += continent.getUniqueContinetId() + " " + continent.getContinentId() + " " + continent.getContientValue() + "\n";
+				stringBuilder.append(continent.getUniqueContinetId())
+						.append(" ")
+						.append(continent.getContinentId())
+						.append(" ")
+						.append(continent.getContientValue())
+						.append("\n");
 			}
 			
 			if(this.d_mapModel.getCountries() != null){
 				l_mapFileData += "COUNTRIES_TABLE\n";
 				for(Country country : this.d_mapModel.getCountries()) {
-					l_mapFileData += country.getUniqueCountryId() + " " +country.getCountryId() + " " + country.getContinent().getUniqueContinetId() + "\n";
+					stringBuilder.append(country.getUniqueCountryId())
+							.append(" ")
+							.append(country.getCountryId())
+							.append(" ")
+							.append(country.getContinent().getUniqueContinetId())
+							.append("\n");
 				}
 			}
 			if(this.d_mapModel.getBorders() != null) {
 				l_mapFileData += "BORDERS_TABLE";
 				for(Map.Entry<Country, List<Country>> border: this.d_mapModel.getBorders().entrySet()) {
-					l_mapFileData += "\n"+border.getKey().getUniqueCountryId();
+					stringBuilder.append("\n")
+							.append(border.getKey().getUniqueCountryId());
 					for(Country country : border.getValue()) {
-						l_mapFileData += " " + country.getUniqueCountryId();
+						stringBuilder.append(" ")
+								.append(country.getUniqueCountryId());
 					
 					}
 				}
 			}
+			l_mapFileData = stringBuilder.toString();
 			d_bufferWriter.write(l_mapFileData);
 			d_bufferWriter.flush();
 		} catch (  IOException p_e) {
@@ -595,10 +607,10 @@ public class MapFileAlteration {
 			}
 			
 		}
-		
-		if ("".equals(this.d_mapModel.getMapName()) || this.d_mapModel.getMapName() == null || this.d_mapModel.getContinents().size() == 0
-				|| this.d_mapModel.getCountries().size() == 0 || this.d_mapModel.getContinentCountries().size() == 0
-				|| this.d_mapModel.getBorders().size() == 0) {
+
+		if ("".equals(this.d_mapModel.getMapName()) || this.d_mapModel.getMapName() == null || this.d_mapModel.getContinents().isEmpty()
+				|| this.d_mapModel.getCountries().isEmpty() || this.d_mapModel.getContinentCountries().isEmpty()
+				|| this.d_mapModel.getBorders().isEmpty()) {
 
 			return new ResponseWrapper(404, "Map is not created Properly");
 
@@ -692,13 +704,13 @@ public class MapFileAlteration {
 			return new ResponseWrapper(404,
 					" Border Data for Countries is not consistent with Countries that are added ");
 
-		} 
-	
-		
-	
-				
-		Boolean l_countryBorderNotExists = this.d_mapModel.getBorders().entrySet().stream()
-				.anyMatch(borderMap -> borderMap.getValue().size() == 0) ? true : false;
+		}
+
+
+
+
+		Boolean l_countryBorderNotExists = this.d_mapModel.getBorders().values().stream()
+				.anyMatch(borderList -> borderList.isEmpty()) ? true : false;
 		
 		if (Boolean.TRUE.equals(l_countryBorderNotExists)) {
 			return new ResponseWrapper(404, " Countries Border Missing ");
