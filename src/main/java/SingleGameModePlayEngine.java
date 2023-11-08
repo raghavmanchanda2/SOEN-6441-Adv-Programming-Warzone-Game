@@ -62,6 +62,7 @@ public class SingleGameModePlayEngine {
 		System.out.println("-> To remove a player to the game: gameplayer -remove playername");
 		System.out.println("-> To assign the countries to all the players: assigncountries");
 		System.out.println("-> To continue to the StartUp Phase: continue");
+		System.out.println("-> To exit the game: exit");
 		System.out.println(" ");
 		System.out.println("***** Input any command to proceed *****");
 		System.out.println("****(Getting input from the user...)****");
@@ -88,6 +89,7 @@ public class SingleGameModePlayEngine {
 		System.out.println("-> Blockade Order Command: blockade countryID");
 		System.out.println("-> Diplomacy Order Command: negotiate playerID");
 		System.out.println("-> Commit Orders: commit");
+		System.out.println("-> Exit Game: exit");
 		System.out.println(" ");
 		System.out.println("***** Input any command to proceed *****");
 		System.out.println("****(Getting input from the user...)****");

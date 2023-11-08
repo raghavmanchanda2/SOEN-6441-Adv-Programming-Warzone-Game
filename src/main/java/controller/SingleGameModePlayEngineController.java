@@ -110,6 +110,10 @@ public class SingleGameModePlayEngineController {
 		
 		case "editcontinent":
 			return singlePlayPhase.editContinent(null, null);
+
+			case "exit":
+				System.out.println("Ending Game!");
+				System.exit(0);
 			
 		default:
 			return new ResponseWrapper(404, INCORRECT_COMMAND); // nothing entered please enter proper

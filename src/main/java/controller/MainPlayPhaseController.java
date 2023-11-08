@@ -98,6 +98,10 @@ public class MainPlayPhaseController {
 		case "editcontinent":
 			return playPhase.editContinent(null, null);
 
+			case "exit":
+				System.out.println("Player exit. Ending Game Now!");
+				System.exit(0);
+
 		default:
 			return new ResponseWrapper(404, INCORRECT_COMMAND); 
 		}
