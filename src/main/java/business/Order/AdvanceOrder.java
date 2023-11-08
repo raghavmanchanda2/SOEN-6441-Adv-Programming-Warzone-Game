@@ -53,6 +53,7 @@ public class AdvanceOrder implements Order{
 		
 		if(player.getCountriesHold().contains(targetCountry)) {
 			targetCountry.armiesDeploy(to_deploy_armies);
+			fromCountry.armiesRemove(to_deploy_armies);
 		}
 		else if(player.getPeaceWith() == targetCountry.getCountryOwner()) {
 			System.out.println("You have a peace treaty with: " 
