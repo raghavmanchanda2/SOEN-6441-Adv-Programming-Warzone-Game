@@ -195,7 +195,7 @@ public class MapFileAlteration {
 			d_mapFileWriter = new FileWriter(ProjectConfig.D_MAP_FILES_PATH+MapPhaseState.D_CURRENT_MAP);
 			d_bufferWriter = new BufferedWriter(d_mapFileWriter);
 			
-			String l_mapFileData = "MAP\n" + MapPhaseState.D_CURRENT_MAP+"\nCONTINENTS_TABLE\n";
+			stringBuilder.append("MAP\n" + MapPhaseState.D_CURRENT_MAP+"\nCONTINENTS_TABLE\n");
 			
 			for(Continent continent : this.d_mapModel.getContinents()) {
 				stringBuilder.append(continent.getUniqueContinetId())
@@ -207,7 +207,7 @@ public class MapFileAlteration {
 			}
 			
 			if(this.d_mapModel.getCountries() != null){
-				l_mapFileData += "COUNTRIES_TABLE\n";
+				stringBuilder.append("COUNTRIES_TABLE\n");
 				for(Country country : this.d_mapModel.getCountries()) {
 					stringBuilder.append(country.getUniqueCountryId())
 							.append(" ")
@@ -218,7 +218,7 @@ public class MapFileAlteration {
 				}
 			}
 			if(this.d_mapModel.getBorders() != null) {
-				l_mapFileData += "BORDERS_TABLE";
+				stringBuilder.append("BORDERS_TABLE");
 				for(Map.Entry<Country, List<Country>> border: this.d_mapModel.getBorders().entrySet()) {
 					stringBuilder.append("\n")
 							.append(border.getKey().getUniqueCountryId());
@@ -229,8 +229,7 @@ public class MapFileAlteration {
 					}
 				}
 			}
-			l_mapFileData = stringBuilder.toString();
-			d_bufferWriter.write(l_mapFileData);
+			d_bufferWriter.write(stringBuilder.toString());
 			d_bufferWriter.flush();
 		} catch (  IOException p_e) {
 			// Log
