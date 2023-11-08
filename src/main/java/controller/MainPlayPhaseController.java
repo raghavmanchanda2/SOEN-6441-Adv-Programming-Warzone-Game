@@ -63,6 +63,10 @@ public class MainPlayPhaseController {
 			
 			return playPhase.airlift(currentPlayer, l_splitInitialSetupCommand[1], l_splitInitialSetupCommand[2], Integer.parseInt(l_splitInitialSetupCommand[3]));
 		
+		case "negotiate":
+			
+			return playPhase.diplomacy(currentPlayer, l_splitInitialSetupCommand[1]);
+			
 		case "loadmap":
 			return playPhase.loadMap(null);
 			
