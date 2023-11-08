@@ -9,16 +9,22 @@ import model.ResponseWrapper;
 import business.Order.*;
 import logger.GeneralException;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * MainPlayPhaseBusinessCommands class to issue the commands of user
  * @author kevin
  * @author raghav
+ * @author ishaan
  * @version build 2
  */
 public class MainPlayPhaseBusinessCommands extends Phase {
 	
 	private MapModel mapModel;
 	private GameModel gameModel;
+
+	private static Set<Player> CommittedPlayers = new HashSet<>();
 	
 	public MainPlayPhaseBusinessCommands() {
 		mapModel = MapModel.getInstance();
@@ -31,13 +37,33 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 	 */
 	@Override
 	public ResponseWrapper doReinforcements() throws GeneralException{
-		return printInvalidCommandInState();
+		System.out.println("ENTER REINFORCEMENT PHASE!!!!");
 		
+		for(Continent continent : mapModel.getContinents()) {
+			continent.determineContinentOwner();
+		}
+		
+		for(Player player : gameModel.getPlayers()) {
+			player.calculateCurrentArmies();
+		}
+		
+		return new ResponseWrapper(200, "Reinforcement phase complete");
+		
+	}
+	
+	public ResponseWrapper endGame(ResponseWrapper mainPlaySetUpResponse) throws GeneralException {
+		for(Player player : gameModel.getPlayers()) {
+			if(player.getCountriesHold().size() == mapModel.getCountries().size()) {
+				mainPlaySetUpResponse.setStatusValue(201);
+				return new ResponseWrapper(200, "Player: " + player.getPlayerName() + " CAPTURED ALL COUNTRIES IN THE MAP! GAME ENDS");
+			}
+		}
+		return null;
 	}
 	
 	/**
 	 * Method that converts input string commands into objects to be used for deploy execution
-	 * @param p_currentPlayer - Current player object that is inputing string command
+	 * @param p_currentPlayer - Current player object that is inputting string command
 	 * @param p_country - Country where armies will be deployed in
 	 * @param p_numerOfarmies - Number of armies that will be deployed
 	 * @return alert message that deploy is successful or unsuccessful
@@ -50,14 +76,16 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 				targettedCountry = countryInList;
 			}
 		}
-		
-		
+
 		Order deploy = new DeployOrder(targettedCountry,p_numerOfarmies,p_currentPlayer);
-		if(deploy.valid()) {
+		if(deploy.valid() && p_currentPlayer.getArmiesToIssue()>0) {
 			p_currentPlayer.addOrder(deploy);
+			p_currentPlayer.setArmiesToIssue(p_currentPlayer.getArmiesToIssue() - p_numerOfarmies);
 			return new ResponseWrapper(200, " Deploy order added in queue");
+		} else if (p_currentPlayer.getArmiesToIssue()==0){
+			return new ResponseWrapper(200, "No armies left in this turn.");
 		}else {
-			return new ResponseWrapper(204,"Targeted country doesn't belong to you");
+			return new ResponseWrapper(204,"Targeted country doesn't belong to you.");
 		}
 		
 		
@@ -65,7 +93,7 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 	
 	/**
 	 * Method that converts input string commands into objects to be used for advance execution
-	 * @param p_currentPlayer - Current player object that is inputing string command
+	 * @param p_currentPlayer - Current player object that is inputting string command
 	 * @param p_countryNameFrom - Source country where armies are moving from
 	 * @param p_countryNameTo - Destination country where armies are moving to
 	 * @param p_numerOfarmies - Number of armies being displaced or attacking
@@ -91,7 +119,11 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 			p_currentPlayer.addOrder(advance);
 			return new ResponseWrapper(200, " Advance order added in queue");
 		}else {
-			return new ResponseWrapper(204,"from country doesn't belong to you or targeted country is not your neighbour");
+			return new ResponseWrapper(204,"One of the following occurred: \n"
+										+ "1. Source country does not belong to you\n"
+										+ "2. Destination Country is not a neighbouring country\n"
+										+ "3. Destination Country does not exist in the m;ap\n"
+										+ "4. YOU CANNOT MOVE ALL YOUR ARMIES, MUST LEAVE AT LEAST 1 BEHIND!!!\n");
 		}
 		
 	}
@@ -120,15 +152,15 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 		}else {
 			return new ResponseWrapper(204,"One of the following occured: \n"
 										+ "1. You do not possess a bomb card\n"
-										+ "2. You are targetting a country that belongs to you\n"
-										+ "3. You are targetting a country that is not adjacent to one of your countries\n"
+										+ "2. You are targeting a country that belongs to you\n"
+										+ "3. You are targeting a country that is not adjacent to one of your countries\n"
 										+ "4. That country does not exist in the map\n");
 		}
 	}
 	
 	/**
 	 * Method that converts input string commands into objects to be used for blockade execution
-	 * @param p_currentPlayer - Current player object that is inputing string command
+	 * @param p_currentPlayer - Current player object that is inputting string command
 	 * @param p_targetCountryName - Name of country in which a blockade is performed on
 	 * @return alert message that blockade is successful or unsuccessful
 	 */
@@ -154,7 +186,7 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 	
 	/**
 	 * Method that converts input string commands into objects to be used for airlift execution
-	 * @param p_currentPlayer - Current player object that is inputing string command
+	 * @param p_currentPlayer - Current player object that is inputting string command
 	 * @param p_countryNameFrom - Source country that will airlift the armies to a destination
 	 * @param p_countryNameTo - Destination Country that will receive armies from airlift
 	 * @param p_numArmies - Number of armies being displaced by airlift
@@ -180,7 +212,7 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 			p_currentPlayer.addOrder(airlift);
 			return new ResponseWrapper(200, " Airlift order added in queue");
 		}else {
-			return new ResponseWrapper(204, "One of the following occured: \n"
+			return new ResponseWrapper(204, "One of the following occurred: \n"
 										+ "1. You do not possess an airlift card\n"
 										+ "2. Country you are airlifting from does not belongs to you\n"
 										+ "3. Country you are airlifting to does not belongs to you\n"
@@ -211,6 +243,39 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 		}else {
 			return new ResponseWrapper(204, " Player you want to make peace with does not exist");
 		}
+	}
+
+	public void addCommitPlayer(Player player){
+		CommittedPlayers.add(player);
+		if (CommittedPlayers.size() == gameModel.getPlayers().size()){
+			executeOrders();
+		}
+	}
+
+	private void executeOrders() {
+		int l_Counter = 0;
+		while (l_Counter < gameModel.getPlayers().size()) {
+			l_Counter = 0;
+			for (Player l_Player : gameModel.getPlayers()) {
+				Order l_Order = l_Player.nextOrder();
+				if (l_Order == null) {
+					l_Counter++;
+				} else {
+					l_Order.execute();
+					l_Order.printOrder();
+				}
+			}
+		}
+		CommittedPlayers.clear();
+	}
+
+
+	@Override
+	public ResponseWrapper commit(Player player) throws GeneralException {
+		addCommitPlayer(player);
+		player.performCommit();
+		//player.resetArmiesToIssue();
+		return new ResponseWrapper(200, player + " has performed a commit");
 	}
 
 	/**

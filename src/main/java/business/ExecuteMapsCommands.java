@@ -376,6 +376,11 @@ public class ExecuteMapsCommands extends Phase {
 		return printInvalidCommandInState();
 	}
 
+	@Override
+	public ResponseWrapper commit(Player player) throws GeneralException {
+		return printInvalidCommandInState();
+	}
+
 	/**
 	 * Reinforcement the army
 	 * @return alert message that map has successfully been saved

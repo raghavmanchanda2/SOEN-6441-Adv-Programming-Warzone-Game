@@ -83,12 +83,11 @@ public class SingleGameModePlayEngine {
 		System.out.println(" ");
 		System.out.println("-> Deploy Order Command:  deploy countryID numarmies");
 		System.out.println("-> Advance Order Command: advance countrynamefrom countynameto numarmies");
-		System.out.println("-> Reinforcement");
 		System.out.println("-> Bomb Order Command: bomb countryID");
 		System.out.println("-> Airlift Order Command: airlift sourcecountryID targetcountryID numarmies");
 		System.out.println("-> Blockade Order Command: blockade countryID");
 		System.out.println("-> Diplomacy Order Command: negotiate playerID");
-		System.out.println("-> Commit");
+		System.out.println("-> Commit Orders: commit");
 		System.out.println(" ");
 		System.out.println("***** Input any command to proceed *****");
 		System.out.println("****(Getting input from the user...)****");
@@ -120,24 +119,34 @@ public class SingleGameModePlayEngine {
 		ResponseWrapper mainPlaySetUpResponse;
 		while(true) {
 			
+			gameModel.resetPeaceForAllPlayers();
+			gameModel.resetCommit();
+			
 			// do Reinforcements 
 			mainPlayPhaseBusinessCommands.doReinforcements();
+			
+			for(Player player : gameModel.getPlayers()) {
+				if(player.getCanAddCard()) {
+					player.addCard();
+					player.endTurnCardReset();
+				}
+			}
 			
 			while(true) {
 				// get player's turn 
 				this.printMainPlaySetupCommands();
-				Player currentPlayer = gameModel.getCurrentPlayer();
+				Player currentPlayer = gameModel.getNextPlayer();
 				System.out.println("*****************************************************");
 				System.out.println(" Current Player  !  Initial Assigned  !  Left Armies");
 				System.out.println("*****************************************************");
-				System.out.format(l_Table, currentPlayer.getPlayerName(), currentPlayer.getCurrentArmies(),  currentPlayer.getCurrentArmies());
+				System.out.format(l_Table, currentPlayer.getPlayerName(), currentPlayer.getCurrentArmies(),  currentPlayer.getArmiesToIssue());
 				System.out.println("*****************************************************");
 				String country_title = "Country Name";
 				String armies_title = "Country Armies";
 				String neighbors_title = "Neighbors";
 				System.out.format(l_Columns, country_title, armies_title, neighbors_title);
 				System.out.format("*****************************************************%n");
-
+				
 				Map<Country, List<Country>> neighbors = this.mapModel.getBorders();
 				for (Country l_Country : currentPlayer.getCountriesHold()) {
 					if (neighbors.containsKey(l_Country)){
@@ -145,6 +154,8 @@ public class SingleGameModePlayEngine {
 					}
 				}
 				System.out.format("*****************************************************\n");
+				
+				gameModel.printCardsListForCurrentPlayer();
 				// ask for attack commands phase  with player
 				mainPlaySetUpResponse = mainPlayPhaseController.getMainPlaySetUpCommandsFromUser(currentPlayer);
 				System.out.println(mainPlaySetUpResponse.getDescription());
@@ -152,17 +163,20 @@ public class SingleGameModePlayEngine {
 
 				
 				
-				if (gameModel.doNextPlayer()) {
-					// no next player do commit state
-					System.out.println("****************************************");
+//				if (!gameModel.doNextPlayer()) {
+//					// no next player do commit state
+//					System.out.println("****************************************");
+//					break;
+//				}
+				 
+				if(gameModel.checkAllCommit()) {
 					break;
 				}
-				 
 				
 			}
 			// in execution if player capture country he will get card
 			// in execution if player goin to win
-			
+			mainPlayPhaseBusinessCommands.endGame(mainPlaySetUpResponse);
 			
 			System.out.println(mainPlaySetUpResponse.getDescription());
 			if(mainPlaySetUpResponse.getStatusValue() == 201) {

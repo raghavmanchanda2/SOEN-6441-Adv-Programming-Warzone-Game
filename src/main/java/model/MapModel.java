@@ -175,6 +175,8 @@ public class MapModel {
 		this.countries.add(country);
 		this.borders.put(country, new ArrayList<Country>());
 		
+		continent.addToCountryList(country);
+		
 //		System.out.println(country.getCountryId() + "outside...............");
 		
 	}

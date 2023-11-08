@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,7 +15,11 @@ public class Continent {
 	private String d_continentId;
 	private String d_continentName;
 	private String d_contientValue;
-	private List<Country> d_continentCountries;
+	private List<Country> d_continentCountries = new ArrayList();
+	
+	private Player d_continentOwner = null;
+	
+	private GameModel d_gameModel;
 
 	/**
 	 * Default constructor
@@ -33,6 +38,7 @@ public class Continent {
 		this.d_uniqueContinetId = p_uniqueContinetId;
 		this.d_continentId = p_continentId;
 		this.d_contientValue= p_contientValue;
+		d_gameModel = GameModel.getInstance();
 	}
 	
 	/**
@@ -160,6 +166,35 @@ public class Continent {
 	
 	public void setContinentOwner(Player player) {
 		Player d_continentOwner = player;
+	}
+	
+	public Player getContinentOwner() {
+		return d_continentOwner;
+	}
+	
+	public void determineContinentOwner() {
+		
+		Player currentOwner = d_continentCountries.get(0).getCountryOwner();
+		boolean ownerChange = false;
+		
+		for(Country country : d_continentCountries) {
+			if(country.getCountryOwner() != currentOwner) {
+				ownerChange = true;
+			}
+		}
+		
+		if(ownerChange) {
+			d_continentOwner = null;
+		}
+		else {
+			d_continentOwner = currentOwner;
+		}
+		
+	}
+	
+	
+	public void addToCountryList(Country country) {
+		d_continentCountries.add(country);
 	}
 	
 

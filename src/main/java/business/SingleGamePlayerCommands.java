@@ -229,7 +229,12 @@ public class SingleGamePlayerCommands extends Phase{
 	public ResponseWrapper diplomacy(Player p_currentPlayer, String p_otherPlayer) throws GeneralException{
 		return printInvalidCommandInState();
 	}
-	
+
+	@Override
+	public ResponseWrapper commit(Player player) throws GeneralException {
+		return printInvalidCommandInState();
+	}
+
 	/**
 	 * Reinforcement the army
 	 * @return alert message that map has successfully been saved

@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import model.Card;
+import model.Card.CardType;
 import model.Continent;
 import model.Country;
 import model.MapModel;
@@ -54,12 +56,22 @@ class BlockadeOrderTest {
 		P1.getCountry(d_USA).setArmy(10);
 		P1.getCountry(d_Mexico).setArmy(15);
 		
+		Card c = new Card(CardType.BLOCKADE);
+		
+		P1.addSpecificCard(c);
+		
 		blockade_order = new BlockadeOrder(P1, d_Mexico);
 	}
 
 	@Test
 	void testValid() {
+		System.out.println("Before Validation Stage");
+		P1.printCardList();
+		
 		assertTrue(blockade_order.valid());
+		
+		System.out.println("After Validation Stage");
+		P1.printCardList();
 	}
 	
 	@Test
@@ -67,6 +79,7 @@ class BlockadeOrderTest {
 		blockade_order.execute();
 		
 		assertEquals(45, d_Mexico.getArmies());
+		assertEquals(null, d_Mexico.getCountryOwner());
 		
 	}
 

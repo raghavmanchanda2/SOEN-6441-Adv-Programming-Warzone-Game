@@ -18,6 +18,7 @@ public class GameModelAlteration {
 	public ResponseWrapper addPlayerInGame(String playerName) {
 		Player player = new Player(playerName);
 		this.gameModel.addPlayerInPlayersList(player);
+		this.gameModel.addPlayerQueue(player);
 		
 		return new ResponseWrapper(200,"Player added successfully: " + playerName);
 		
@@ -42,7 +43,8 @@ public class GameModelAlteration {
 		for (Country l_Country : l_availableCountriesList) {
 			Player l_Player = l_inGamePlayers.get(index);
 			l_Player.addCountryHold(l_Country);
-
+			l_Country.setCountryOwner(l_Player);
+			
 			if (index < this.gameModel.getPlayers().size() - 1) {
 				index++;
 			} else {

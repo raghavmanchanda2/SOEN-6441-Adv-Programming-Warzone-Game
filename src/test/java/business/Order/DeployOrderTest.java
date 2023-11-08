@@ -2,31 +2,28 @@ package business.Order;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import model.Card;
 import model.Continent;
 import model.Country;
 import model.MapModel;
 import model.Player;
-import model.Card.CardType;
 
-class BombOrderTest {
+class DeployOrderTest {
 	
-	private BombOrder bomb_order;
+	private DeployOrder deploy_order;
 	
-	private Player P1, P2;
+	private Player P1;
 	
 	private MapModel d_MM = new MapModel();
 	
 	private Continent d_America;
 	
 	private Country d_Canada, d_USA, d_Mexico;
-	
+
 	@BeforeEach
-	void setUp() {
+	void setUp() throws Exception {
 		
 		d_America = new Continent("North America");
 		
@@ -35,7 +32,6 @@ class BombOrderTest {
 		d_Mexico = new Country("Mexico", d_America);
 		
 		P1 = new Player("Kevin");
-		P2 = new Player("Rohit");
 		
 		d_MM.addContinent(d_America);
 		
@@ -51,36 +47,34 @@ class BombOrderTest {
 		d_MM.addBorders(d_Mexico, d_USA);
 		
 		P1.addCountryHold(d_Canada);
-		P2.addCountryHold(d_USA);
+		P1.addCountryHold(d_USA);
+		P1.addCountryHold(d_Mexico);
 		
 		P1.getCountry(d_Canada).setArmy(5);
-		P2.getCountry(d_USA).setArmy(10);
+		P1.getCountry(d_USA).setArmy(10);
+		P1.getCountry(d_Mexico).setArmy(15);
 		
-		Card c = new Card(CardType.BOMB);
+		P1.setArmiesToIssue(5);
 		
-		P1.addSpecificCard(c);
+		int allArmies = P1.getArmiesToIssue();
 		
-		bomb_order = new BombOrder(P1, d_USA);
+		deploy_order = new DeployOrder(d_Canada, allArmies, P1);
 	}
 
 	@Test
-	void testValid() {
-		System.out.println("Before Validation Stage");
-		P1.printCardList();
+	void valid() {
 		
-		assertTrue(bomb_order.valid());
-		
-		System.out.println("After Validation Stage");
-		P1.printCardList();
+		assertTrue(deploy_order.valid());
+
 	}
 	
 	@Test
-	void testExecute() {
+	void execute() {
 		
-		bomb_order.execute();
+		deploy_order.execute();
+		
+		assertEquals(10, d_Canada.getArmies());
 
-		assertEquals(5, d_USA.getArmies());
-		
 	}
 
 }
