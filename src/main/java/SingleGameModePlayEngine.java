@@ -30,7 +30,7 @@ public class SingleGameModePlayEngine {
 	String l_Table = "- %-21s - %-16s - %-22s%n";
 	String l_Columns = " %-16s  %-20s   %-22s%n";
 
-	StringBuilder stringBuilder = new StringBuilder();
+	
 
 	public SingleGameModePlayEngine() {
 		singleGameModePlayEngineController = new SingleGameModePlayEngineController();
@@ -177,7 +177,7 @@ public class SingleGameModePlayEngine {
 				
 			}
 			// in execution if player capture country he will get card
-			// in execution if player goin to win
+			// in execution if player going to win
 			mainPlayPhaseBusinessCommands.endGame(mainPlaySetUpResponse);
 			
 			System.out.println(mainPlaySetUpResponse.getDescription());
@@ -195,6 +195,8 @@ public class SingleGameModePlayEngine {
 
 	public String getCountriesList(List<Country> countriesList) {
 		String l_countList = "";
+		StringBuilder stringBuilder = new StringBuilder();
+		
 		for (Country country : countriesList) {
 			stringBuilder.append(country.getCountryId());
 			stringBuilder.append("-");
