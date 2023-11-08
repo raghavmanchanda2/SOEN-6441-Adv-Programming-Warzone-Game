@@ -391,10 +391,16 @@ class MapFileAlterationTest {
 	void readInvalidMap() {
 		
 		MapPhaseState.D_CURRENT_MAP = "continentMissing.map";
-		
 		d_MFA.readMapFile();
-		
 		assertEquals("Country's Continent Data is missing",d_MFA.validateMap().getDescription());
+		
+		MapPhaseState.D_CURRENT_MAP = "borderMissing.map";
+		d_MFA.readMapFile();
+		assertEquals(" Countries Border Missing ",d_MFA.validateMap().getDescription());
+		
+		MapPhaseState.D_CURRENT_MAP = "countryMissing.map";
+		d_MFA.readMapFile();
+		assertEquals(" Border Data for Countries is not consistent with Countries that are added ",d_MFA.validateMap().getDescription());
 	}
 
 }
