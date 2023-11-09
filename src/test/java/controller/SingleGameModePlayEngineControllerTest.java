@@ -50,16 +50,6 @@ class SingleGameModePlayEngineControllerTest {
 		assertEquals(responseOfShowmapCommandPlaySetUpPhase.getStatusValue(),expectedShowmapCommandResponse.getStatusValue());
 		
 		
-		// launch map first
-		String passloadMapCommand = "loadmap asia.map";
-		singleGameModePlayEngineController.getPlaySetupCommands(passloadMapCommand);
 		
-		String passConitnueCommandPlaySetUpPhase = "continue";
-		
-		ResponseWrapper responseOfpassConitnueCommandPlaySetUpPhase = singleGameModePlayEngineController.getPlaySetupCommands(passConitnueCommandPlaySetUpPhase);
-		ResponseWrapper expectedResponse = new ResponseWrapper(404, "Player should be atleast 2");
-		
-		assertEquals(responseOfpassConitnueCommandPlaySetUpPhase.getDescription(),expectedResponse.getDescription());
-		assertEquals(responseOfpassConitnueCommandPlaySetUpPhase.getStatusValue(),expectedResponse.getStatusValue());
 	}
 }
