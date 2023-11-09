@@ -13,6 +13,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import logger.ConsoleWriter;
+import logger.LogEntryBuffer;
 import model.Continent;
 import model.Country;
 import model.MapModel;
@@ -312,6 +314,28 @@ class MapModelTest {
 		assertSame(l_mapModel1, l_mapModel2);
 	}
 	
+	
+	/**
+	 * Tescase to verify the ObserverPattern Implementation
+	 */
+	@Test
+	public void testObserverPattern() {
+		LogEntryBuffer l_logBuffer = new LogEntryBuffer();
+
+		ConsoleWriter l_mockObserver1 = new ConsoleWriter();
+		ConsoleWriter l_mockObserver2 = new ConsoleWriter();
+		
+		
+
+		l_logBuffer.addObserver(l_mockObserver1);
+		l_logBuffer.addObserver(l_mockObserver2);
+
+		l_logBuffer.setLogMessage("Test Observer Pattern");
+
+		
+		assertEquals("Test Observer Pattern",l_mockObserver1.getLogMsg());
+		assertEquals("Test Observer Pattern",l_mockObserver2.getLogMsg());
+	}
 	
 
 }
