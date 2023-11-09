@@ -17,6 +17,8 @@ class DiplomacyOrderTest {
 
 	private DiplomacyOrder diplomacy_order;
 	
+	private AdvanceOrder advance_order1, advance_order2;
+	
 	private Player P1, P2;
 	
 	private MapModel d_MM = MapModel.getInstance();
@@ -50,11 +52,11 @@ class DiplomacyOrderTest {
 		
 		d_MM.addBorders(d_Mexico, d_USA);
 		
-		P1.addCountryHold(d_Canada);
-		P2.addCountryHold(d_USA);
+		P1.addCountry(d_Canada);
+		P2.addCountry(d_USA);
 		
 		P1.getCountry(d_Canada).setArmy(5);
-		P2.getCountry(d_USA).setArmy(10);
+		P2.getCountry(d_USA).setArmy(100);
 		
 		Card c = new Card(CardType.DIPLOMACY);
 		
@@ -62,6 +64,9 @@ class DiplomacyOrderTest {
 		
 		diplomacy_order = new DiplomacyOrder(P1, P2);
 		
+		advance_order1 = new AdvanceOrder(d_USA, d_Canada, 99, P2);
+		
+		advance_order2 = new AdvanceOrder(d_Canada, d_USA, 4, P1);
 	}
 
 	@Test
@@ -80,7 +85,15 @@ class DiplomacyOrderTest {
 		
 		diplomacy_order.execute();
 		
-		assertEquals(P1.getPeaceWith(), P2);
+		advance_order1.execute();
+		
+		advance_order2.execute();
+		
+		assertEquals(P1.getPeaceWith(), d_USA.getCountryOwner());
+		
+		assertEquals(100, d_USA.getArmies());
+		
+		assertEquals(5, d_Canada.getArmies());
 		
 	}
 

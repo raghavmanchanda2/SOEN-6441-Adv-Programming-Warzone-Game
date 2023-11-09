@@ -54,7 +54,7 @@ class BombOrderTest {
 		P2.addCountryHold(d_USA);
 		
 		P1.getCountry(d_Canada).setArmy(5);
-		P2.getCountry(d_USA).setArmy(10);
+		P2.getCountry(d_USA).setArmy(1);
 		
 		Card c = new Card(CardType.BOMB);
 		
@@ -79,7 +79,7 @@ class BombOrderTest {
 		
 		bomb_order.execute();
 
-		assertEquals(5, d_USA.getArmies());
+		assertEquals(0, d_USA.getArmies());
 		
 	}
 
