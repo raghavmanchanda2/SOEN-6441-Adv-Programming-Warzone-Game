@@ -74,13 +74,13 @@ public abstract class Phase {
 	 * @param p_currentPlayer - player executing diplomacy with another player
 	 * @param p_otherPlayer - player with whom a peace order is executed on
 	 * @return alert message that diplomacy is successful or unsuccessful
-	 * @throws throwing general exception
+	 * @throws GeneralException throwing general exception
 	 */
 	public abstract ResponseWrapper diplomacy(Player p_currentPlayer, String p_otherPlayer) throws GeneralException;
 
 	/**
 	 * Method to commit the commands entered by individual players.
-	 * @param p_currentPlayer
+	 * @param p_currentPlayer current player
 	 * @return ResponseWrapper returning response
 	 * @throws GeneralException if anything goes wrong
 	 */
@@ -94,7 +94,6 @@ public abstract class Phase {
 
 	/**
 	 * method to show Invalid Command to the user
-	 * @throws GeneralException if anything goes wrong
 	 * @return alert message that command is invalid
 	 */
 	public ResponseWrapper printInvalidCommandInState() {
