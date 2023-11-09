@@ -25,6 +25,7 @@ public abstract class Phase {
 	 * @param p_country - Country where armies will be deployed in
 	 * @param p_numerOfarmies - Number of armies that will be deployed
 	 * @return alert message that deploy is successful or unsuccessful
+	 * @throws throwing general exception
 	 */
 	public abstract ResponseWrapper deploy(Player p_currentPlayer, String p_country, int p_numerOfarmies) throws GeneralException;
 	
@@ -35,6 +36,7 @@ public abstract class Phase {
 	 * @param p_countryNameTo - Destination country where armies are moving to
 	 * @param p_numerOfarmies - Number of armies being displaced or attacking
 	 * @return alert message that advance is successful or unsuccessful
+	 * @throws throwing general exception
 	 */
 	public abstract ResponseWrapper advance(Player p_currentPlayer, String p_countryNameFrom, String p_countryNameTo, int p_numerOfarmies) throws GeneralException;
 
@@ -43,6 +45,7 @@ public abstract class Phase {
 	 * @param p_currentPlayer - Current player object that is inputting string command
 	 * @param p_targetCountryName - Name of country that will be bombed
 	 * @return alert message that bomb is successful or unsuccessful
+	 * @throws throwing general exception
 	 */
 	public abstract ResponseWrapper bomb(Player p_currentPlayer, String p_targetCountryName) throws GeneralException;
 	
@@ -61,6 +64,7 @@ public abstract class Phase {
 	 * @param p_countryNameTo - Destination Country that will receive armies from airlift
 	 * @param p_numArmies - Number of armies being displaced by airlift
 	 * @return alert message that airlift is successful or unsuccessful
+	 * @throws throwing general exception
 	 */
 	public abstract ResponseWrapper airlift(Player p_currentPlayer, String p_countryNameFrom, String p_countryNameTo, int p_numArmies) throws GeneralException;
 
@@ -69,22 +73,27 @@ public abstract class Phase {
 	 * @param p_currentPlayer - player executing diplomacy with another player
 	 * @param p_otherPlayer - player with whom a peace order is executed on
 	 * @return alert message that diplomacy is successful or unsuccessful
+	 * @throws throwing general exception
 	 */
 	public abstract ResponseWrapper diplomacy(Player p_currentPlayer, String p_otherPlayer) throws GeneralException;
 
 	/**
 	 * Method to commit the commands entered by individual players.
+	 * @param p_currentPlayer
+	 * @return ResponseWrapper returning response
 	 * @throws GeneralException if anything goes wrong
 	 */
 	public abstract ResponseWrapper commit(Player p_currentPlayer) throws GeneralException;
 	/**
 	 * method to show current state of map
+	 * @throws GeneralException if anything goes wrong
 	 * @return alert message that map is properly showing
 	 */
 	public abstract ResponseWrapper showMap() throws GeneralException;
 
 	/**
 	 * method to show Invalid Command to the user
+	 * @throws GeneralException if anything goes wrong
 	 * @return alert message that command is invalid
 	 */
 	public ResponseWrapper printInvalidCommandInState() {
@@ -93,6 +102,7 @@ public abstract class Phase {
 
 	/**
 	 * method to assign countries to the player
+	 * @throws GeneralException if anything goes wrong
 	 * @return alert message that command is invalid
 	 */
 	public abstract ResponseWrapper assignCountries() throws GeneralException;
@@ -102,6 +112,7 @@ public abstract class Phase {
      *
      * @param p_continent - The continent to be added or removed
      * @param p_command - Check command is add or remove
+     * @throws GeneralException if anything goes wrong
      * @return A {@link ResponseWrapper} object indicating the result of the operation.
      */
 	public abstract ResponseWrapper editContinent(Continent p_continent, String p_command) throws GeneralException;
@@ -110,13 +121,14 @@ public abstract class Phase {
      * Add a player to the game
      *
      * @param p_playerName - player name to be added
+     * @throws GeneralException if anything goes wrong
      * @return A {@link ResponseWrapper} object indicating the result of the operation
      */
 	public abstract ResponseWrapper addPlayerInGame(String p_playerName) throws GeneralException;
 
 	/**
      * Remove a player from the game
-     *
+     *@throws GeneralException if anything goes wrong
      * @param p_playerName - player name to be removed
      * @return A {@link ResponseWrapper} object indicating the result of the operation
      */
@@ -124,6 +136,7 @@ public abstract class Phase {
 
 	/**
      * Commit the reinforcement
+     * @throws GeneralException if anything goes wrong
      * @return A {@link ResponseWrapper} object indicating the result of the operation
      */
 	public abstract ResponseWrapper afterCommitReinforcement()
@@ -135,6 +148,7 @@ public abstract class Phase {
      * @param p_mainCountry - The country where neighboring country has to be added or removed
      * @param p_neighbourCountry - The neighboring country to be added or removed
      * @param p_command - Check command is add or remove
+     * @throws GeneralException if anything goes wrong
      * @return A {@link ResponseWrapper} object indicating the result of the operation
      */
 	public abstract ResponseWrapper editNeighbour(Country p_mainCountry, Country p_neighbourCountry, String p_command)
@@ -145,12 +159,14 @@ public abstract class Phase {
      *
      * @param p_country - The country to be added or removed
      * @param p_command - The command to be added or removed
+     * @throws GeneralException if anything goes wrong
      * @return A {@link ResponseWrapper} object indicating the result of the operation.
      */
 	public abstract ResponseWrapper editCountry(Country p_country, String p_command) throws GeneralException;
 
 	/**
 	 * method to check if the map is valid
+	 * @throws GeneralException if anything goes wrong
 	 * @return alert message that map is valid or not
 	 */
 	public abstract ResponseWrapper validateMap() throws GeneralException;
@@ -158,6 +174,7 @@ public abstract class Phase {
 	/**
 	 * method to check if the map is valid
 	 * @param p_map - map name that has to be loaded
+	 * @throws GeneralException if anything goes wrong
 	 * @return alert message that map is valid or not
 	 */
 	public abstract ResponseWrapper loadMap(String p_map) throws GeneralException;
@@ -165,6 +182,7 @@ public abstract class Phase {
 	/**
 	 * method to save current state of map
 	 * @param p_mapFileName - name of map file
+	 * @throws GeneralException if anything goes wrong
 	 * @return alert message that map has successfully been saved
 	 */
 	public abstract ResponseWrapper saveMap(String p_mapFileName) throws GeneralException;

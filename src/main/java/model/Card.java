@@ -14,6 +14,12 @@ public class Card
 	 */
 	public enum CardType
 	{
+		/**
+		 * bomb card
+		 * blockade card
+		 * airlift card
+		 * diplomacy card
+		 */
 		BOMB(1), BLOCKADE(2), AIRLIFT(3), DIPLOMACY(4);
 
 		/**
@@ -60,7 +66,7 @@ public class Card
 
 	/**
 	 * method to get card type
-	 * @return
+	 * @return cardType
 	 */
 	public CardType getCardType()
 	{

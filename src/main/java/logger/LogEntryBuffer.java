@@ -10,6 +10,9 @@ import java.util.Observable;
  */
 public class LogEntryBuffer extends Observable {
 	
+	/**
+	 * log message
+	 */
 	public String d_logMessage;
 	
 	/**

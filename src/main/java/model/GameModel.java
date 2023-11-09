@@ -171,7 +171,7 @@ public class GameModel {
 
 	/**
 	 * method to get queue of players
-	 * @return
+	 * @return player player in queue
 	 */
 		public Queue<Player> getPlayerQueue() {
 			return playerQ;
@@ -179,7 +179,7 @@ public class GameModel {
 
 	/**
 	 * method to add player in queue
-	 * @param player
+	 * @param player player
 	 */
 		public void addPlayerQueue(Player player) {
 			playerQ.add(player);
@@ -219,7 +219,7 @@ public class GameModel {
 
 	/**
 	 * method to check all commit state players
-	 * @return
+	 * @return allcommit returning commit state
 	 */
 		public boolean checkAllCommit() {
 			boolean allCommit = true;

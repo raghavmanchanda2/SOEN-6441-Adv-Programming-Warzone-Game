@@ -8,14 +8,31 @@ import logger.GeneralException;
 import model.Player;
 import model.ResponseWrapper;
 
+/**
+ * The Controller will take input commands from user and send skimmed commands to business layer
+ * @author Rohit
+ * @version build2
+ */
 public class MainPlayPhaseController {
 	
+	/**
+	 *  Creating scanner variable to get input from user
+	 */
 	private Scanner d_MainPlaylSetupCommands;
 	private GeneralException gException;
+	/**
+	 * Incorrect command message
+	 */
 	public static final String INCORRECT_COMMAND="Please enter proper command";
+	/**
+	 * variable to connect to business layer
+	 */
 	private MainPlayPhaseBusinessCommands mainPlayPhaseBusinessCommands;
 	private Phase playPhase;
 
+	/**
+	 * constructor for initializing main play phase controller elements
+	 */
 	public MainPlayPhaseController() {
 		
 		d_MainPlaylSetupCommands = new Scanner(System.in);
@@ -25,8 +42,16 @@ public class MainPlayPhaseController {
 		
 	}
 
+	/**
+	 * For setting the phases of game like startup phase , main play phase
+	 * @param playPhase input for play phase
+	 */
 	public void setPlayPhase(Phase playPhase) {
 		this.playPhase = playPhase;
+	}
+	
+	public String getMainPlaySetUpCommandsFromUser() {
+		return d_MainPlaylSetupCommands.nextLine();
 	}
 
 	/**
@@ -35,8 +60,8 @@ public class MainPlayPhaseController {
 	 * @return response
 	 * @throws GeneralException if something goes wrong
 	 */
-	public ResponseWrapper getMainPlaySetUpCommandsFromUser(Player currentPlayer) throws GeneralException {
-		String l_userEnteredMainPlayCommands = d_MainPlaylSetupCommands.nextLine();
+	public ResponseWrapper getMainPlaySetUpCommands(Player currentPlayer,String l_userEnteredMainPlayCommands) throws GeneralException {
+		
 
 		if (l_userEnteredMainPlayCommands.trim().isEmpty()) {
 			

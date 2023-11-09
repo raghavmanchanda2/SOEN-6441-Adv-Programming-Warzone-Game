@@ -198,7 +198,7 @@ public class SingleGameModePlayEngine {
 				
 				gameModel.printCardsListForCurrentPlayer();
 				// ask for attack commands phase  with player
-				mainPlaySetUpResponse = mainPlayPhaseController.getMainPlaySetUpCommandsFromUser(currentPlayer);
+				mainPlaySetUpResponse = mainPlayPhaseController.getMainPlaySetUpCommands(currentPlayer,mainPlayPhaseController.getMainPlaySetUpCommandsFromUser());
 				System.out.println(mainPlaySetUpResponse.getDescription());
 
 

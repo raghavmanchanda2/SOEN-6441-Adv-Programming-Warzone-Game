@@ -65,9 +65,9 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 
 	/**
 	 * Method when the game ends, i.e., the player wins all the countries.
-	 * @param mainPlaySetUpResponse
+	 * @param mainPlaySetUpResponse main play setup response
 	 * @return response according to the situation
-	 * @throws GeneralException
+	 * @throws GeneralException general exception
 	 */
 	
 	public ResponseWrapper endGame(ResponseWrapper mainPlaySetUpResponse) throws GeneralException {

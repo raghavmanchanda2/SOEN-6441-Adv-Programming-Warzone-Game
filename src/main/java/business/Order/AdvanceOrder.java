@@ -135,13 +135,7 @@ public class AdvanceOrder implements Order{
 		return false;
 	}
 	
-	public boolean postValid() {
-		if(to_deploy_armies < fromCountry.getArmies() && to_deploy_armies >= 0) {
-			return true;
-		}
-		else return false;
-			
-	}
+
 
 	/**
 	 * Print execution of advance order
