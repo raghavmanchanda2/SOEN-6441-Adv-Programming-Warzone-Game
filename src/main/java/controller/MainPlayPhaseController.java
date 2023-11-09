@@ -57,6 +57,7 @@ public class MainPlayPhaseController {
 	/**
 	 * method to get the command from player
 	 * @param currentPlayer Current Turn Player
+	 * @param l_userEnteredMainPlayCommands user entered command
 	 * @return response
 	 * @throws GeneralException if something goes wrong
 	 */

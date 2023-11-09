@@ -25,7 +25,7 @@ public abstract class Phase {
 	 * @param p_country - Country where armies will be deployed in
 	 * @param p_numerOfarmies - Number of armies that will be deployed
 	 * @return alert message that deploy is successful or unsuccessful
-	 * @throws throwing general exception
+	 * @throws GeneralException throwing general exception
 	 */
 	public abstract ResponseWrapper deploy(Player p_currentPlayer, String p_country, int p_numerOfarmies) throws GeneralException;
 	
@@ -36,7 +36,7 @@ public abstract class Phase {
 	 * @param p_countryNameTo - Destination country where armies are moving to
 	 * @param p_numerOfarmies - Number of armies being displaced or attacking
 	 * @return alert message that advance is successful or unsuccessful
-	 * @throws throwing general exception
+	 * @throws GeneralException throwing general exception
 	 */
 	public abstract ResponseWrapper advance(Player p_currentPlayer, String p_countryNameFrom, String p_countryNameTo, int p_numerOfarmies) throws GeneralException;
 
@@ -45,7 +45,7 @@ public abstract class Phase {
 	 * @param p_currentPlayer - Current player object that is inputting string command
 	 * @param p_targetCountryName - Name of country that will be bombed
 	 * @return alert message that bomb is successful or unsuccessful
-	 * @throws throwing general exception
+	 * @throws GeneralException throwing general exception
 	 */
 	public abstract ResponseWrapper bomb(Player p_currentPlayer, String p_targetCountryName) throws GeneralException;
 	
@@ -53,6 +53,7 @@ public abstract class Phase {
 	 * Method that converts input string commands into objects to be used for blockade execution
 	 * @param p_currentPlayer - Current player object that is inputing string command
 	 * @param p_targetCountryName - Name of country in which a blockade is performed on
+	 * @throws GeneralException throwing general exception
 	 * @return alert message that blockade is successful or unsuccessful
 	 */
 	public abstract ResponseWrapper blockade(Player p_currentPlayer, String p_targetCountryName) throws GeneralException;
@@ -64,7 +65,7 @@ public abstract class Phase {
 	 * @param p_countryNameTo - Destination Country that will receive armies from airlift
 	 * @param p_numArmies - Number of armies being displaced by airlift
 	 * @return alert message that airlift is successful or unsuccessful
-	 * @throws throwing general exception
+	 * @throws GeneralException throwing general exception
 	 */
 	public abstract ResponseWrapper airlift(Player p_currentPlayer, String p_countryNameFrom, String p_countryNameTo, int p_numArmies) throws GeneralException;
 
@@ -191,6 +192,7 @@ public abstract class Phase {
 	 * It will open the map if the map is already in the map folder or else it will create a new map in the
 	 * map folder
 	 * @param p_mapFileName - name of map file
+	 * @throws GeneralException if anything goes wrong
 	 * @return alert message if the map has been successfully created or edited
 	 */
 
@@ -198,6 +200,7 @@ public abstract class Phase {
 
 	/**
 	 * Reinforcement the army
+	 * @throws GeneralException if anything goes wrong
 	 * @return alert message that map has successfully been saved
 	 */
 	public abstract ResponseWrapper doReinforcements() throws GeneralException;

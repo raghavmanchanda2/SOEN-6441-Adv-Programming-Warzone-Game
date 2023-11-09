@@ -91,7 +91,7 @@ public class MapEngineController {
 
 	/**
 	 * method to set phase to map phase
-	 * @param mapPhase
+	 * @param mapPhase map phase state
 	 */
 	public void setMapPhase(Phase mapPhase) {
 		this.mapPhase = mapPhase;
