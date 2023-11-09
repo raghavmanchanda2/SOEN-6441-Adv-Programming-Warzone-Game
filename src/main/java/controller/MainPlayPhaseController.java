@@ -29,8 +29,13 @@ public class MainPlayPhaseController {
 		this.playPhase = playPhase;
 	}
 	
-	public ResponseWrapper getMainPlaySetUpCommandsFromUser(Player currentPlayer) throws GeneralException {
+	public String getMainPlaySetUpCommandsFromUser() {
 		String l_userEnteredMainPlayCommands = d_MainPlaylSetupCommands.nextLine();
+		return l_userEnteredMainPlayCommands;
+	}
+	
+	public ResponseWrapper getMainPlaySetUpCommands(Player currentPlayer,String l_userEnteredMainPlayCommands) throws GeneralException {
+		
 
 		if (l_userEnteredMainPlayCommands.trim().isEmpty()) {
 			

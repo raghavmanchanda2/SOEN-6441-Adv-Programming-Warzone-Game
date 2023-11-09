@@ -165,7 +165,7 @@ public class SingleGameModePlayEngine {
 				
 				gameModel.printCardsListForCurrentPlayer();
 				// ask for attack commands phase  with player
-				mainPlaySetUpResponse = mainPlayPhaseController.getMainPlaySetUpCommandsFromUser(currentPlayer);
+				mainPlaySetUpResponse = mainPlayPhaseController.getMainPlaySetUpCommands(currentPlayer,mainPlayPhaseController.getMainPlaySetUpCommandsFromUser());
 				System.out.println(mainPlaySetUpResponse.getDescription());
 
 
@@ -188,17 +188,7 @@ public class SingleGameModePlayEngine {
 			
 			System.out.println(mainPlaySetUpResponse.getDescription());
 			if(mainPlaySetUpResponse.getStatusValue() == 201) {
-				System.out.println("\n\n");
-				System.out.println("WINNER OF THIS GAME");
-				System.out.println("-------------------");
-				for(Player player : gameModel.getPlayers()) {
-					if(player.getCountriesHold().size() > 0) {
-						System.out.println(player.getPlayerName());
-						break;
-					}
-				}
-				System.out.println("\n\n");
-				System.out.println("GAME ENDS");
+				System.out.println("Game Ends");
 				break;
 			}
 			
