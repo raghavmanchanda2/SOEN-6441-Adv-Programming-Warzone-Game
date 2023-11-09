@@ -300,50 +300,17 @@ class MapModelTest {
 		
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	/**
+	 * Method to assert that the same instance is returned when obtaining two instances.
+	 */
+	@Test
+	void testMapModelSingleton() {
+
+		MapModel l_mapModel1 = MapModel.getInstance();
+		MapModel l_mapModel2 = MapModel.getInstance();
+
+		assertSame(l_mapModel1, l_mapModel2);
+	}
 	
 	
 

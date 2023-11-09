@@ -32,5 +32,18 @@ class GameModelTest {
 		assertEquals(P2, P);
 		
 	}
+	
+	/**
+	 * Method to assert that the Singleton instance is lazily initialized and not created until the first call to getInstance.
+	 */
+	@Test
+	void testSingletonGameMode() {
+		GameModel l_instance1 = GameModel.getInstance();
+		l_instance1.addPlayerInPlayersList(P1);
+		GameModel l_instance2 = GameModel.getInstance();
+		l_instance2.addPlayerInPlayersList(P2);
+        assertSame(l_instance1, l_instance2);
+	}
+
 
 }
