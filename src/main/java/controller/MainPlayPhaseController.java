@@ -50,6 +50,10 @@ public class MainPlayPhaseController {
 		this.playPhase = playPhase;
 	}
 	
+	/**
+	 * getting main play commands from user
+	 * @return command from user
+	 */
 	public String getMainPlaySetUpCommandsFromUser() {
 		return d_MainPlaylSetupCommands.nextLine();
 	}
