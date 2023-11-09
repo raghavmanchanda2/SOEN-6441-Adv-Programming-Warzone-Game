@@ -258,6 +258,7 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 		
 		Order diplomacy = new DiplomacyOrder(p_currentPlayer, peaceWith);
 		if(diplomacy.valid()) {
+			p_currentPlayer.addOrder(diplomacy);
 			return new ResponseWrapper(200, " Diplomacy order added in queue");
 		}else {
 			return new ResponseWrapper(204, " Player you want to make peace with does not exist");

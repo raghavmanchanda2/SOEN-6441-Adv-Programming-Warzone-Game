@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="ANALYZE_TEST_SOURCES" value="false" />
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b1187fde-a7e1-4017-9494-613bf00009b4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/test/java/controller/MainPlayPhaseControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/model/GameModelTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/logger/systemLog.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/controller/SingleGameModePlayEngineControllerTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/model/GameModelTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SingleGameModePlayEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SingleGameModePlayEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/business/MainPlayPhaseBusinessCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/business/MainPlayPhaseBusinessCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/business/Order/AdvanceOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/business/Order/AdvanceOrder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/MainPlayPhaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/MainPlayPhaseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/SingleGameModePlayEngineController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/SingleGameModePlayEngineController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/logger/systemLog.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/business/Order/BombOrderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/business/Order/BombOrderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/business/Order/DiplomacyOrderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/business/Order/DiplomacyOrderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/businessTest/MainPlayPhaseBusinessCommandsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/businessTest/MainPlayPhaseBusinessCommandsTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/business/Order/AdvanceOrder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/business/Order/AdvanceOrder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/business/Order/BombOrderTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/business/Order/BombOrderTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/business/Order/DiplomacyOrderTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/business/Order/DiplomacyOrderTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/businessTest/MainPlayPhaseBusinessCommandsTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/businessTest/MainPlayPhaseBusinessCommandsTest.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "Merging ROHIT__BUILD2"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="Warzone" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="GameEngine" />
+      <module name="Risk" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+</project>

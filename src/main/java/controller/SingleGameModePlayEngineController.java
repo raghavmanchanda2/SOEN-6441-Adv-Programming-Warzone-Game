@@ -150,6 +150,8 @@ public class SingleGameModePlayEngineController {
 			} else if (singleGamePlayerCommands.getD_mapFileAlteration().getGameModel().getPlayers() == null
 					|| singleGamePlayerCommands.getD_mapFileAlteration().getGameModel().getPlayers().size() == 1) {
 				return new ResponseWrapper(404, "Player should be atleast 2");
+			}else if(singleGamePlayerCommands.getD_mapFileAlteration().getGameModel().getPlayers().get(0).getCountriesHold() == null) {
+				return new ResponseWrapper(404, "Run assign countries command first");
 			}
 			
 			return new ResponseWrapper(201,"Move to Next Phase");
