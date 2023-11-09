@@ -6,7 +6,13 @@ package model;
  * @version build 2
  */
 public class ResponseWrapper {
+	/**
+	 * integer status value
+	 */
 	private int d_statusValue;
+	/**
+	 * string response description
+	 */
 	private String d_description;
 	
 	/**

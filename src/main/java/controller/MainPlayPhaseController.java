@@ -8,14 +8,41 @@ import logger.GeneralException;
 import model.Player;
 import model.ResponseWrapper;
 
+/**
+ * MainPlayPhaseController class
+ * @author ishaanbajaj
+ * @author kevin
+ * @author rohit
+ * @version build 2
+ */
+
 public class MainPlayPhaseController {
-	
+
+
+	/**
+	 * scanner
+	 */
 	private Scanner d_MainPlaylSetupCommands;
+	/**
+	 * General Execption object
+	 */
 	private GeneralException gException;
+	/**
+	 * string for incorrect command
+	 */
 	public static final String INCORRECT_COMMAND="Please enter proper command";
+	/**
+	 * Object of MainPlayPhaseBusinessCommands
+	 */
 	private MainPlayPhaseBusinessCommands mainPlayPhaseBusinessCommands;
+	/**
+	 * Object of class Phase - playPhase
+	 */
 	private Phase playPhase;
 
+	/**
+	 * Default Constructor
+	 */
 	public MainPlayPhaseController() {
 		
 		d_MainPlaylSetupCommands = new Scanner(System.in);
@@ -25,10 +52,20 @@ public class MainPlayPhaseController {
 		
 	}
 
+	/**
+	 * method to set phase as play phase
+	 * @param playPhase single main play phase
+	 */
 	public void setPlayPhase(Phase playPhase) {
 		this.playPhase = playPhase;
 	}
-	
+
+	/**
+	 * method to get the command from player
+	 * @param currentPlayer Current Turn Player
+	 * @return response
+	 * @throws GeneralException if something goes wrong
+	 */
 	public ResponseWrapper getMainPlaySetUpCommandsFromUser(Player currentPlayer) throws GeneralException {
 		String l_userEnteredMainPlayCommands = d_MainPlaylSetupCommands.nextLine();
 

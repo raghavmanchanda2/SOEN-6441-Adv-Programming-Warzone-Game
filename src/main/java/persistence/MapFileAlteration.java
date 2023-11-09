@@ -32,20 +32,50 @@ import model.ResponseWrapper;
  * @version build 2
  */
 public class MapFileAlteration {
-	
+	/**
+	 * filereader
+	 */
 	private FileReader d_mapFileReader;
+	/**
+	 * buffered reader
+	 */
 	private BufferedReader d_bufferReader;
-	
+	/**
+	 * file writer
+	 */
 	private FileWriter d_mapFileWriter;
+	/**
+	 * buffered writer
+	 */
 	private BufferedWriter d_bufferWriter;
-	
+	/**
+	 * object of map model
+	 */
 	private MapModel d_mapModel;
+	/**
+	 * object of game model
+	 */
 	private GameModel gameModel;
 
+	/**
+	 * table pattern string
+	 */
 	String l_tablePattern = "- %-25s- %-20s- %-70s%n";
+	/**
+	 * LogEntryBuffer
+	 */
 	private LogEntryBuffer d_logger;
+	/**
+	 * Console Writer
+	 */
 	private ConsoleWriter d_consoleWriter;
+	/**
+	 * Log Generator
+	 */
 	private LogGenerator d_logGenrator;
+	/**
+	 * String Builder object
+	 */
 
 	StringBuilder stringBuilder = new StringBuilder();
 	

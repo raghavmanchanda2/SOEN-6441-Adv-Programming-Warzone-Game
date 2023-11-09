@@ -32,19 +32,35 @@ import model.ResponseWrapper;
  *
  * @see ExecuteMapsCommands
  * @author Rohit
+ * @author ishaanbajaj
  * @version build 2
  */
 public class MapEngineController {
 
+	/**
+	 * scanner
+	 */
 	private Scanner d_inputForMapCommands;
+	/**
+	 * Object of ExecuteMapCommands
+	 */
 	private ExecuteMapsCommands d_executeMapsCommands;
+	/**
+	 * LogGenerator
+	 */
 	private LogGenerator d_logGenrator;
+	/**
+	 * Object of Phase - mapPhase
+	 */
 	private Phase mapPhase;
 
 	/**
 	 * default error message for incorrect input command
 	 */
 	public static final String INCORRECT_COMMAND = "Please enter proper command";
+	/**
+	 * GeneralException
+	 */
 	private GeneralException gException = new GeneralException();
 
 	/**
@@ -64,9 +80,19 @@ public class MapEngineController {
 
 	}
 
+	/**
+	 * add player string command
+	 */
 	private static final String COMMAND_ADD = "-add";
+	/**
+	 * remove player string command
+	 */
 	private static final String COMMAND_REMOVE = "-remove";
 
+	/**
+	 * method to set phase to map phase
+	 * @param mapPhase
+	 */
 	public void setMapPhase(Phase mapPhase) {
 		this.mapPhase = mapPhase;
 	}
@@ -207,6 +233,11 @@ public class MapEngineController {
 		}
 	}
 
+	/**
+	 * method to handle edit continent commands
+	 * @param p_splittedCommands get command from user
+	 * @return response
+	 */
 	private ResponseWrapper handleEditContinentCommand(String[] p_splittedCommands) {
 		switch (p_splittedCommands[1]) {
 
@@ -235,6 +266,11 @@ public class MapEngineController {
 		}
 	}
 
+	/**
+	 * method to handle edit country commands
+	 * @param p_splittedCommands user commands split according to code
+	 * @return response
+	 */
 	private ResponseWrapper handleEditCountryCommand(String[] p_splittedCommands){
 		switch (p_splittedCommands[1]) {
 			case COMMAND_ADD:
@@ -263,6 +299,11 @@ public class MapEngineController {
 		}
 	}
 
+	/**
+	 * method to handle edit neighbor commands
+	 * @param p_splittedCommands user commands split according to code
+	 * @return response
+	 */
 	private ResponseWrapper handleEditNeighborCommand(String[] p_splittedCommands){
 		switch (p_splittedCommands[1]) {
 			case COMMAND_ADD:

@@ -7,33 +7,77 @@ import business.SingleGamePlayerCommands;
 import logger.GeneralException;
 import model.ResponseWrapper;
 
+/**
+ * SingleGameModePlayEngineController class
+ * @author ishaanbajaj
+ * @author Raghav
+ * @version build 2
+ */
 public class SingleGameModePlayEngineController {
-	
+
+	/**
+	 * scanner
+	 */
 	private Scanner d_inputForInitialSetupCommands;
+	/**
+	 * General Exception
+	 */
 	private GeneralException gException;
+	/**
+	 * Incorrect command string
+	 */
 	public static final String INCORRECT_COMMAND="Please enter proper command";
+	/**
+	 * Load Map String
+	 */
 	private static final String LOAD_MAP_FIRST = "Launch Load Map command first";
+	/**
+	 * boolean for load map first
+	 */
 	private static Boolean loadMapFirst=false;
+	/**
+	 * Object of SingleGamePlayerCommands
+	 */
 	private SingleGamePlayerCommands singleGamePlayerCommands;
+	/**
+	 * Object of Phase class - singlePlayPhase
+	 */
 	Phase singlePlayPhase;
 
+	/**
+	 * Default Constructor
+	 */
 	public SingleGameModePlayEngineController() {
 		d_inputForInitialSetupCommands = new Scanner(System.in);
 		gException=new GeneralException();
 		singleGamePlayerCommands = new SingleGamePlayerCommands();
 		setPlayPhase(singleGamePlayerCommands);
 		}
-	
+
+	/**
+	 * method to srt phase to singlePlayPhase
+	 * @param singlePlayPhase play phase
+	 */
 	public void setPlayPhase(Phase singlePlayPhase) {
 		this.singlePlayPhase = singlePlayPhase;
 	}
-	
+
+	/**
+	 * method to get command from user
+	 * @return string
+	 */
 	public String getPlaySetupCommandsFromUser() {
 		
 		return d_inputForInitialSetupCommands.nextLine();
 		
 	}
-	
+
+	/**
+	 * method to get setup commands from user
+	 * @param l_userEnteredInitialSetupCommands string command
+	 * @return response
+	 * @throws GeneralException if anything goes wrong
+	 */
 	public ResponseWrapper getPlaySetupCommands(String l_userEnteredInitialSetupCommands) throws GeneralException {
 		
 		if (l_userEnteredInitialSetupCommands.trim().isEmpty()) {

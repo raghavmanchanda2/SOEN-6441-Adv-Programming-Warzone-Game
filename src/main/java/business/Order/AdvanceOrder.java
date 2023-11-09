@@ -9,16 +9,34 @@ import model.Player;
  * Class describes the functionalities of displacing armies.
  * 
  * @author Kevin
+ * @author ishaanbajaj
  * @version build 2
  */
 public class AdvanceOrder implements Order{
 
+	/**
+	 * Object of class Country - the country from where armies are being attacked
+	 */
 	private Country fromCountry;
+	/**
+	 * Object of class Country - the country to where armies are being attacked
+	 */
 	private Country targetCountry;
+	/**
+	 * number of armies to attack
+	 */
 	private int to_deploy_armies;
+	/**
+	 * Object of class Player to get the current player to advance order
+	 */
 	private Player player;
-	
+	/**
+	 * Random
+	 */
 	Random random = new Random();
+	/**
+	 * attack, defense integer values to get percentage of winning/losing attack.
+	 */
 	int attack, defense;
 	
 	/**

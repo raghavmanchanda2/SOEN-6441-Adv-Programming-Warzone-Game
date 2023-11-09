@@ -10,13 +10,28 @@ import model.ResponseWrapper;
 import persistence.GameModelAlteration;
 import persistence.MapFileAlteration;
 
+/**
+ * @author ishaanbajaj
+ * @author rohit
+ * @author kevin
+ * @version build 2
+ */
+
 public class SingleGamePlayerCommands extends Phase{
-	
-	
+
+
+	/**
+	 * Object of MapFileAlteration class
+	 */
 	private MapFileAlteration d_mapFileAlteration;
-	
+	/**
+	 * Object of GameModeAlteration class
+	 */
 	private GameModelAlteration gameModelAlteration;
-	
+
+	/**
+	 * Default Constructor of SingleGmePlayerCommands
+	 */
 	public SingleGamePlayerCommands() {
 		d_mapFileAlteration = new MapFileAlteration();
 		gameModelAlteration = new GameModelAlteration();

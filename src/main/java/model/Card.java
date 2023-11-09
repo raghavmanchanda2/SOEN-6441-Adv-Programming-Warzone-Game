@@ -1,39 +1,76 @@
 package model;
 import java.util.*;
 
+/**
+ * Card Class
+ * @author Kevin
+ * @author ishaanbajaj
+ * @version build 2
+ */
 public class Card
 {
+	/**
+	 * card enum to store default card types
+	 */
 	public enum CardType
 	{
 		BOMB(1), BLOCKADE(2), AIRLIFT(3), DIPLOMACY(4);
-		
+
+		/**
+		 * integer to get card ID
+		 */
 		private final int cardID;
-	
+
+		/**
+		 * cardtype
+		 * @param i cardID
+		 */
 		CardType(int i)
 		{
 			cardID = i;
 		}
-		
+
+		/**
+		 * method to get card id
+		 * @return integer id
+		 */
 		public int getID()
 		{
 			return cardID;
 		}
 	}
-	
+
+	/**
+	 * card type
+	 */
 	private CardType cardType;
+	/**
+	 * random
+	 */
 	private static final Random random = new Random();
-	
+
+	/**
+	 * constructor
+	 * @param cardType cardtype
+	 */
 	public Card(CardType cardType)
 	{
 		this.cardType = cardType;
 	}
-	
+
+	/**
+	 * method to get card type
+	 * @return
+	 */
 	public CardType getCardType()
 	{
 		return cardType;
 	}
-	
-	
+
+	/**
+	 * method to generate a random card
+	 * @return card
+	 */
 	public static Card generateRandomCard()
 	{
 			

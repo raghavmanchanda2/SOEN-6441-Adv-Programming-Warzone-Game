@@ -10,8 +10,14 @@ import model.Player;
  * @version build 2
  */
 public class DiplomacyOrder implements Order{
-	
+
+	/**
+	 * Object of player class - to get current turn player
+	 */
 	Player currentPlayer;
+	/**
+	 * Object of player class - to get the other player to get peace with.
+	 */
 	Player peaceWith;
 	
 	/**

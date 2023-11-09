@@ -12,13 +12,26 @@ import model.Country;
  * Transfer occurs before attack takes place.
  * 
  * @author Kevin
+ * @author ishaanbajaj
  * @version build 2
  */
 public class AirliftOrder implements Order{
-	
+
+	/**
+	 * Object of class - the country from where the armies are being airlifted
+	 */
 	private Country originCountry;
+	/**
+	 * Object of class - the country from where the armies are being airlifted
+	 */
 	private Country destinationCountry;
+	/**
+	 * number of armies to airlift
+	 */
 	private int armies_to_move;
+	/**
+	 * Object of player class to get current player
+	 */
 	private Player player;
 	
 	/**

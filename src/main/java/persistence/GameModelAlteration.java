@@ -5,16 +5,36 @@ import model.*;
 import java.util.Collections;
 import java.util.List;
 
+
+/**
+ * GameModelAlteration class
+ * @author ishaanbajaj
+ * @author Rohit
+ * @version build 2
+ */
 public class GameModelAlteration {
-	
+	/**
+	 * Object of gamemodel class
+	 */
 	private GameModel gameModel;
+	/**
+	 * Object of mapmodel class
+	 */
 	private MapModel mapModel;
-	
+
+	/**
+	 * Default Constructor
+	 */
 	public GameModelAlteration() {
 		gameModel = GameModel.getInstance();
 		mapModel = MapModel.getInstance();
 	}
 
+	/**
+	 * method to add player in the game
+	 * @param playerName string player name
+	 * @return response
+	 */
 	public ResponseWrapper addPlayerInGame(String playerName) {
 		Player player = new Player(playerName);
 		this.gameModel.addPlayerInPlayersList(player);
@@ -23,6 +43,12 @@ public class GameModelAlteration {
 		return new ResponseWrapper(200,"Player added successfully: " + playerName);
 		
 	}
+
+	/**
+	 * method to remove player from game
+	 * @param playerName playername string
+	 * @return response
+	 */
 	public ResponseWrapper removePlayerFromGame(String playerName) {
 		
 		Boolean playerFoundToBeRemoved=false;
@@ -43,6 +69,11 @@ public class GameModelAlteration {
 		}
 		return new ResponseWrapper(200,"Player removed successfully.");
 	}
+
+	/**
+	 * method to assign countries
+	 * @return response
+	 */
 	public ResponseWrapper assignCountries() {
 		int index = 0;
 		List<Player> l_inGamePlayers = this.gameModel.getPlayers();

@@ -10,19 +10,37 @@ import java.util.*;
  * @version build 2
  */
 public class Country {
+	/**
+	 * Integer unique country id
+	 */
 	private int d_uniqueCountryId;
-	
+	/**
+	 * string country id
+	 */
 	private String d_countryId;
+	/**
+	 * Object of Continent
+	 */
 
 	private Continent d_continent;
+	/**
+	 * Connected Countries Map
+	 */
 	private Map<Country,List<Country>> d_connectedCountries;
-
+	/**
+	 * Set of countries which are neighbors
+	 */
 	private Set<Country> d_Neighbors;
 
 	
 	//-------------------------------------------
+	/**
+	 * number of armies for every country
+	 */
 	private int d_Armies = 1;
-	
+	/**
+	 * Object of player class to get country owner
+	 */
 	private Player d_countryOwner;
 	
 	//-------------------------------------------
@@ -180,27 +198,50 @@ public class Country {
 	}
 
 
+	/**
+	 * method to set armies
+	 * @param p_NumOfArmies number of armies
+	 */
 	public void setArmy(int p_NumOfArmies) {
 		d_Armies = p_NumOfArmies;
 	}
 	
 	//-------------------------------------------
+
+	/**
+	 * method to get country owner
+	 * @return player
+	 */
 	public Player getCountryOwner() {
 		return d_countryOwner;
 	}
-	
+
+	/**
+	 * method to set country owner
+	 * @param player player
+	 */
 	public void setCountryOwner(Player player) {
 		d_countryOwner = player;
 	}
-	
+
+	/**
+	 * method to set neutral country
+	 */
 	public void setNeutral() {
 		d_countryOwner = null;
 	}
-	
+
+	/**
+	 * method to decrease armies as they get defeated
+	 */
 	public void armyUnitDefeat() {
 		--d_Armies;
 	}
-	
+
+	/**
+	 * method to remove number of armies
+	 * @param p_NumberOfArmies number of armies
+	 */
 	public void armiesRemove(int p_NumberOfArmies) {
 		d_Armies -= p_NumberOfArmies;
 	}

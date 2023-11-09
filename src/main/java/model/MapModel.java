@@ -12,21 +12,40 @@ import java.util.*;
  *
  */
 public class MapModel {
-	
+	/**
+	 * string map name
+	 */
 	private String mapName;
+	/**
+	 * list of continents in map
+	 */
 	private List<Continent> continents;
+	/**
+	 * list of countries in map
+	 */
 	private List<Country> countries;
 
+	/**
+	 * map of continent and countries list
+	 */
 
 	private Map<Continent,List<Country>> continentCountries;
+	/**
+	 * map of country and borders list
+	 */
 	private Map<Country,List<Country>> borders;
-
+	/**
+	 * Object of MapModel class
+	 */
 	private static MapModel d_MapModel;
-
+	/**
+	 * LogEntryBuffer
+	 */
 	private LogEntryBuffer d_logger;
-	
 
-
+	/**
+	 * Hashmap for countries
+	 */
 	HashMap<String, Country> countryHashMap = new HashMap<>();
 
 	

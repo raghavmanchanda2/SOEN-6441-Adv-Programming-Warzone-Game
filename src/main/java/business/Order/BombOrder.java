@@ -8,11 +8,18 @@ import model.Player;
  * Class that defines bomb functionalities
  * 
  * @author Kevin
+ * @author ishaanbajaj
  * @version build 2
  */
 public class BombOrder implements Order{
 
+	/**
+	 * Object of class country - the country to target
+	 */
 	private Country targetCountry;
+	/**
+	 * Object of player class - to get current turn player
+	 */
 	private Player player;
 	
 	/**

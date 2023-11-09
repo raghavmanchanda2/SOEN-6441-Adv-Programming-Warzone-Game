@@ -7,14 +7,22 @@ import model.Player;
  * Class that defines deployment functionalities
  * 
  * @author Kevin
+ * @author ishaanbajaj
  * @version build 2
  */
 public class DeployOrder implements Order{
-	
-	
 
+	/**
+	 * object of class country - to get the target country
+	 */
 	private Country targetCountry;
+	/**
+	 * number of armies to deploy
+	 */
 	private int to_deploy_armies;
+	/**
+	 * Object of player class
+	 */
 	private Player player;
 
 	/**

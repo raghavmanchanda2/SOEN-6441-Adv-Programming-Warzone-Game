@@ -10,6 +10,9 @@ package GamePhase;
  */
 public class MapPhaseState {
 
+	/**
+	 * Constructor
+	 */
 	private MapPhaseState(){}
 	
 	/**

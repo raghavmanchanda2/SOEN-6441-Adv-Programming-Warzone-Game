@@ -11,14 +11,33 @@ import java.util.List;
  * @version build 2
  */
 public class Continent {
+	/**
+	 * integer unique continent id
+	 */
 	private int d_uniqueContinetId;
+	/**
+	 * string continent id
+	 */
 	private String d_continentId;
+	/**
+	 * string continent name
+	 */
 	private String d_continentName;
+	/**
+	 * string continent value
+	 */
 	private String d_contientValue;
+	/**
+	 * list of countries in the continent
+	 */
 	private List<Country> d_continentCountries = new ArrayList();
-	
+	/**
+	 * Object of class player - continent owner
+	 */
 	private Player d_continentOwner = null;
-	
+	/**
+	 * Object of GameModel class
+	 */
 	private GameModel d_gameModel;
 
 	/**
@@ -163,15 +182,25 @@ public class Continent {
 		this.d_contientValue = p_contientValue;
 	}
 
-	
+	/**
+	 * method to set continent owner
+	 * @param player player
+	 */
 	public void setContinentOwner(Player player) {
 		Player d_continentOwner = player;
 	}
-	
+
+	/**
+	 * method to get continent owner
+	 * @return player
+	 */
 	public Player getContinentOwner() {
 		return d_continentOwner;
 	}
-	
+
+	/**
+	 * method to determine continent owner according to country owners
+	 */
 	public void determineContinentOwner() {
 		
 		Player currentOwner = d_continentCountries.get(0).getCountryOwner();
@@ -191,8 +220,11 @@ public class Continent {
 		}
 		
 	}
-	
-	
+
+	/**
+	 * method to add countries to list of ContinentCountries
+	 * @param country country
+	 */
 	public void addToCountryList(Country country) {
 		d_continentCountries.add(country);
 	}

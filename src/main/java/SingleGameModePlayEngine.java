@@ -13,25 +13,47 @@ import model.*;
 /**
  * Single game mode class to be implemented in the future
  * @author Kevin
- * @version build 1
+ * @author ishaanbajaj
+ * @version build 2
  */
 public class SingleGameModePlayEngine {
-	
-	
+
+	/**
+	 * SingleGameModePlayEngineController object
+	 */
 	private SingleGameModePlayEngineController singleGameModePlayEngineController;
+	/**
+	 * MainPlayPhaseController object
+	 */
 	private MainPlayPhaseController  mainPlayPhaseController;
+	/**
+	 * MainPlayPhaseBusinessCommands object
+	 */
 	private MainPlayPhaseBusinessCommands mainPlayPhaseBusinessCommands;
+	/**
+	 * GameModel object
+	 */
 	private GameModel gameModel;
+
 	private MapModel mapModel;
-
+	/**
+	 * MapModel object
+	 */
 	private LogEntryBuffer d_logger;
+	/**
+	 * Console Writer
+	 */
 	private ConsoleWriter d_consoleWriter;
-
+	/**
+	 * table pattern
+	 */
 	String l_Table = "- %-21s - %-16s - %-22s%n";
 	String l_Columns = " %-16s  %-20s   %-22s%n";
 
-	
 
+	/**
+	 * Default Constructor
+	 */
 	public SingleGameModePlayEngine() {
 		singleGameModePlayEngineController = new SingleGameModePlayEngineController();
 		mainPlayPhaseController = new MainPlayPhaseController();
@@ -42,7 +64,10 @@ public class SingleGameModePlayEngine {
 		d_consoleWriter = new ConsoleWriter();
 		
 	}
-	
+
+	/**
+	 * method to print commands
+	 */
 	private void printPlaySetupCommands() {
 		// loadmap
 		// showmap
@@ -72,6 +97,10 @@ public class SingleGameModePlayEngine {
 		
 		
 	}
+
+	/**
+	 * method to print main play commands
+	 */
 	private void printMainPlaySetupCommands() {
 		//Reinforcement
 		
@@ -99,9 +128,13 @@ public class SingleGameModePlayEngine {
 		
 		// who win
 	}
-	
-	
-	
+
+
+	/**
+	 * method to start game player mode
+	 * @return response
+	 * @throws GeneralException if anything goes wrong
+	 */
 	public ResponseWrapper startGamePlayMode() throws GeneralException {
 		
 		ResponseWrapper initialSetupResponse ; 
@@ -199,6 +232,11 @@ public class SingleGameModePlayEngine {
 			
 	}
 
+	/**
+	 * method to get countries list
+	 * @param countriesList list of countries
+	 * @return string
+	 */
 	public String getCountriesList(List<Country> countriesList) {
 		String l_countList = "";
 		StringBuilder stringBuilder = new StringBuilder();

@@ -8,11 +8,19 @@ import model.Player;
  * Class that defines blockade functionalities
  * 
  * @author Kevin
+ * @author ishaanbajaj
  * @version build 2
  */
 public class BlockadeOrder implements Order{
 
+
+	/**
+	 * Object of class Country - the country to be targeted.
+	 */
 	private Country targetCountry;
+	/**
+	 * Object of class player - to get current turn player
+	 */
 	private Player player;
 	
 	/**

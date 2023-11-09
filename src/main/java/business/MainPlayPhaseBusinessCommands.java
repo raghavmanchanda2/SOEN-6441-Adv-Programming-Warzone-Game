@@ -20,12 +20,24 @@ import java.util.Set;
  * @version build 2
  */
 public class MainPlayPhaseBusinessCommands extends Phase {
-	
+
+	/**
+	 * Object of MapModel class
+	 */
 	private MapModel mapModel;
+	/**
+	 * Object of GameModel class
+	 */
 	private GameModel gameModel;
 
+	/**
+	 * Set of player that commit
+	 */
 	private static Set<Player> CommittedPlayers = new HashSet<>();
-	
+
+	/**
+	 * Default constructor
+	 */
 	public MainPlayPhaseBusinessCommands() {
 		mapModel = MapModel.getInstance();
 		gameModel = GameModel.getInstance();
@@ -50,6 +62,13 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 		return new ResponseWrapper(200, "Reinforcement phase complete");
 		
 	}
+
+	/**
+	 * Method when the game ends, i.e., the player wins all the countries.
+	 * @param mainPlaySetUpResponse
+	 * @return response according to the situation
+	 * @throws GeneralException
+	 */
 	
 	public ResponseWrapper endGame(ResponseWrapper mainPlaySetUpResponse) throws GeneralException {
 		for(Player player : gameModel.getPlayers()) {
@@ -245,6 +264,11 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 		}
 	}
 
+
+	/**
+	 * method to add players in the commit set and execute the orders
+	 * @param player player that pressed the commit button
+	 */
 	public void addCommitPlayer(Player player){
 		CommittedPlayers.add(player);
 		if (CommittedPlayers.size() == gameModel.getPlayers().size()){
@@ -252,6 +276,9 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 		}
 	}
 
+	/**
+	 * method to execute the orders for each player from the list of orders.
+	 */
 	private void executeOrders() {
 		int l_Counter = 0;
 		while (l_Counter < gameModel.getPlayers().size()) {
@@ -269,13 +296,19 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 		CommittedPlayers.clear();
 	}
 
+	/**
+	 * method to perform commit for player when player pressed the commit button
+	 * @param player current player
+	 * @return response
+	 * @throws GeneralException if something goes wrong
+	 */
 
 	@Override
 	public ResponseWrapper commit(Player player) throws GeneralException {
 		addCommitPlayer(player);
 		player.performCommit();
 		//player.resetArmiesToIssue();
-		return new ResponseWrapper(200, player + " has performed a commit");
+		return new ResponseWrapper(200, player.getPlayerName() + " has performed a commit");
 	}
 
 	/**
