@@ -255,8 +255,8 @@ public class MapModel {
 
 		}
 
-		if ("".equals(getMapName()) || getMapName() == null || getContinents().isEmpty()
-				|| getCountries().isEmpty() || getContinentCountries().isEmpty()
+		if ("".equals(getMapName()) || getMapName() == null || getContinents().size()==0
+				|| getCountries().isEmpty() || getContinentCountries().size()==0
 				|| getBorders().isEmpty()) {
 
 			return new ResponseWrapper(404, "Map is not created Properly");
@@ -357,7 +357,7 @@ public class MapModel {
 
 
 		Boolean l_countryBorderNotExists = getBorders().entrySet().stream()
-				.anyMatch(borderMap -> borderMap.getValue().isEmpty()) ? true : false;
+				.anyMatch(borderMap -> borderMap.getValue().size() ==0) ? true : false;
 
 		if (Boolean.TRUE.equals(l_countryBorderNotExists)) {
 			return new ResponseWrapper(404, " Countries Border Missing ");
