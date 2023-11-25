@@ -516,7 +516,7 @@ public class MapFileAlteration {
 		d_mapModel.setCountries(d_mapModel.getCountries().stream().filter((conti)-> !conti.getCountryId().equals(country.getCountryId())).collect(Collectors.toList()));	
 		l_deletedCountriesList.removeIf((conti)-> ! conti.getCountryId().equals(country.getCountryId()));	
 		
-		if(l_deletedCountriesList.size())
+		if(l_deletedCountriesList.isEmpty())
 		{
 			return new ResponseWrapper(404, "Country Doesn't Exist in the Map");
 		}
