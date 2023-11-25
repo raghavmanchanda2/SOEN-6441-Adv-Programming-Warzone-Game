@@ -688,7 +688,6 @@ public class MapFileAlteration {
 		} 
 		
 
-		
 		Boolean l_countryBorderRelevantData=false;
 		for(Map.Entry<Country, List<Country>> mapEntry : d_mapModel.getBorders().entrySet()) {
 			boolean isCountryExitInList = false;
