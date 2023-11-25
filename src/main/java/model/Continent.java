@@ -187,7 +187,7 @@ public class Continent {
 	 * @param player player
 	 */
 	public void setContinentOwner(Player player) {
-		Player d_continentOwner = player;
+		 d_continentOwner = player;
 	}
 
 	/**
