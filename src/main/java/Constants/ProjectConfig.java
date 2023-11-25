@@ -18,6 +18,8 @@ import java.nio.file.Paths;
  */
 public class ProjectConfig {
 
+	private ProjectConfig(){}
+
 	  /**
      * The path to map files in the project.
      */
