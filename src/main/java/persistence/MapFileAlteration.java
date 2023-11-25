@@ -155,7 +155,7 @@ public class MapFileAlteration {
 					try {
 						Country l_country = new Country(Integer.parseInt(l_countryRow[0]), l_countryRow[1]);
 						
-						if(this.d_mapModel.getContinents().isEmpty() <= Integer.parseInt(l_countryRow[2])) {
+						if(this.d_mapModel.getContinents().size() <= Integer.parseInt(l_countryRow[2])) {
 							this.d_mapModel.addContinentCountries(null, l_country);
 						}else {
 							this.d_mapModel.addContinentCountries(this.d_mapModel.getContinents().get(Integer.parseInt(l_countryRow[2])), l_country);	
@@ -170,7 +170,7 @@ public class MapFileAlteration {
 					String[] l_borderRow = l_mapFileLine.trim().split("\\s+");
 					Country l_mainCountry = null ;
 					try {
-						if(this.d_mapModel.getCountries().isEmpty() > Integer.parseInt(l_borderRow[0])){
+						if(this.d_mapModel.getCountries().size() > Integer.parseInt(l_borderRow[0])){
 							l_mainCountry = this.d_mapModel.getCountries().get(Integer.parseInt(l_borderRow[0]));
 						}else {
 							
@@ -182,7 +182,7 @@ public class MapFileAlteration {
 					
 					for(int counter = 1; counter<l_borderRow.length; counter++) {
 						try {
-							if(this.d_mapModel.getCountries().isEmpty() <= Integer.parseInt(l_borderRow[counter])) {
+							if(this.d_mapModel.getCountries().size() <= Integer.parseInt(l_borderRow[counter])) {
 								this.d_mapModel.addBorders(l_mainCountry,null);
 							}else {
 								this.d_mapModel.addBorders(l_mainCountry, this.d_mapModel.getCountries().get(Integer.parseInt(l_borderRow[counter])));
@@ -279,7 +279,7 @@ public class MapFileAlteration {
 		if(this.d_mapModel.getContinents() == null) {
 			p_continent.setUniqueContinetId(0);
 		}else {
-			p_continent.setUniqueContinetId(this.d_mapModel.getContinents().isEmpty());
+			p_continent.setUniqueContinetId(this.d_mapModel.getContinents().size());
 		}
 		
 		this.d_mapModel.addContinent(p_continent);
@@ -303,7 +303,7 @@ public class MapFileAlteration {
 		if(this.d_mapModel.getCountries() == null) {
 			p_country.setUniqueCountryId(0);
 		}else {
-			p_country.setUniqueCountryId(this.d_mapModel.getCountries().isEmpty());
+			p_country.setUniqueCountryId(this.d_mapModel.getCountries().size());
 		}
 		
 		this.d_mapModel.addContinentCountries(p_country.getContinent(), p_country);
@@ -447,7 +447,7 @@ public class MapFileAlteration {
 		// Deleting Continents
 		Boolean l_continentFound = false;
 
-		for (int contIndex = 0; contIndex < d_mapModel.getContinents().isEmpty(); contIndex++) {
+		for (int contIndex = 0; contIndex < d_mapModel.getContinents().size(); contIndex++) {
 			if (d_mapModel.getContinents().get(contIndex).getContinentId().equals(p_continent.getContinentId())) {
 				d_mapModel.getContinents().remove(contIndex);
 				l_continentFound=true;
@@ -589,7 +589,7 @@ public class MapFileAlteration {
 			l_neighbouringCountriesList = l_neighbouringCountriesList.stream()
 						.filter((cont) -> !cont.getCountryId().equals(neighbourCountry.getCountryId()))
 						.collect(Collectors.toList());	
-			if(mapEntry.getValue().isEmpty() != l_neighbouringCountriesList.isEmpty()())
+			if(mapEntry.getValue().size() != l_neighbouringCountriesList.size())
 			{
 				l_neighbourFound=true;
 			}
@@ -643,11 +643,11 @@ public class MapFileAlteration {
 
 			return new ResponseWrapper(404, "Map is not created Properly");
 
-		} else if (l_continents.isEmpty() != this.d_mapModel.getContinents().isEmpty()
-				|| l_countries.isEmpty() != this.d_mapModel.getCountries().isEmpty()) {
+		} else if (l_continents.size() != this.d_mapModel.getContinents().size()
+				|| l_countries.size() != this.d_mapModel.getCountries().size()) {
 			return new ResponseWrapper(404, "Duplicate Continent or Country Found in map");
 
-		} else if (l_countries.isEmpty() < 2) {
+		} else if (l_countries.size() < 2) {
 			return new ResponseWrapper(404, " Countries Should be Atleast 2 in map ");
 
 		} 
