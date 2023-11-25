@@ -1,0 +1,12 @@
+business/Order/BlockadeOrderTest.class
+persistence/MapFileAlterationTest.class
+model/MapModelTest.class
+controller/SingleGameModePlayEngineControllerTest.class
+business/Order/BombOrderTest.class
+businessTest/MainPlayPhaseBusinessCommandsTest.class
+controller/MainPlayPhaseControllerTest.class
+model/GameModelTest.class
+business/Order/AdvanceOrderTest.class
+business/Order/DeployOrderTest.class
+business/Order/AirliftOrderTest.class
+business/Order/DiplomacyOrderTest.class
