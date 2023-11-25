@@ -43,7 +43,7 @@ public class GeneralException extends Exception {
 			throw new GeneralException(" Command shouldn't be null or empty ");
 		}
 
-		List<Character> specialCharacters = new ArrayList<Character>();
+		List<Character> specialCharacters = new ArrayList<>();
 		String chars = "!#$%&'()*+,/:;<=>?@[]^_`{|}~";
         for(int i=0;i<chars.length();i++)
         {
