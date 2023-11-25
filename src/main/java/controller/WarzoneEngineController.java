@@ -30,11 +30,15 @@ public class WarzoneEngineController {
 	 * 
 	 * @return The selected game feature as an string. Returns 404 if the input is invalid.
 	 */
+	
+	private Scanner d_inputForFeatureSelection;
+	
+	
 	public String getGameFeatureInputs() {
 		String l_selectedFeature = "";
 		try {
 
-			Scanner d_inputForFeatureSelection = new Scanner(System.in);
+			d_inputForFeatureSelection = new Scanner(System.in);
 			l_selectedFeature = d_inputForFeatureSelection.nextLine();
 			
 		
