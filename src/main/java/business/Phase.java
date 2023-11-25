@@ -16,7 +16,7 @@ import model.ResponseWrapper;
 public abstract class Phase {
 	
 	
-	public Phase() {
+	protected Phase() {
 	}
 	
 	/**
