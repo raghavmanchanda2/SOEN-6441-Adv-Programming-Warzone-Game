@@ -102,8 +102,7 @@ public class AdvanceOrder implements Order{
 				System.out.println(player.getPlayerName() + " HAS CAPTURED: " + targetCountry.getCountryId());
 				fromCountry.armiesRemove(totalAttackingArmy);
 				targetCountry.armiesDeploy(totalAttackingArmy);
-				
-				//targetCountry.getCountryOwner().removeCountry(targetCountry);
+
 				
 				player.addCountry(targetCountry);
 			}
