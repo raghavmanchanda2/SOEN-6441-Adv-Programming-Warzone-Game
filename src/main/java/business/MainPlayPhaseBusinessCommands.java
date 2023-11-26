@@ -10,6 +10,7 @@ import business.Order.*;
 import logger.GeneralException;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -30,6 +31,8 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 	 */
 	private GameModel gameModel;
 
+	private static MainPlayPhaseBusinessCommands d_mainPlayPhaseBusinessCommands;
+
 	/**
 	 * Set of player that commit
 	 */
@@ -42,7 +45,13 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 		mapModel = MapModel.getInstance();
 		gameModel = GameModel.getInstance();
 	}
-	
+
+	public static MainPlayPhaseBusinessCommands getMainPlayPhaseBusinessCommandsInstance() {
+		if(Objects.isNull(d_mainPlayPhaseBusinessCommands)) {
+			d_mainPlayPhaseBusinessCommands = new MainPlayPhaseBusinessCommands();
+		}
+		return d_mainPlayPhaseBusinessCommands;
+	}
 	/**
 	 * Reinforcement the army
 	 * @return alert message that map has successfully been saved
@@ -50,17 +59,17 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 	@Override
 	public ResponseWrapper doReinforcements() throws GeneralException{
 		System.out.println("ENTER REINFORCEMENT PHASE!!!!");
-		
+
 		for(Continent continent : mapModel.getContinents()) {
 			continent.determineContinentOwner();
 		}
-		
+
 		for(Player player : gameModel.getPlayers()) {
 			player.calculateCurrentArmies();
 		}
-		
+
 		return new ResponseWrapper(200, "Reinforcement phase complete");
-		
+
 	}
 
 	/**
@@ -69,7 +78,7 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 	 * @return response according to the situation
 	 * @throws GeneralException general exception
 	 */
-	
+
 	public ResponseWrapper endGame(ResponseWrapper mainPlaySetUpResponse) throws GeneralException {
 		for(Player player : gameModel.getPlayers()) {
 			if(player.getCountriesHold().size() == mapModel.getCountries().size()) {
@@ -79,7 +88,7 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Method that converts input string commands into objects to be used for deploy execution
 	 * @param p_currentPlayer - Current player object that is inputting string command
@@ -100,16 +109,16 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 		if(deploy.valid() && p_currentPlayer.getArmiesToIssue()>0) {
 			p_currentPlayer.addOrder(deploy);
 			p_currentPlayer.setArmiesToIssue(p_currentPlayer.getArmiesToIssue() - p_numerOfarmies);
-			return new ResponseWrapper(200, " Deploy order added in queue");
-		} else if (p_currentPlayer.getArmiesToIssue()==0){
+			return new ResponseWrapper(200, " Deploy order to: " + targettedCountry.getCountryId() + " added in queue");
+		} else if (p_currentPlayer.getArmiesToIssue()<=0){
 			return new ResponseWrapper(200, "No armies left in this turn.");
 		}else {
 			return new ResponseWrapper(204,"Targeted country doesn't belong to you.");
 		}
-		
-		
+
+
 	}
-	
+
 	/**
 	 * Method that converts input string commands into objects to be used for advance execution
 	 * @param p_currentPlayer - Current player object that is inputting string command
@@ -132,21 +141,21 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 				}
 			}
 		}
-		
+
 		Order advance = new AdvanceOrder(countryFrom, countryTo, p_numerOfarmies, p_currentPlayer);
 		if(advance.valid()) {
 			p_currentPlayer.addOrder(advance);
-			return new ResponseWrapper(200, " Advance order added in queue");
+			return new ResponseWrapper(200, "Advance order added in queue");
 		}else {
 			return new ResponseWrapper(204,"One of the following occurred: \n"
-										+ "1. Source country does not belong to you\n"
-										+ "2. Destination Country is not a neighbouring country\n"
-										+ "3. Destination Country does not exist in the m;ap\n"
-										+ "4. YOU CANNOT MOVE ALL YOUR ARMIES, MUST LEAVE AT LEAST 1 BEHIND!!!\n");
+					+ "1. Source country does not belong to you\n"
+					+ "2. Destination Country is not a neighbouring country\n"
+					+ "3. Destination Country does not exist in the map\n"
+					+ "4. YOU CANNOT MOVE ALL YOUR ARMIES, MUST LEAVE AT LEAST 1 BEHIND!!!\n");
 		}
-		
+
 	}
-	
+
 	/**
 	 * Method that converts input string commands into objects to be used for bomb execution
 	 * @param p_currentPlayer - Current player object that is inputting string command
@@ -156,27 +165,27 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 	@Override
 	public ResponseWrapper bomb(Player p_currentPlayer, String p_targetCountryName) throws GeneralException{
 		Country targetCountry = null;
-		
+
 		for(Country country : mapModel.getCountries()) {
 			if(country.getCountryId().equals(p_targetCountryName)) {
 				targetCountry = country;
 				break;
 			}
 		}
-		
+
 		Order bomb = new BombOrder(p_currentPlayer, targetCountry);
 		if(bomb.valid()) {
 			p_currentPlayer.addOrder(bomb);
 			return new ResponseWrapper(200, " Bomb order added in queue");
 		}else {
 			return new ResponseWrapper(204,"One of the following occured: \n"
-										+ "1. You do not possess a bomb card\n"
-										+ "2. You are targeting a country that belongs to you\n"
-										+ "3. You are targeting a country that is not adjacent to one of your countries\n"
-										+ "4. That country does not exist in the map\n");
+					+ "1. You do not possess a bomb card\n"
+					+ "2. You are targeting a country that belongs to you\n"
+					+ "3. You are targeting a country that is not adjacent to one of your countries\n"
+					+ "4. That country does not exist in the map\n");
 		}
 	}
-	
+
 	/**
 	 * Method that converts input string commands into objects to be used for blockade execution
 	 * @param p_currentPlayer - Current player object that is inputting string command
@@ -186,14 +195,14 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 	@Override
 	public ResponseWrapper blockade(Player p_currentPlayer, String p_targetCountryName) throws GeneralException {
 		Country targetCountry = null;
-		
+
 		for(Country country : p_currentPlayer.getCountriesHold()) {
 			if(country.getCountryId().equals(p_targetCountryName)) {
 				targetCountry = country;
 				break;
 			}
 		}
-		
+
 		Order blockade = new BlockadeOrder(p_currentPlayer, targetCountry);
 		if(blockade.valid()) {
 			p_currentPlayer.addOrder(blockade);
@@ -202,7 +211,7 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 			return new ResponseWrapper(204, "Can only perform blockade on your own country\n");
 		}
 	}
-	
+
 	/**
 	 * Method that converts input string commands into objects to be used for airlift execution
 	 * @param p_currentPlayer - Current player object that is inputting string command
@@ -215,31 +224,31 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 	public ResponseWrapper airlift(Player p_currentPlayer, String p_countryNameFrom, String p_countryNameTo, int p_numArmies)  throws GeneralException {
 		Country countryFrom = null;
 		Country countryTo = null;
-		
+
 		for(Country country : p_currentPlayer.getCountriesHold()) {
 			if(country.getCountryId().equals(p_countryNameFrom)) {
 				countryFrom = country;
 			}
-			
+
 			if(country.getCountryId().equals(p_countryNameTo)) {
 				countryTo = country;
 			}
 		}
-		
+
 		Order airlift = new AirliftOrder(p_currentPlayer, countryFrom, countryTo, p_numArmies);
 		if(airlift.valid()) {
 			p_currentPlayer.addOrder(airlift);
 			return new ResponseWrapper(200, " Airlift order added in queue");
 		}else {
 			return new ResponseWrapper(204, "One of the following occurred: \n"
-										+ "1. You do not possess an airlift card\n"
-										+ "2. Country you are airlifting from does not belongs to you\n"
-										+ "3. Country you are airlifting to does not belongs to you\n"
-										+ "4. That country does not exist in the map\n");
+					+ "1. You do not possess an airlift card\n"
+					+ "2. Country you are airlifting from does not belongs to you\n"
+					+ "3. Country you are airlifting to does not belongs to you\n"
+					+ "4. That country does not exist in the map\n");
 		}
-		
+
 	}
-	
+
 	/**
 	 * Method that converts input string commands into objects to be used for diplomacy execution
 	 * @param p_currentPlayer - player executing diplomacy with another player
@@ -249,13 +258,13 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 	@Override
 	public ResponseWrapper diplomacy(Player p_currentPlayer, String p_otherPlayer) throws GeneralException{
 		Player peaceWith = null;
-		
+
 		for(Player player : gameModel.getPlayers()) {
 			if(player.getPlayerName().equals(p_otherPlayer)) {
 				peaceWith = player;
 			}
 		}
-		
+
 		Order diplomacy = new DiplomacyOrder(p_currentPlayer, peaceWith);
 		if(diplomacy.valid()) {
 			p_currentPlayer.addOrder(diplomacy);
@@ -272,15 +281,15 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 	 */
 	public void addCommitPlayer(Player player){
 		CommittedPlayers.add(player);
-		if (CommittedPlayers.size() == gameModel.getPlayers().size()){
-			executeOrders();
-		}
+//		if (CommittedPlayers.size() == gameModel.getPlayers().size()){
+//			executeOrders();
+//		}
 	}
 
 	/**
 	 * method to execute the orders for each player from the list of orders.
 	 */
-	private void executeOrders() {
+	public void executeOrders() {
 		int l_Counter = 0;
 		while (l_Counter < gameModel.getPlayers().size()) {
 			l_Counter = 0;
@@ -331,34 +340,34 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 	}
 
 	/**
-     * Edit a continent to the map.
-     *
-     * @param p_continent - The continent to be added or removed
-     * @param p_command - The command to be added or removed
-     * @return A {@link ResponseWrapper} object indicating the result of the operation.
-     */
+	 * Edit a continent to the map.
+	 *
+	 * @param p_continent - The continent to be added or removed
+	 * @param p_command - The command to be added or removed
+	 * @return A {@link ResponseWrapper} object indicating the result of the operation.
+	 */
 	@Override
 	public ResponseWrapper editContinent(Continent p_continent, String p_command) throws GeneralException {
 		return printInvalidCommandInState();
 	}
 
 	/**
-     * Add a player to the game
-     *
-     * @param p_playerName - player name to be added
-     * @return A {@link ResponseWrapper} object indicating the result of the operation
-     */
+	 * Add a player to the game
+	 *
+	 * @param p_playerName - player name to be added
+	 * @return A {@link ResponseWrapper} object indicating the result of the operation
+	 */
 	@Override
 	public ResponseWrapper addPlayerInGame(String p_playerName) throws GeneralException {
 		return printInvalidCommandInState();
 	}
 
 	/**
-     * Remove a player from the game
-     *
-     * @param p_playerName - player name to be removed
-     * @return A {@link ResponseWrapper} object indicating the result of the operation
-     */
+	 * Remove a player from the game
+	 *
+	 * @param p_playerName - player name to be removed
+	 * @return A {@link ResponseWrapper} object indicating the result of the operation
+	 */
 	@Override
 	public ResponseWrapper removeplayerFromGame(String p_playerName) throws GeneralException {
 		printInvalidCommandInState();
@@ -366,34 +375,34 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 	}
 
 	/**
-     * Commit the reinforcement
-     * @return A {@link ResponseWrapper} object indicating the result of the operation
-     */
+	 * Commit the reinforcement
+	 * @return A {@link ResponseWrapper} object indicating the result of the operation
+	 */
 	@Override
 	public ResponseWrapper afterCommitReinforcement() throws GeneralException {
 		return printInvalidCommandInState();
 	}
 
 	/**
-     * Edit a neighbor of the country to the map.
-     *
-     * @param p_mainCountry - The country where neighboring country has to be added or removed
-     * @param p_neighbourCountry - The neighboring country to be added or removed
-     * @param p_command - Check command is add or remove
-     * @return A {@link ResponseWrapper} object indicating the result of the operation
-     */
+	 * Edit a neighbor of the country to the map.
+	 *
+	 * @param p_mainCountry - The country where neighboring country has to be added or removed
+	 * @param p_neighbourCountry - The neighboring country to be added or removed
+	 * @param p_command - Check command is add or remove
+	 * @return A {@link ResponseWrapper} object indicating the result of the operation
+	 */
 	@Override
 	public ResponseWrapper editNeighbour(Country p_mainCountry, Country p_neighbourCountry, String p_command) throws GeneralException {
 		return printInvalidCommandInState();
 	}
 
 	/**
-     * Edit a country to the map.
-     *
-     * @param p_country - The country to be added or removed
-     * @param p_command - The command to be added or removed
-     * @return A {@link ResponseWrapper} object indicating the result of the operation.
-     */
+	 * Edit a country to the map.
+	 *
+	 * @param p_country - The country to be added or removed
+	 * @param p_command - The command to be added or removed
+	 * @return A {@link ResponseWrapper} object indicating the result of the operation.
+	 */
 	@Override
 	public ResponseWrapper editCountry(Country p_country, String p_command) throws GeneralException {
 		return printInvalidCommandInState();
@@ -438,5 +447,5 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 	public ResponseWrapper editOrCreateMap(String p_mapFileName) throws GeneralException {
 		return printInvalidCommandInState();
 	}
-	
+
 }

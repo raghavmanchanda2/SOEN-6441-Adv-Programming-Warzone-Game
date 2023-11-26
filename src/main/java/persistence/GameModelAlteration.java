@@ -5,6 +5,8 @@ import model.*;
 import java.util.Collections;
 import java.util.List;
 
+import controller.MainPlayPhaseController;
+
 
 /**
  * GameModelAlteration class
@@ -39,9 +41,11 @@ public class GameModelAlteration {
 		Player player = new Player(playerName);
 		this.gameModel.addPlayerInPlayersList(player);
 		this.gameModel.addPlayerQueue(player);
-		
+
+		gameModel.changeStrat(player, MainPlayPhaseController.getInstance());
+
 		return new ResponseWrapper(200,"Player added successfully: " + playerName);
-		
+
 	}
 
 	/**
@@ -50,9 +54,9 @@ public class GameModelAlteration {
 	 * @return response
 	 */
 	public ResponseWrapper removePlayerFromGame(String playerName) {
-		
+
 		Boolean playerFoundToBeRemoved=false;
-		
+
 		if(this.gameModel.getPlayers()==null)
 		{
 			return new ResponseWrapper(200,"Player doesnt exist in the map");
@@ -85,15 +89,18 @@ public class GameModelAlteration {
 			Player l_Player = l_inGamePlayers.get(index);
 			l_Player.addCountryHold(l_Country);
 			l_Country.setCountryOwner(l_Player);
-			
+
 			if (index < this.gameModel.getPlayers().size() - 1) {
 				index++;
 			} else {
 				index = 0;
 			}
 		}
-		
+
 		return new ResponseWrapper(200, "Countries Assigned");
-		
 	}
+
+
+
+
 }

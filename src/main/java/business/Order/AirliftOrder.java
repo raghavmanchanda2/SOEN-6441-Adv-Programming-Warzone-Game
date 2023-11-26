@@ -1,6 +1,7 @@
 package business.Order;
 
 import model.Player;
+import model.ResponseWrapper;
 import model.Card;
 import model.Card.CardType;
 import model.Country;
@@ -34,6 +35,8 @@ public class AirliftOrder implements Order{
 	 */
 	private Player player;
 	
+	private boolean valid;
+	
 	/**
 	 * Parameterized constructor to build an airlift order
 	 * @param player - the one that wants to execute an airlift order
@@ -46,6 +49,7 @@ public class AirliftOrder implements Order{
 		originCountry = countryFrom;
 		destinationCountry = countryTo;
 		this.armies_to_move = armies_to_move;
+		valid = false;
 	}
 	
 	/**
@@ -76,7 +80,7 @@ public class AirliftOrder implements Order{
 		boolean hasCard = false;
 		
 		for(Card card : player.getCardList()) {
-			if(card.getCardType() == Card.CardType.AIRLIFT) {
+			if(card.getCardType() == CardType.AIRLIFT) {
 				hasCard = true;
 			}
 		}
@@ -94,12 +98,12 @@ public class AirliftOrder implements Order{
 		if(armies_to_move < originCountry.getArmies() && armies_to_move > 0) {
 			
 			for(Card card : player.getCardList()) {
-				if(card.getCardType() == Card.CardType.AIRLIFT) {
+				if(card.getCardType() == CardType.AIRLIFT) {
 					player.getCardList().remove(card);
 					break;
 				}
 			}
-			
+			valid = true;
 			return true;
 		}
 		
@@ -116,6 +120,21 @@ public class AirliftOrder implements Order{
 		System.out.println("Airlifting: " + armies_to_move + " armies from: " + originCountry.getCountryId() + " to: " + destinationCountry.getCountryId());;
 		System.out.println("*****************************************************");
 		
+	}
+
+	@Override
+	public ResponseWrapper getOrderStatus() {
+		
+		if(valid) {
+			return new ResponseWrapper(200, " Airlift order added in queue");
+		}
+		else {
+			return new ResponseWrapper(204, "One of the following occurred: \n"
+					+ "1. You do not possess an airlift card\n"
+					+ "2. Country you are airlifting from does not belongs to you\n"
+					+ "3. Country you are airlifting to does not belongs to you\n"
+					+ "4. That country does not exist in the map\n");
+		}
 	}
 
 }

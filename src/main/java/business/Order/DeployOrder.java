@@ -2,6 +2,7 @@ package business.Order;
 
 import model.Country;
 import model.Player;
+import model.ResponseWrapper;
 
 /**
  * Class that defines deployment functionalities
@@ -24,6 +25,8 @@ public class DeployOrder implements Order{
 	 * Object of player class
 	 */
 	private Player player;
+	
+	boolean valid;
 
 	/**
 	 * parameterized constructor that to build a deployment order
@@ -36,6 +39,7 @@ public class DeployOrder implements Order{
 		this.targetCountry = targetCountry;
 		this.to_deploy_armies = to_deploy_armies;
 		this.player = player;
+		valid = false;
 	}
 	
 	/**
@@ -59,6 +63,7 @@ public class DeployOrder implements Order{
 			return false;
 		}
 		else if(player.getCountriesHold().contains(targetCountry)) {
+			valid = true;
 			return true;
 		}
 		
@@ -74,6 +79,17 @@ public class DeployOrder implements Order{
 		System.out.println("*****************************************************");
 		System.out.println(player.getPlayerName() + " deployed " + to_deploy_armies + " armies at " + targetCountry.getCountryId());
 		System.out.println("*****************************************************");
+	}
+
+	@Override
+	public ResponseWrapper getOrderStatus() {
+		if(valid && player.getArmiesToIssue()>0) {
+			return new ResponseWrapper(200, " Deploy order to: " + targetCountry.getCountryId() + " added in queue");
+		} else if (player.getArmiesToIssue()<=0){
+			return new ResponseWrapper(200, "No armies left in this turn.");
+		}else {
+			return new ResponseWrapper(204,"Targeted country doesn't belong to you.");
+		}
 	}
 
 }

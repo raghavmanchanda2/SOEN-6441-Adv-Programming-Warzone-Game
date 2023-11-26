@@ -1,5 +1,7 @@
 package business.Order;
 
+import model.ResponseWrapper;
+
 /**
  * Interface that defines basic methods for an order to be implemented
  * 
@@ -23,5 +25,8 @@ public interface Order {
 	 * prints occurrence of the order after execution
 	 */
 	public void printOrder();
+	
+	
+	public ResponseWrapper getOrderStatus();
 	
 }

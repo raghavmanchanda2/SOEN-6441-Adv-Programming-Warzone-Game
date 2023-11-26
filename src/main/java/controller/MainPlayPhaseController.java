@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 import business.MainPlayPhaseBusinessCommands;
@@ -14,7 +15,7 @@ import model.ResponseWrapper;
  * @version build2
  */
 public class MainPlayPhaseController {
-	
+
 	/**
 	 *  Creating scanner variable to get input from user
 	 */
@@ -30,16 +31,25 @@ public class MainPlayPhaseController {
 	private MainPlayPhaseBusinessCommands mainPlayPhaseBusinessCommands;
 	private Phase playPhase;
 
+	private static MainPlayPhaseController mainPlayPhaseController;
+
 	/**
 	 * constructor for initializing main play phase controller elements
 	 */
 	public MainPlayPhaseController() {
-		
+
 		d_MainPlaylSetupCommands = new Scanner(System.in);
 		gException=new GeneralException();
 		mainPlayPhaseBusinessCommands = new MainPlayPhaseBusinessCommands();
 		setPlayPhase(mainPlayPhaseBusinessCommands);
-		
+
+	}
+
+	public static MainPlayPhaseController getInstance() {
+		if(Objects.isNull(mainPlayPhaseController)) {
+			mainPlayPhaseController = new MainPlayPhaseController();
+		}
+		return mainPlayPhaseController;
 	}
 
 	/**
@@ -49,7 +59,7 @@ public class MainPlayPhaseController {
 	public void setPlayPhase(Phase playPhase) {
 		this.playPhase = playPhase;
 	}
-	
+
 	/**
 	 * getting main play commands from user
 	 * @return command from user
@@ -66,90 +76,90 @@ public class MainPlayPhaseController {
 	 * @throws GeneralException if something goes wrong
 	 */
 	public ResponseWrapper getMainPlaySetUpCommands(Player currentPlayer,String l_userEnteredMainPlayCommands) throws GeneralException {
-		
+
 
 		if (l_userEnteredMainPlayCommands.trim().isEmpty()) {
-			
-			return new ResponseWrapper(404, INCORRECT_COMMAND); 
+
+			return new ResponseWrapper(404, INCORRECT_COMMAND);
 		}
 		String[] l_splitInitialSetupCommand = l_userEnteredMainPlayCommands.trim().replaceAll(" +", " ").split("\\s+");
-		
+
 		gException.validateCommand(l_userEnteredMainPlayCommands);
-		
+
 		switch (l_splitInitialSetupCommand[0]) {
 
 			case "commit":
 				return playPhase.commit(currentPlayer);
 
-		case "deploy":
-			
-			return playPhase.deploy(currentPlayer,l_splitInitialSetupCommand[1], Integer.parseInt(l_splitInitialSetupCommand[2]));
-			
-		case "advance":
-			return playPhase.advance(currentPlayer,l_splitInitialSetupCommand[1],l_splitInitialSetupCommand[2],Integer.parseInt(l_splitInitialSetupCommand[3]));
-		
-		case "bomb":
-			return playPhase.bomb(currentPlayer, l_splitInitialSetupCommand[1]);
-			
-		case "blockade":
-			
-			return playPhase.blockade(currentPlayer,l_splitInitialSetupCommand[1]);
-			
-		case "airlift":
-			
-			return playPhase.airlift(currentPlayer, l_splitInitialSetupCommand[1], l_splitInitialSetupCommand[2], Integer.parseInt(l_splitInitialSetupCommand[3]));
-		
-		case "negotiate":
-			
-			return playPhase.diplomacy(currentPlayer, l_splitInitialSetupCommand[1]);
-			
-		case "loadmap":
-			return playPhase.loadMap(null);
-			
-		case "gameplayer":
-			
-			return playPhase.addPlayerInGame(null);
-			
-		case "assigncountries":
-			return playPhase.assignCountries();
-			
-		case "showmap":
-			
-			
-			return playPhase.showMap();
-			
-			
-		case "savemap":
-			
-			return playPhase.saveMap(null);
-			
+			case "deploy":
 
-		case "validatemap":
-			
-			return playPhase.validateMap();
-		
-		case "editcountry":
-			
-			return playPhase.editCountry(null, null);
-			
-		case "editneighbour":
-			return playPhase.editNeighbour(null, null, null);
-		
-		case "editcontinent":
-			return playPhase.editContinent(null, null);
+				return playPhase.deploy(currentPlayer,l_splitInitialSetupCommand[1], Integer.parseInt(l_splitInitialSetupCommand[2]));
+
+			case "advance":
+				return playPhase.advance(currentPlayer,l_splitInitialSetupCommand[1],l_splitInitialSetupCommand[2],Integer.parseInt(l_splitInitialSetupCommand[3]));
+
+			case "bomb":
+				return playPhase.bomb(currentPlayer, l_splitInitialSetupCommand[1]);
+
+			case "blockade":
+
+				return playPhase.blockade(currentPlayer,l_splitInitialSetupCommand[1]);
+
+			case "airlift":
+
+				return playPhase.airlift(currentPlayer, l_splitInitialSetupCommand[1], l_splitInitialSetupCommand[2], Integer.parseInt(l_splitInitialSetupCommand[3]));
+
+			case "negotiate":
+
+				return playPhase.diplomacy(currentPlayer, l_splitInitialSetupCommand[1]);
+
+			case "loadmap":
+				return playPhase.loadMap(null);
+
+			case "gameplayer":
+
+				return playPhase.addPlayerInGame(null);
+
+			case "assigncountries":
+				return playPhase.assignCountries();
+
+			case "showmap":
+
+
+				return playPhase.showMap();
+
+
+			case "savemap":
+
+				return playPhase.saveMap(null);
+
+
+			case "validatemap":
+
+				return playPhase.validateMap();
+
+			case "editcountry":
+
+				return playPhase.editCountry(null, null);
+
+			case "editneighbour":
+				return playPhase.editNeighbour(null, null, null);
+
+			case "editcontinent":
+				return playPhase.editContinent(null, null);
 
 			case "exit":
 				System.out.println("Player exit. Ending Game Now!");
 				System.exit(0);
 
-		default:
-			return new ResponseWrapper(404, INCORRECT_COMMAND); 
+			default:
+				return new ResponseWrapper(404, INCORRECT_COMMAND);
 		}
-		
+
 
 	}
-	
-	
-	
+
+
+
 
 }

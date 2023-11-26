@@ -2,6 +2,7 @@ package business.Order;
 
 import model.Card;
 import model.Player;
+import model.ResponseWrapper;
 
 /**
  * Class that defines diplomacy functionalities
@@ -20,6 +21,8 @@ public class DiplomacyOrder implements Order{
 	 */
 	Player peaceWith;
 	
+	Boolean valid;
+	
 	/**
 	 * parameterized constructor that to build a diplomacy order
 	 * @param currentPlayer - player that will execute diplomacy
@@ -28,6 +31,7 @@ public class DiplomacyOrder implements Order{
 	public DiplomacyOrder(Player currentPlayer, Player peaceWith) {
 		this.currentPlayer = currentPlayer;
 		this.peaceWith = peaceWith;
+		valid = false;
 	}
 
 	/**
@@ -55,6 +59,7 @@ public class DiplomacyOrder implements Order{
 			}
 		}
 		if(!hasCard) {
+
 			return false;
 		}
 		
@@ -66,7 +71,7 @@ public class DiplomacyOrder implements Order{
 					break;
 				}
 			}
-			
+			valid = true;
 			return true;
 		}
 		
@@ -82,6 +87,15 @@ public class DiplomacyOrder implements Order{
 		System.out.println("Diplomacy Order executed by: " + currentPlayer.getPlayerName());
 		System.out.println("Diplomacy Order executed with: " + peaceWith.getPlayerName());
 		System.out.println("*****************************************************");
+	}
+
+	@Override
+	public ResponseWrapper getOrderStatus() {
+		if(valid) {
+			return new ResponseWrapper(200, " Diplomacy order added in queue");
+		}else {
+			return new ResponseWrapper(204, " Player you want to make peace with does not exist");
+		}
 	}
 
 }

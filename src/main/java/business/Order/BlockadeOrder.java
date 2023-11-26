@@ -3,6 +3,7 @@ package business.Order;
 import model.Card;
 import model.Country;
 import model.Player;
+import model.ResponseWrapper;
 
 /**
  * Class that defines blockade functionalities
@@ -23,6 +24,8 @@ public class BlockadeOrder implements Order{
 	 */
 	private Player player;
 	
+	boolean valid;
+	
 	/**
 	 * Parameterized constructor that to build a blockade order
 	 * @param p_player - player that wants to execute blockade order
@@ -32,6 +35,7 @@ public class BlockadeOrder implements Order{
 		super();
 		player = p_player;
 		targetCountry = p_targetCountry;
+		valid = false;
 	}
 	
 	/**
@@ -80,7 +84,7 @@ public class BlockadeOrder implements Order{
 					break;
 				}
 			}
-			
+			valid = true;
 			return true;
 		}
 		
@@ -96,6 +100,17 @@ public class BlockadeOrder implements Order{
 		System.out.println("Blockade Order executed by: " + player.getPlayerName());
 		System.out.println("Blockade Order executed on: " + targetCountry.getCountryId());
 		System.out.println("*****************************************************");
+	}
+
+	@Override
+	public ResponseWrapper getOrderStatus() {
+
+		if(valid) {
+			return new ResponseWrapper(200, " Blockade order added in queue");
+		}
+		else {
+			return new ResponseWrapper(204, "Can only perform blockade on your own country\n");
+		}
 	}
 
 }

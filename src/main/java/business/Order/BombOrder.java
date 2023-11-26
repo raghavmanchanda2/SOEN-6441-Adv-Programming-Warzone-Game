@@ -3,6 +3,7 @@ package business.Order;
 import model.Card;
 import model.Country;
 import model.Player;
+import model.ResponseWrapper;
 
 /**
  * Class that defines bomb functionalities
@@ -22,6 +23,8 @@ public class BombOrder implements Order{
 	 */
 	private Player player;
 	
+	private boolean valid;
+	
 	/**
 	 * parameterized constructor that to build a bomb order
 	 * @param p_player - player that wants to execute a bomb order
@@ -31,7 +34,7 @@ public class BombOrder implements Order{
 		super();
 		player = p_player;
 		targetCountry = p_targetCountry;
-		
+		valid = false;
 	}
 	
 
@@ -84,7 +87,7 @@ public class BombOrder implements Order{
 							break;
 						}
 					}
-					
+					valid = true;
 					return true;
 				}
 			}
@@ -103,6 +106,22 @@ public class BombOrder implements Order{
 		System.out.println("Bomb Order executed on: " + targetCountry.getCountryId());
 		System.out.println("*****************************************************");
 		
+	}
+
+
+	@Override
+	public ResponseWrapper getOrderStatus() {
+
+		if(valid) {
+			return new ResponseWrapper(200, " Bomb order added in queue");
+		}
+		else {
+			return new ResponseWrapper(204,"One of the following occured: \n"
+					+ "1. You do not possess a bomb card\n"
+					+ "2. You are targeting a country that belongs to you\n"
+					+ "3. You are targeting a country that is not adjacent to one of your countries\n"
+					+ "4. That country does not exist in the map\n");
+		}
 	}
 
 }

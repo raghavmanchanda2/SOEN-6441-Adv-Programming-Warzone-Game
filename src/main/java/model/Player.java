@@ -2,7 +2,11 @@ package model;
 
 import java.util.*;
 
+import Strategy.CheaterStrategy;
+import Strategy.HumanStrategy;
+import Strategy.PlayerStrategy;
 import business.Order.Order;
+import logger.GeneralException;
 
 /**
  * Player class which holds the issue order and next order in the list of orders
@@ -67,11 +71,93 @@ public class Player {
 	/**
 	 * list of card orders list
 	 */
-	private List<Order> cardOrders_list;
+	//private List<Order> cardOrders_list;
 	/**
 	 * Object of Player class
 	 */
 	private Player peaceWith;
+
+	//STRATEGY PATTERN
+	//-------------------------------------------
+
+	private PlayerStrategy strategy;
+
+
+	public void setStrategy(PlayerStrategy p_strat) {
+		strategy = p_strat;
+	}
+
+	public PlayerStrategy getStrategy() {
+		return strategy;
+	}
+
+
+	public ResponseWrapper issueOrder() throws GeneralException{
+
+		if(strategy instanceof CheaterStrategy) {
+			cheat();
+			this.performCommit();
+			return new ResponseWrapper(200, " Cheating order added in queue");
+		}
+		else if(strategy instanceof HumanStrategy) {
+			return ((HumanStrategy) strategy).humanOrderCreation();
+		}
+		else {
+			ResponseWrapper order;
+
+			order = strategy.createOrder();
+
+			return order;
+		}
+
+	}
+
+	private void cheat() {
+
+		//Get all neighbors that don't belong to the player
+
+		List<Country> c_list = new ArrayList<>();
+
+		for(Country country : countriesHold) {
+			for(Country neighbor : country.getNeighbors()) {
+				if(neighbor.getCountryOwner() != this) {
+					c_list.add(neighbor);
+				}
+			}
+		}
+
+		//Immediately capture those countries
+
+		if(c_list.size() > 0) {
+
+			for(Country country : c_list) {
+				System.out.println("Cheating player: " + this.getPlayerName() + " HAS CAPTURED " + country.getCountryId());
+
+				country.getCountryOwner().removeCountry(country);
+
+				this.addCountry(country);
+
+			}
+		}
+
+		//Double armies in those countries which has an enemy neighbor
+
+		for(Country country : countriesHold) {
+			for(Country neighbor : country.getNeighbors()) {
+				if(neighbor.getCountryOwner() != this) {
+					country.setArmy(country.getArmies()*2);
+					break;
+				}
+			}
+		}
+
+
+	}
+
+
+	//-------------------------------------------
+
+
 
 	/**
 	 * Default Constructor
@@ -173,9 +259,9 @@ public class Player {
 		this.countriesHold.remove(country);
 		this.currentArmyInCountry.remove(country);
 	}
-	
-	
-	
+
+
+
 	//-------------------------------------------
 
 	/**
@@ -186,7 +272,7 @@ public class Player {
 		if(this.countriesHold == null) {
 			this.countriesHold = new ArrayList<>();
 		}
-		
+
 		this.countriesHold.add(country);
 		country.setCountryOwner(this);
 		d_can_get_card_this_turn = true;
@@ -200,7 +286,7 @@ public class Player {
 		if(this.countriesHold == null) {
 			this.countriesHold = new ArrayList<>();
 		}
-		
+
 		this.countriesHold.remove(country);
 	}
 
@@ -255,7 +341,7 @@ public class Player {
 	public void addCard()
 	{
 		Card newCard = Card.generateRandomCard();
-		
+
 		if(d_cards.size() < MAX_CARD_LIMIT)
 		{
 			d_cards.add(newCard);
@@ -271,7 +357,7 @@ public class Player {
 	 * @param card card
 	 */
 	public void addSpecificCard(Card card) {
-		
+
 		if(d_cards.size() < MAX_CARD_LIMIT) {
 			d_cards.add(card);
 		}
@@ -286,64 +372,64 @@ public class Player {
 	 */
 	private void cardLimitExceeded(Card newCard) {
 		System.out.println("Card limit that a player can possess has been exceeded, please choose the following options\n");
-		
+
 		System.out.println("The following cards are in your possession");
 		System.out.println("------------------------------------------");
-		
+
 		for(int i = 0; i < d_cards.size(); ++i)
 		{
 			System.out.println(i+1 + ".	" + d_cards.get(i).getCardType().name());
 		}
-		
+
 		System.out.println();
 		System.out.println("NEW CARD");
 		System.out.println("---------");
-		
+
 		System.out.println(newCard.getCardType().name()+"\n");
-		
-		
+
+
 		int card_num;
 		System.out.println("Please select which card you want to replace or PRESS 0 to keep current cards");
-		
+
 		while(true)
 		{
 			Scanner scan = new Scanner(System.in);
-			
-			
+
+
 			if(scan.hasNextInt()) {
 				card_num = scan.nextInt();
-				
+
 				if(card_num >= 0 && card_num <= MAX_CARD_LIMIT) {
 					break;
 				}
 				else
 				{
 					System.out.println("Invalid input");
-					
+
 					for(int i = 0; i < d_cards.size(); ++i)
 					{
 						System.out.println("Select " + (i+1) + " to replace:	" + d_cards.get(i).getCardType().name());
 					}
-					
+
 				}
 			}
 			else
 			{
 				System.out.println("Invalid input");
-				
+
 				for(int i = 0; i < d_cards.size(); ++i)
 				{
 					System.out.println("Select " + (i+1) + " to replace:	" + d_cards.get(i).getCardType().name());
 				}
-				
-				
+
+
 			}
 		}
-		
+
 		if(card_num != 0)
 		{
 			d_cards.set(card_num - 1, newCard);
-		}	
+		}
 	}
 
 	/**
@@ -353,7 +439,7 @@ public class Player {
 		int card_num = 1;
 		System.out.println("CARDS CURRENTLY OWNED BY: " + playerName);
 		System.out.println("***********************************************************");
-		
+
 		for(Card card : d_cards) {
 			System.out.println(card_num + ". " + card.getCardType().name());
 			++card_num;
@@ -391,14 +477,14 @@ public class Player {
 	 */
 	private int CalculateBonusArmies() {
 		MapModel map = MapModel.getInstance();
-		
+
 		for(Continent continent : map.getContinents()) {
 			if(continent.getContinentOwner() == this) {
 				int bonus = Integer.parseInt(continent.getContientValue());
 				bonusArmies += bonus;
 			}
 		}
-		
+
 		return bonusArmies;
 	}
 	/**
@@ -431,7 +517,7 @@ public class Player {
 	public void resetCommit() {
 		commit  = false;
 	}
-	
+
 	//-------------------------------------------
 
 
@@ -494,7 +580,7 @@ public class Player {
 		}
 		this.orders_list.add(order);
 	}
-	
 
-	
+
+
 }
