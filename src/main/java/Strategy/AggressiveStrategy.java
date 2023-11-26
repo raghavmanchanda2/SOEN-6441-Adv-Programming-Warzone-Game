@@ -17,7 +17,7 @@ import model.ResponseWrapper;
 public class AggressiveStrategy extends PlayerStrategy{
 
 	private final String strategyName = "AGGRESSIVE";
-	static int phase = 1;
+	int phase = 1;
 	
 	private Country strongest;
 	
@@ -61,22 +61,22 @@ public class AggressiveStrategy extends PlayerStrategy{
 			//System.out.println("TRYING TO ADVANCE: " + (d_player.getCurrentArmies() + armiesIssuedPhase1 - 1) + " FROM: " + attack_source.getCountryId() + " TO: " + attack_destination.getCountryId());
 
 			if(attack_destination != null && attack_source != null ) {
-				
-					response = d_mainPlayPhaseBusinessCommands.advance(d_player, attack_source.getCountryId(), attack_destination.getCountryId(), attack_source.getArmies() + armiesIssuedPhase1 - 1);
+					System.out.println("Building ATTACK ORDER");
+					response = d_mainPlayPhaseBusinessCommands.advance(d_player, attack_source.getCountryId(), attack_destination.getCountryId(), attack_source.getArmies() - 1);
 
 					--phase;
 					d_player.performCommit();
 					return response;
 			}
 			else {
-
+				System.out.println("Building MOVE ORDER");
 				Country move_source = toMoveFrom();
 				Country move_destination = toMoveTo();
 
 
 				if(move_source != null && move_destination != null) {
 					
-						response = d_mainPlayPhaseBusinessCommands.advance(d_player, move_source.getCountryId(), move_destination.getCountryId(), attack_source.getArmies() + armiesIssuedPhase1 - 1);
+						response = d_mainPlayPhaseBusinessCommands.advance(d_player, move_source.getCountryId(), move_destination.getCountryId(), attack_source.getArmies() - 1);
 					}
 				
 				--phase;
@@ -100,22 +100,39 @@ public class AggressiveStrategy extends PlayerStrategy{
 		
 		Country attack = null;
 		List<Country> neighbors = new ArrayList<>();
-		
+
+		//Get all neighbors for source country
 		for(Country country : strongest.getNeighbors()) {
 			neighbors.add(country);
 		}
 		Collections.shuffle(neighbors);
 
+		List<Country> neighborsNotInPlayerList = new ArrayList<>();
+
+		//Get all neighbors for source country that do not belong to the player
 		for(Country country : neighbors)
 		{
 			if(!d_player.getCountriesHold().contains(country))
 			{
-				return attack = country;
+				neighborsNotInPlayerList.add(country);
 				
 			}
 		}
 
-		return null;
+		Country minArmyCountry = null;
+		//Find the country with lowest army
+		if(!neighborsNotInPlayerList.isEmpty()) {
+			minArmyCountry = neighborsNotInPlayerList.get(0);
+
+			for(Country country : neighborsNotInPlayerList) {
+				if(country.getArmies() < minArmyCountry.getArmies()) {
+					minArmyCountry = country;
+				}
+			}
+		}
+
+
+		return minArmyCountry;
 	}
 
 	@Override
@@ -135,29 +152,22 @@ public class AggressiveStrategy extends PlayerStrategy{
 	@Override
 	protected Country toMoveTo() {
 
-		Country strongest = getStrongest();
+		Country theStrongest = strongest;
 		Country destination = null;
 
-		for(Country country : d_player.getCountriesHold()) {
-			for(Country neighbor : country.getNeighbors()) {
-				if(!d_player.getCountriesHold().contains(neighbor) && neighbor != strongest) {
-					destination = neighbor;
-					break;
-				}
-			}
-			if(destination != null) {
-				break;
+        List<Country> neighbors = new ArrayList<>(strongest.getNeighbors());
+
+		List<Country> neighborsOwned = new ArrayList<>();
+
+		for(Country country : neighbors) {
+			if(country.getCountryOwner() == d_player) {
+				neighborsOwned.add(country);
 			}
 		}
 
-		if(destination == null)
-		{
-			List<Country> countryList = new ArrayList<>(strongest.getNeighbors());
-
-			if(countryList.size() > 0) {
-				destination = countryList.get(0);
-			}
-
+		if(!neighborsOwned.isEmpty()) {
+			Collections.shuffle(neighborsOwned);
+			destination = neighborsOwned.get(0);
 		}
 
 		return destination;

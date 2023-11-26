@@ -170,7 +170,9 @@ public class SingleGameModePlayEngine {
 			mainPlayPhaseBusinessCommands.doReinforcements();
 
 			// edit strategy
-			gameModel.editStrategy(mainPlayPhaseController);
+			if(!gameModel.isStrategyPermanent()) {
+				gameModel.editStrategy(mainPlayPhaseController);
+			}
 
 			for(Player player : gameModel.getPlayers()) {
 				if(player.getCanAddCard() && player.getStrategy() instanceof HumanStrategy) {

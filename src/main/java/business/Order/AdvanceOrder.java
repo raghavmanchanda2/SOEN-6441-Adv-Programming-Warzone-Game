@@ -87,6 +87,7 @@ public class AdvanceOrder implements Order{
 			else {
 				int totalAttackingArmy = to_deploy_armies;
 				int totalDefendingArmy = targetCountry.getArmies();
+				targetCountry.setWasAttacked(true);
 				
 				for(int i = 0; i < totalAttackingArmy; ++i) {
 					attack = random.nextInt(10) + 1;
@@ -144,8 +145,13 @@ public class AdvanceOrder implements Order{
 		if(to_deploy_armies < fromCountry.getArmies() && to_deploy_armies >= 0 && fromCountry.getCountryOwner() == player) {
 			return true;
 		}
+		else if(fromCountry.getWasAttack() && fromCountry.getArmies() > 1) {
+			to_deploy_armies = fromCountry.getArmies() - 1;
+			fromCountry.setWasAttacked(false);
+			return true;
+		}
 		else {
-			
+			System.out.println(player.getPlayerName() + " trying to ADVANCE: " + to_deploy_armies + " armies from: " + fromCountry.getCountryId() + " to: " + targetCountry.getCountryId() + " BUT ONLY HAS: " + fromCountry.getArmies());
 			System.out.println("Following Errors Have Occurred");
 			System.out.println("--------------------------------------------------------");
 			System.out.println("1. YOU CANNOT MOVE ALL YOUR ARMIES, MUST LEAVE AT LEAST 1 BEHIND!!!");
@@ -166,7 +172,7 @@ public class AdvanceOrder implements Order{
 	@Override
 	public void printOrder() {
 		System.out.println("*****************************************************");
-		System.out.println("Advance Order " + to_deploy_armies + " armies from " + fromCountry.getCountryId() + " to " + targetCountry.getCountryId());
+		System.out.println(player.getPlayerName() + " : Advance Order " + to_deploy_armies + " armies from " + fromCountry.getCountryId() + " to " + targetCountry.getCountryId());
 		System.out.println("*****************************************************");
 	}
 

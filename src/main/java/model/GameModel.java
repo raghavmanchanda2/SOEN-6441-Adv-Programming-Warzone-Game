@@ -46,6 +46,7 @@ public class GameModel {
 	 */
 	private static GameModel gameModel;
 
+	private boolean permanentStrategy = false;
 
 	/**
 	 * Default constructor
@@ -251,7 +252,7 @@ public class GameModel {
 		boolean found = false;
 
 
-		System.out.println("DO YOU WANT TO EDIT A PLAYER STRATEGY? Press 1 for yes or 0 for no: ");
+		System.out.println("DO YOU WANT TO EDIT A PLAYER STRATEGY? Press 1 for yes or 0 for no or 2 to permanently set the strategies: ");
 		int userInput = scanner.nextInt();
 
 		if(userInput == 1) {
@@ -261,7 +262,7 @@ public class GameModel {
 				System.out.print("Enter the name of the player you want to edit or enter exit: ");
 				String input = scanner.next();
 
-				if(input == "exit") {
+				if(input.equalsIgnoreCase("exit")) {
 					scanner.close();
 					break;
 				}
@@ -282,10 +283,16 @@ public class GameModel {
 			while(true);
 
 		}
+		else if(userInput == 2) {
+			permanentStrategy = true;
+		}
 
 
 	}
 
+	public boolean isStrategyPermanent() {
+		return permanentStrategy;
+	}
 
 	public boolean changeStrat(Player player, MainPlayPhaseController p_mainPlayPhaseController) {
 

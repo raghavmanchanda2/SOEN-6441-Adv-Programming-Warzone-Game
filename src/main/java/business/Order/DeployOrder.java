@@ -47,9 +47,9 @@ public class DeployOrder implements Order{
 	 */
 	@Override
 	public void execute() {
-		
+		System.out.println(targetCountry.getCountryId() + " BEFORE DEPLOY: " + targetCountry.getArmies());
 		targetCountry.armiesDeploy(to_deploy_armies);
-		
+		System.out.println(targetCountry.getCountryId() + " AFTER DEPLOY: " + targetCountry.getArmies());
 	}
 
 	/**

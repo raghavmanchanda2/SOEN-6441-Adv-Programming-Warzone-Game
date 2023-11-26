@@ -42,6 +42,8 @@ public class Country {
 	 * Object of player class to get country owner
 	 */
 	private Player d_countryOwner;
+
+	private boolean wasAttacked;
 	
 	//-------------------------------------------
 
@@ -60,6 +62,7 @@ public class Country {
 		super();
 		this.d_uniqueCountryId = p_uniqueCountryId;
 		this.d_countryId = p_countryId;
+		this.wasAttacked = false;
 	}
 
 	/**
@@ -176,11 +179,13 @@ public class Country {
 	 */
 
 	public int getArmies() {
-
 		return d_Armies;
 	}
 
-	
+	public void setArmies(int d_Armies) {
+		this.d_Armies = d_Armies;
+	}
+
 	/**
 	 * method to create list of neigbours/borders of countries
 	 * @param p_Neighbors - set of neighbors to be shown as a string
@@ -194,7 +199,7 @@ public class Country {
 	 * @param p_NumberOfArmies - armies value
 	 */
 	public void armiesDeploy(int p_NumberOfArmies){
-		d_Armies += p_NumberOfArmies;
+		setArmies(getArmies()+p_NumberOfArmies);
 	}
 
 
@@ -246,5 +251,13 @@ public class Country {
 		d_Armies -= p_NumberOfArmies;
 	}
 	//-------------------------------------------
-	
+
+	public void setWasAttacked(boolean value) {
+		wasAttacked = value;
+	}
+
+	public boolean getWasAttack() {
+		return wasAttacked;
+	}
+
 }
