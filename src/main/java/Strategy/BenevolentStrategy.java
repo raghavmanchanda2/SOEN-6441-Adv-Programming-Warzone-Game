@@ -100,20 +100,23 @@ public class BenevolentStrategy extends PlayerStrategy{
 	@Override
 	protected Country toDefend() {
 
-		Country weakest = getWeakest();
+		weakest = getWeakest();
 
 		return weakest;
 	}
 
 	private Country getWeakest() {
 
-		Country weakest = d_player.getCountriesHold().get(0);
+		if(!d_player.getCountriesHold().isEmpty()) {
+			weakest = d_player.getCountriesHold().get(0);
 
-		for(Country country : d_player.getCountriesHold()) {
-			if(weakest.getArmies() > country.getArmies()) {
-				weakest = country;
+			for(Country country : d_player.getCountriesHold()) {
+				if(weakest.getArmies() > country.getArmies()) {
+					weakest = country;
+				}
 			}
 		}
+
 
 		return weakest;
 
@@ -121,13 +124,16 @@ public class BenevolentStrategy extends PlayerStrategy{
 
 	private Country getStrongest() {
 
-		Country strongest = d_player.getCountriesHold().get(0);
+		if(!d_player.getCountriesHold().isEmpty()) {
+			strongest = d_player.getCountriesHold().get(0);
 
-		for(Country country : d_player.getCountriesHold()) {
-			if(strongest.getArmies() < country.getArmies()) {
-				strongest = country;
+			for(Country country : d_player.getCountriesHold()) {
+				if(strongest.getArmies() < country.getArmies()) {
+					strongest = country;
+				}
 			}
 		}
+
 
 		return strongest;
 

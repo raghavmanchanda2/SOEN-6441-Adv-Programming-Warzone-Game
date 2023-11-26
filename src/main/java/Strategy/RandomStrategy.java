@@ -43,13 +43,13 @@ public class RandomStrategy extends PlayerStrategy{
 
 	@Override
 	public ResponseWrapper createOrder() throws GeneralException{
-
-		ResponseWrapper response;
 		
 		if(phase == 1) {
 
+			Country toDeploy = toDefend();
+
 			armiesIssuedPhase1 = d_player.getArmiesToIssue();
-			response = d_mainPlayPhaseBusinessCommands.deploy(d_player, toDefend().getCountryId(), d_player.getArmiesToIssue());
+			ResponseWrapper response = d_mainPlayPhaseBusinessCommands.deploy(d_player, toDeploy.getCountryId(), d_player.getArmiesToIssue());
 			
 			
 				++phase;
@@ -60,10 +60,13 @@ public class RandomStrategy extends PlayerStrategy{
 
 				destination_attack = toAttack();
 				source_attack = toAttackFrom();
+
+			ResponseWrapper response = null;
 			
 			if(destination_attack != null && source_attack != null) {
-				response = d_mainPlayPhaseBusinessCommands.advance(d_player, source_attack.getCountryId(), destination_attack.getCountryId(), d_player.getCurrentArmies() + armiesIssuedPhase1 - 1);
+				response = d_mainPlayPhaseBusinessCommands.advance(d_player, source_attack.getCountryId(), destination_attack.getCountryId(), source_attack.getArmies() - 1);
 				--phase;
+				d_player.performCommit();
 				return response;
 			}
 			else {
@@ -71,9 +74,10 @@ public class RandomStrategy extends PlayerStrategy{
 				source_move = toMoveFrom();
 				destination_move = toMoveTo();
 				
-				response = d_mainPlayPhaseBusinessCommands.advance(d_player, source_move.getCountryId(), destination_move.getCountryId(), d_player.getCurrentArmies() + armiesIssuedPhase1 - 1);
+				response = d_mainPlayPhaseBusinessCommands.advance(d_player, source_move.getCountryId(), destination_move.getCountryId(), source_move.getArmies() - 1);
  
 				--phase;
+				d_player.performCommit();
 				return response;
 				
 			}
@@ -94,10 +98,11 @@ public class RandomStrategy extends PlayerStrategy{
 			border_countries.add(country);
 		}
 
+		List<Country> border_countriesPlayerNotOwner = new ArrayList<>();
 		//Remove all countries that belong to player
 		for(Country country : border_countries) {
-			if(d_player.getCountriesHold().contains(country)) {
-				border_countries.remove(country);
+			if(country.getCountryOwner() != d_player) {
+				border_countriesPlayerNotOwner.add(country);
 			}
 		}
 
@@ -144,9 +149,12 @@ public class RandomStrategy extends PlayerStrategy{
 	@Override
 	protected Country toDefend() {
 
-		int num = random.nextInt(d_player.getCountriesHold().size());
+		if(!d_player.getCountriesHold().isEmpty()) {
+			int num = random.nextInt(d_player.getCountriesHold().size());
 
-		actionCountry = d_player.getCountriesHold().get(num);
+			actionCountry = d_player.getCountriesHold().get(num);
+		}
+
 		
 		return actionCountry;
 	}

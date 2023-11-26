@@ -76,7 +76,7 @@ public class AggressiveStrategy extends PlayerStrategy{
 
 				if(move_source != null && move_destination != null) {
 					
-						response = d_mainPlayPhaseBusinessCommands.advance(d_player, move_source.getCountryId(), move_destination.getCountryId(), attack_source.getArmies() - 1);
+						response = d_mainPlayPhaseBusinessCommands.advance(d_player, move_source.getCountryId(), move_destination.getCountryId(), move_source.getArmies() - 1);
 					}
 				
 				--phase;
@@ -186,13 +186,18 @@ public class AggressiveStrategy extends PlayerStrategy{
 
 	private Country getStrongest() {
 
-		Country strongest = d_player.getCountriesHold().get(0);
+		if(!d_player.getCountriesHold().isEmpty()) {
+			strongest = d_player.getCountriesHold().get(0);
 
-		for(Country country : d_player.getCountriesHold()) {
-			if(strongest.getArmies() < country.getArmies()) {
-				strongest = country;
+			for(Country country : d_player.getCountriesHold()) {
+				if(strongest.getArmies() < country.getArmies()) {
+					strongest = country;
+				}
 			}
 		}
+
+
+
 
 		return strongest;
 
