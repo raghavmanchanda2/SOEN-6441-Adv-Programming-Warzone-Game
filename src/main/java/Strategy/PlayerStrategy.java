@@ -9,6 +9,12 @@ import model.MapModel;
 import model.Player;
 import model.ResponseWrapper;
 
+/**
+ * Abstract Class that defines basic methods for Playerstrategy
+ * 
+ * @author Rohit
+ * @version build 3
+ */
 public abstract class PlayerStrategy {
 
 	Player d_player;
@@ -16,6 +22,13 @@ public abstract class PlayerStrategy {
 	MainPlayPhaseController d_mainPlayPhaseController;
 	MainPlayPhaseBusinessCommands d_mainPlayPhaseBusinessCommands;
 
+	/**
+	 *  The constructor for the player strategy 
+	 * @param p_player the player who uses this strategy
+	 * @param p_mapModel the map model the main play phase commands 
+	 * @param p_mainPlayPhaseController the main play phase controller
+	 * @param p_mainPlayPhaseBusinessCommands the main play phase business commands
+	 */
 	public PlayerStrategy(Player p_player, MapModel p_mapModel, MainPlayPhaseController p_mainPlayPhaseController, MainPlayPhaseBusinessCommands p_mainPlayPhaseBusinessCommands)
 	{
 		d_player = p_player;
@@ -24,8 +37,17 @@ public abstract class PlayerStrategy {
 		d_mainPlayPhaseBusinessCommands = p_mainPlayPhaseBusinessCommands;
 	}
 
+	/**
+	 *  To get strategy name 
+	 * @return Name of the strategy
+	 */
 	public abstract String getStrategyName();
 
+	/**
+	 * The basic create order method for player strategy
+	 * @return the response wrapper
+	 * @throws GeneralException the general exception
+	 */
 	public abstract ResponseWrapper createOrder() throws GeneralException;
 
 	protected abstract Country toAttack();

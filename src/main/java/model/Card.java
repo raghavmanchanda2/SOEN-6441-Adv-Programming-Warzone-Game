@@ -16,11 +16,20 @@ public class Card
 	{
 		/**
 		 * bomb card
-		 * blockade card
-		 * airlift card
-		 * diplomacy card
 		 */
-		BOMB(1), BLOCKADE(2), AIRLIFT(3), DIPLOMACY(4);
+		BOMB(1),
+		/**
+		 * blockade card
+		 */
+		BLOCKADE(2), 
+		/**
+		 * AIRLIFT card
+		 */
+		AIRLIFT(3),
+		/**
+		 * DIPLOMACY card
+		 */
+		DIPLOMACY(4);
 
 		/**
 		 * integer to get card ID

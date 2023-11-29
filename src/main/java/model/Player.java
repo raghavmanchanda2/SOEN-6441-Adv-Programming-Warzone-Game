@@ -87,6 +87,10 @@ public class Player {
 		strategy = p_strat;
 	}
 
+	/**
+	 * To get player strategy
+	 * @return returning the player strategy
+	 */
 	public PlayerStrategy getStrategy() {
 		return strategy;
 	}

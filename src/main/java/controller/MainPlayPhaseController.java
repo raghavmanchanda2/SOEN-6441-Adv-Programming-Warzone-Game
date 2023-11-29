@@ -45,6 +45,10 @@ public class MainPlayPhaseController {
 
 	}
 
+	/**
+	 *  Getting the instance
+	 * @return returning the instance
+	 */
 	public static MainPlayPhaseController getInstance() {
 		if(Objects.isNull(mainPlayPhaseController)) {
 			mainPlayPhaseController = new MainPlayPhaseController();

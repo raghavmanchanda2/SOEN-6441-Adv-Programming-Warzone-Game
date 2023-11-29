@@ -245,7 +245,10 @@ public class GameModel {
 	}
 
 
-
+/**
+ *  To edit the strategy  by getting from user
+ * @param p_mainPlayPhaseController main play phase controller
+ */
 	public void editStrategy(MainPlayPhaseController p_mainPlayPhaseController) {
 		Scanner scanner = new Scanner(System.in);
 
@@ -289,11 +292,20 @@ public class GameModel {
 
 
 	}
-
+/**
+ *  to check if the strategy is permanent
+ * @return the boolean value of the strategy
+ */
 	public boolean isStrategyPermanent() {
 		return permanentStrategy;
 	}
 
+	/**
+	 * To change the strategy of the player
+	 * @param player the player whose strategy going to be changes
+	 * @param p_mainPlayPhaseController the controller main play phase commands
+	 * @return the boolean value to change the strategy
+	 */
 	public boolean changeStrat(Player player, MainPlayPhaseController p_mainPlayPhaseController) {
 
 		Scanner scanner = new Scanner(System.in);
@@ -348,7 +360,9 @@ public class GameModel {
 
 
 	}
-
+	/**
+	 * TO PRINT PLAYER STRATEGIES
+	 */
 	public void printPlayerStrategies() {
 		String l_Columns = "%-21s   %-22s%n";
 

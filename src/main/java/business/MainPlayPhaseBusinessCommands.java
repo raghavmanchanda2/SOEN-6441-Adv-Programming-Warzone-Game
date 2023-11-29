@@ -45,7 +45,10 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 		mapModel = MapModel.getInstance();
 		gameModel = GameModel.getInstance();
 	}
-
+/**
+ *  To get the instance of main play phase commands
+ * @return returning the instance of commands
+ */
 	public static MainPlayPhaseBusinessCommands getMainPlayPhaseBusinessCommandsInstance() {
 		if(Objects.isNull(d_mainPlayPhaseBusinessCommands)) {
 			d_mainPlayPhaseBusinessCommands = new MainPlayPhaseBusinessCommands();

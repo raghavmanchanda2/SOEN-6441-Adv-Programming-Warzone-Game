@@ -181,7 +181,10 @@ public class Country {
 	public int getArmies() {
 		return d_Armies;
 	}
-
+	/**
+	 * To set the armies of the country 
+	 * @param d_Armies count of armies
+	 */
 	public void setArmies(int d_Armies) {
 		this.d_Armies = d_Armies;
 	}
@@ -252,10 +255,17 @@ public class Country {
 	}
 	//-------------------------------------------
 
+	/**
+	 * the set the attack value
+	 * @param value boolean value to be set
+	 */
 	public void setWasAttacked(boolean value) {
 		wasAttacked = value;
 	}
-
+	/**
+	 *  To check the attack
+	 * @return boolean value of attack
+	 */
 	public boolean getWasAttack() {
 		return wasAttacked;
 	}

@@ -14,6 +14,12 @@ import model.MapModel;
 import model.Player;
 import model.ResponseWrapper;
 
+/**
+ * Class that defines basic methods for an Aggressive Strategy  inherited the Playerstrategy
+ * 
+ * @author Rohit
+ * @version build 3
+ */
 public class AggressiveStrategy extends PlayerStrategy{
 
 	private final String strategyName = "AGGRESSIVE";
@@ -30,6 +36,14 @@ public class AggressiveStrategy extends PlayerStrategy{
 		return strategyName;
 	}
 
+	/**
+	 * The constructor for Aggressive strategy class 
+	 * 
+	 * @param p_player the player that uses this strategy
+	 * @param p_mapModel the map model of the game
+	 * @param p_mainPlayPhaseController the main play phase controller
+	 * @param p_mainPlayPhaseBusinessCommands the main play phase business commands
+	 */
 	public AggressiveStrategy(Player p_player, MapModel p_mapModel, MainPlayPhaseController p_mainPlayPhaseController, MainPlayPhaseBusinessCommands p_mainPlayPhaseBusinessCommands) {
 		super(p_player, p_mapModel, p_mainPlayPhaseController, p_mainPlayPhaseBusinessCommands);
 	}

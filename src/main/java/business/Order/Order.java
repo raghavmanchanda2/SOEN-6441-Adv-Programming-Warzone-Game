@@ -26,7 +26,9 @@ public interface Order {
 	 */
 	public void printOrder();
 	
-	
+	/**
+	 * get the status of the orders
+	 */
 	public ResponseWrapper getOrderStatus();
 	
 }
