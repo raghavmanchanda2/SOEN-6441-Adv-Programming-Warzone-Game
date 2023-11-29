@@ -194,49 +194,56 @@ public class SingleGameModePlayEngine implements Serializable {
 					// get player's turn
 					this.printMainPlaySetupCommands();
 					Player currentPlayer = gameModel.getNextPlayer();
-					System.out.println("***********************************************************************");
-					System.out.println(" Current Player  !  Initial Assigned  !  Left Armies  !  Strategy Name");
-					System.out.println("***********************************************************************");
-					System.out.format(l_Table2, currentPlayer.getPlayerName(), currentPlayer.getCurrentArmies(),  currentPlayer.getArmiesToIssue(), currentPlayer.getStrategy().getStrategyName());
-					System.out.println("*****************************************************");
-					String country_title = "Country Name";
-					String armies_title = "Country Armies";
-					String neighbors_title = "Neighbors";
-					System.out.format(l_Columns, country_title, armies_title, neighbors_title);
-					System.out.format("*****************************************************%n");
 
-					Map<Country, List<Country>> neighbors = this.mapModel.getBorders();
-					for (Country l_Country : currentPlayer.getCountriesHold()) {
-						if (neighbors.containsKey(l_Country)){
-							System.out.format(l_Table, l_Country.getCountryId(), l_Country.getArmies(), this.getCountriesList(neighbors.get(l_Country)));
-						}
+					if(currentPlayer.getCountriesHold().isEmpty()) {
+						currentPlayer.performCommit();
+						mainPlaySetUpResponse = new ResponseWrapper(200, currentPlayer.getPlayerName() + "HAS NO MORE COUNTRIES  AND IS OUT OF THE GAME");
+						System.out.println(mainPlaySetUpResponse.getDescription());
 					}
-					System.out.format("*****************************************************\n\n");
+					else {
+						System.out.println("***********************************************************************");
+						System.out.println(" Current Player  !  Initial Assigned  !  Left Armies  !  Strategy Name");
+						System.out.println("***********************************************************************");
+						System.out.format(l_Table2, currentPlayer.getPlayerName(), currentPlayer.getCurrentArmies(),  currentPlayer.getArmiesToIssue(), currentPlayer.getStrategy().getStrategyName());
+						System.out.println("*****************************************************");
+						String country_title = "Country Name";
+						String armies_title = "Country Armies";
+						String neighbors_title = "Neighbors";
+						System.out.format(l_Columns, country_title, armies_title, neighbors_title);
+						System.out.format("*****************************************************%n");
 
-					System.out.format("*****************************************************\n");
-					String neutralCountry_title = "Neutral Countries";
-
-					System.out.format(l_NColumns, neutralCountry_title, armies_title);
-					System.out.format("*****************************************************\n");
-					for(Country country : mapModel.getCountries()) {
-						if(country.getCountryOwner() == null) {
-							System.out.format(l_NTable, country.getCountryId(), country.getArmies());
+						Map<Country, List<Country>> neighbors = this.mapModel.getBorders();
+						for (Country l_Country : currentPlayer.getCountriesHold()) {
+							if (neighbors.containsKey(l_Country)){
+								System.out.format(l_Table, l_Country.getCountryId(), l_Country.getArmies(), this.getCountriesList(neighbors.get(l_Country)));
+							}
 						}
+						System.out.format("*****************************************************\n\n");
+
+						System.out.format("*****************************************************\n");
+						String neutralCountry_title = "Neutral Countries";
+
+						System.out.format(l_NColumns, neutralCountry_title, armies_title);
+						System.out.format("*****************************************************\n");
+						for(Country country : mapModel.getCountries()) {
+							if(country.getCountryOwner() == null) {
+								System.out.format(l_NTable, country.getCountryId(), country.getArmies());
+							}
+						}
+						System.out.format("*****************************************************\n");
+
+						gameModel.printCardsListForCurrentPlayer();
+						// ask for attack commands phase  with player
+
+
+						mainPlaySetUpResponse = currentPlayer.issueOrder();
+
+
+
+						System.out.println(mainPlaySetUpResponse.getDescription());
+
+
 					}
-					System.out.format("*****************************************************\n");
-
-					gameModel.printCardsListForCurrentPlayer();
-					// ask for attack commands phase  with player
-
-
-					mainPlaySetUpResponse = currentPlayer.issueOrder();
-
-
-
-					System.out.println(mainPlaySetUpResponse.getDescription());
-
-
-
 
 
 					if(gameModel.checkAllCommit()) {
@@ -252,7 +259,9 @@ public class SingleGameModePlayEngine implements Serializable {
 			else {
 
 			}
-			mainPlayPhaseBusinessCommands.endGame(mainPlaySetUpResponse);
+
+
+			mainPlaySetUpResponse = mainPlayPhaseBusinessCommands.endGame();
 
 			if(mainPlaySetUpResponse.getStatusValue() == 201) {
 

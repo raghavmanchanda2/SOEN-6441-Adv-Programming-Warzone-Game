@@ -1,6 +1,8 @@
 import GamePhase.MapPhaseState;
-import Strategy.PlayerStrategy;
+import Strategy.*;
+import business.MainPlayPhaseBusinessCommands;
 import business.SingleGamePlayerCommands;
+import controller.MainPlayPhaseController;
 import logger.ConsoleWriter;
 import logger.GeneralException;
 import logger.LogEntryBuffer;
@@ -28,6 +30,7 @@ public class TournamentEngine implements Serializable {
 
     MapFileAlteration mapFileAlteration;
     GameModelAlteration gameModelAlteration;
+    MainPlayPhaseController p_mainPlayPhaseController;
 
     GameModel d_gameModel;
     MapModel d_mapModel;
@@ -44,6 +47,7 @@ public class TournamentEngine implements Serializable {
         mapFileAlteration = new MapFileAlteration();
         gameModelAlteration = new GameModelAlteration();
         singleGamePlayerCommands = new SingleGamePlayerCommands();
+        p_mainPlayPhaseController = new MainPlayPhaseController();
 
     }
 
@@ -77,19 +81,17 @@ public class TournamentEngine implements Serializable {
                 GameModel.getInstance().maxNumberOfTurns = d_TournamentDetails.getD_MaxNumberOfTries();
                 d_mapModel = MapModel.getInstance();
                 d_mapModel.clearMap();
+                d_gameModel.clearGameModel();
                 TournamentResults l_Result = new TournamentResults();
                 d_Results.add(l_Result);
                 l_Result.setD_GameNumber(l_game);
                 l_Result.setD_MapName(l_File);
                 singleGamePlayerCommands.loadMap(l_File);
                 for (PlayerStrategy l_PlayerStrategy : d_TournamentDetails.getD_PlayerStrategies()) {
-                    Player l_Player = new Player(l_PlayerStrategy);
-                    l_Player.setPlayerName(l_PlayerStrategy.getClass().getSimpleName());
-                    d_gameModel.getD_Players().put(l_PlayerStrategy.getClass().getSimpleName(), l_Player);
-                }
-                for (Map.Entry<String, Player> entry : d_gameModel.getD_Players().entrySet()) {
-                    d_gameModel.getPlayers().add(entry.getValue());
-                    d_gameModel.getPlayerQueue().add(entry.getValue());
+                    Player l_Player = new Player(l_PlayerStrategy.getStrategyName());
+                    l_Player.setStrategy(getPlayerStrategy(l_PlayerStrategy.getStrategyName(), l_Player));
+                    d_gameModel.addPlayerInPlayersList(l_Player);
+                    d_gameModel.addPlayerQueue(l_Player);
                 }
                 gameModelAlteration.assignCountries();
                 SingleGameModePlayEngine l_GameEngine = new SingleGameModePlayEngine();
@@ -103,9 +105,9 @@ public class TournamentEngine implements Serializable {
             }
         }
 
-        String l_Table = "|%-15s|%-28s|%-19s|%n";
+        String l_Table = "%-19s%-32s%-19s%n";
         System.out.format("******************************************************************%n");
-        System.out.format("      Map      !       Winner               !   Game Number       %n");
+        System.out.format("Map            !       Winner               !   Game Number       %n");
         System.out.format("******************************************************************%n");
 
         for (TournamentResults l_Result : d_Results) {
@@ -115,6 +117,19 @@ public class TournamentEngine implements Serializable {
         }
         System.out.format("******************************************************************%n");
 
+    }
+
+    public PlayerStrategy getPlayerStrategy(String nameOfStrategy, Player player) {
+        if (nameOfStrategy.equalsIgnoreCase("aggressive")){
+            return new AggressiveStrategy(player, MapModel.getInstance(), p_mainPlayPhaseController, MainPlayPhaseBusinessCommands.getMainPlayPhaseBusinessCommandsInstance());
+        } else if ((nameOfStrategy.equalsIgnoreCase("benevolent"))){
+            return new BenevolentStrategy(player, MapModel.getInstance(), p_mainPlayPhaseController, MainPlayPhaseBusinessCommands.getMainPlayPhaseBusinessCommandsInstance());
+        } else if ((nameOfStrategy.equalsIgnoreCase("cheater"))){
+            return new CheaterStrategy(player, MapModel.getInstance(), p_mainPlayPhaseController, MainPlayPhaseBusinessCommands.getMainPlayPhaseBusinessCommandsInstance());
+        } else if ((nameOfStrategy.equalsIgnoreCase("random"))){
+            return new RandomStrategy(player, MapModel.getInstance(), p_mainPlayPhaseController, MainPlayPhaseBusinessCommands.getMainPlayPhaseBusinessCommandsInstance());
+        }
+        return null;
     }
 
     public TournamentDetails parseCommand(String p_TournamentCommand) {

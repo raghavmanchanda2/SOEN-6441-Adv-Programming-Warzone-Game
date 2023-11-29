@@ -50,8 +50,7 @@ public class AggressiveStrategy extends PlayerStrategy implements Serializable {
 			ResponseWrapper response = d_mainPlayPhaseBusinessCommands.deploy(d_player, toDeploy.getCountryId(), armiesIssuedPhase1);
 			
 				++phase;
-	
-				
+
 				return response;
 			
 		}

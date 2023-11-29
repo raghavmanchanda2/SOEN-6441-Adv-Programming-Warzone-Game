@@ -25,7 +25,7 @@ public class MainPlayPhaseController implements Serializable {
 	/**
 	 *  Creating scanner variable to get input from user
 	 */
-	private Scanner d_MainPlaylSetupCommands;
+	private static Scanner d_MainPlaylSetupCommands;
 	private GeneralException gException;
 	/**
 	 * Incorrect command message

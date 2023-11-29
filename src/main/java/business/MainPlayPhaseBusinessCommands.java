@@ -75,23 +75,22 @@ public class MainPlayPhaseBusinessCommands extends Phase implements Serializable
 
 	/**
 	 * Method when the game ends, i.e., the player wins all the countries.
-	 * @param mainPlaySetUpResponse main play setup response
 	 * @return response according to the situation
 	 * @throws GeneralException general exception
 	 */
 
-	public ResponseWrapper endGame(ResponseWrapper mainPlaySetUpResponse) throws GeneralException {
+	public ResponseWrapper endGame() throws GeneralException {
 		if (gameModel.numberOfTries >= gameModel.getMaxNumberOfTurns()){
-			mainPlaySetUpResponse.setStatusValue(1000);
+			//mainPlaySetUpResponse.setStatusValue(1000);
 			return new ResponseWrapper(1000, "Number of turns have been reached/exceeded!");
 		}
 		for(Player player : gameModel.getPlayers()) {
 			if(player.getCountriesHold().size() == mapModel.getCountries().size()) {
-				mainPlaySetUpResponse.setStatusValue(201);
+				//mainPlaySetUpResponse.setStatusValue(201);
 				return new ResponseWrapper(201, "Player: " + player.getPlayerName() + " CAPTURED ALL COUNTRIES IN THE MAP! GAME ENDS");
 			}
 		}
-		return null;
+		return new ResponseWrapper(199, " GAME HAS NOT ENDED YET");
 	}
 
 	/**

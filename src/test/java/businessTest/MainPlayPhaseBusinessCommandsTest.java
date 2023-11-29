@@ -80,7 +80,7 @@ class MainPlayPhaseBusinessCommandsTest {
 	
 	@Test
 	void endGame() throws GeneralException {
-		mainPlayPhaseBusinessCommands.endGame(finalResponse);
+		mainPlayPhaseBusinessCommands.endGame();
 		
 		assertEquals(201, finalResponse.getStatusValue());
 	}

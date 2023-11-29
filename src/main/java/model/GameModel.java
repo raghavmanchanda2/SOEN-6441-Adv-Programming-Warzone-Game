@@ -27,7 +27,7 @@ public class GameModel implements Serializable {
 	 * Object of player class to get current player
 	 */
 	private Player currentPlayer;
-	public static Scanner scanner;
+	public static Scanner scanner = new Scanner(System.in);
 	/**
 	 * Map of players who have committed
 	 */
@@ -269,6 +269,14 @@ public class GameModel implements Serializable {
 		return next;
 	}
 
+	public Map<Player, Boolean> getCommitState() {
+		return commitState;
+	}
+
+	public void setCommitState(Map<Player, Boolean> commitState) {
+		this.commitState = commitState;
+	}
+
 	/**
 	 * method to reset commit state of players
 	 */
@@ -338,13 +346,20 @@ public class GameModel implements Serializable {
 
 	}
 
+	public Queue<Player> getPlayerQ() {
+		return playerQ;
+	}
+
+	public void setPlayerQ(Queue<Player> playerQ) {
+		this.playerQ = playerQ;
+	}
+
 	public boolean isStrategyPermanent() {
 		return permanentStrategy;
 	}
 
 	public boolean changeStrat(Player player, MainPlayPhaseController p_mainPlayPhaseController) {
 
-		Scanner scanner = new Scanner(System.in);
 
 		while(true)
 		{
@@ -401,7 +416,7 @@ public class GameModel implements Serializable {
 		String l_Columns = "%-21s   %-22s%n";
 
 		System.out.println("CURRENT PLAYER STRATEGIES");
-		System.out.println("-------------------------");
+		System.out.println("*************************");
 
 		for(Player player : players) {
 			System.out.format(l_Columns, player.getPlayerName(), player.getStrategy().getStrategyName());
@@ -410,7 +425,27 @@ public class GameModel implements Serializable {
 
 	//--------------------------------------------------------------------------------------------------
 
+	public ResponseWrapper GameModelBuilder(GameModel d_GameModel){
+		this.setPlayers(d_GameModel.getPlayers());
+		this.setCurrentPlayer(d_GameModel.getCurrentPlayer());
+		this.setCommitState(d_GameModel.getCommitState());
+		this.setPlayerQ(d_GameModel.getPlayerQ());
+		this.setWinner(d_GameModel.getWinner());
+		return new ResponseWrapper(200, "Successfully loaded Game Stats");
+	}
 
+	public void clearGameModel() {
+		if (GameModel.getInstance().getPlayers() !=null){
+			GameModel.getInstance().getPlayers().clear();
+		}
+		if (GameModel.getInstance().getPlayerQueue() != null) {
+			GameModel.getInstance().getPlayerQueue().clear();
+		}
+		if (GameModel.getInstance().getCommitState() != null){
+			GameModel.getInstance().getCommitState().clear();
+		}
+
+	}
 
 
 

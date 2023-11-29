@@ -40,7 +40,7 @@ public class MapEngineController {
 	/**
 	 * scanner
 	 */
-	private Scanner d_inputForMapCommands;
+	private static Scanner d_inputForMapCommands;
 	/**
 	 * Object of ExecuteMapCommands
 	 */
@@ -220,7 +220,7 @@ public class MapEngineController {
 
 			case "gameplayer":
 
-				return mapPhase.addPlayerInGame(l_userEnteredCommand);
+				return mapPhase. addPlayerInGame(l_userEnteredCommand);
 
 			case "assigncountries":
 

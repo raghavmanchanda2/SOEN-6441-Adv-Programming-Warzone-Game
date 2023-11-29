@@ -6,6 +6,8 @@ import model.Country;
 import model.Player;
 import model.ResponseWrapper;
 
+import java.io.Serializable;
+
 
 /**
  * GameEngine class to start the "WarZone Engine" which contains the implementation of GamePhases.
@@ -13,7 +15,7 @@ import model.ResponseWrapper;
  * @author raghav
  * @version build 2
  */
-public abstract class Phase {
+public abstract class Phase  implements Serializable {
 	
 	
 	protected Phase() {

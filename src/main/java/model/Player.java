@@ -588,6 +588,10 @@ public class Player implements Serializable {
 		this.orders_list.add(order);
 	}
 
+	public void clearCountriesHold(){
+		this.countriesHold.clear();
+	}
+
 
 
 }

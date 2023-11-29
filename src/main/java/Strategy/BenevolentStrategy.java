@@ -15,7 +15,7 @@ import java.io.Serializable;
 
 public class BenevolentStrategy extends PlayerStrategy implements Serializable {
 
-	private final String strategyName = "HUMAN";
+	private final String strategyName = "BENEVOLENT";
 	static int phase = 1;
 
 	private Country strongest;
