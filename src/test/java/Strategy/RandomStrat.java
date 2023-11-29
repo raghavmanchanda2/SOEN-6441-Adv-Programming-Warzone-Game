@@ -2,18 +2,15 @@ package Strategy;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import business.MainPlayPhaseBusinessCommands;
-import controller.MainPlayPhaseController;
 import model.Continent;
 import model.Country;
-import model.MapModel;
 import model.Player;
 import persistence.MapFileAlteration;
 
@@ -28,6 +25,8 @@ class RandomStrat {
 
 	Continent d_Europe;
 	Country d_France;
+	
+	Player player;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -125,6 +124,8 @@ class RandomStrat {
 		d_Europe = new Continent(2, "Europe");
 
 		d_France = new Country("France", d_Europe);
+		
+		player = new Player("Raghav");
 	}
 
 	@Test
@@ -151,6 +152,36 @@ class RandomStrat {
 
 		assertEquals(randCountryExists, true);
 
+	}
+	
+	@Test
+	void testMoveTo()
+	{
+		
+		RandomStrategy strategy;
+
+		strategy = new RandomStrategy(null, null, null, null);
+
+		strategy.source_move = d_Colombia;
+		
+		player.setCountriesHold(Arrays.asList(d_Peru,d_Japan));
+		
+		strategy.d_player=player;
+		
+		Country moveToCountry = strategy.toMoveTo();
+		
+		System.out.println(moveToCountry.getCountryId());
+
+		Boolean  moveToCountryPeru= false;
+		
+		if(moveToCountry==d_Peru)
+		{
+			moveToCountryPeru=true;
+		}
+
+		assertEquals(moveToCountryPeru, true);
+		
+		
 	}
 
 }

@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import business.MainPlayPhaseBusinessCommands;
-import controller.MainPlayPhaseController;
 import model.MapModel;
 import model.Player;
 
@@ -30,7 +29,7 @@ class HumanStrat {
 	@BeforeEach
 	void setUp() throws Exception {
 		
-		player = new Player("Kevin");
+		player = new Player("Raghav");
 		
 		strategy= new HumanStrategy(player, MapModel.getInstance(),null, MainPlayPhaseBusinessCommands.getMainPlayPhaseBusinessCommandsInstance());
 		
