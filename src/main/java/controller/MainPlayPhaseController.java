@@ -1,20 +1,26 @@
 package controller;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Scanner;
 
+import business.GameProgress;
 import business.MainPlayPhaseBusinessCommands;
 import business.Phase;
 import logger.GeneralException;
+import model.GameModel;
+import model.MapModel;
 import model.Player;
 import model.ResponseWrapper;
+
+import static java.lang.System.exit;
 
 /**
  * The Controller will take input commands from user and send skimmed commands to business layer
  * @author Rohit
  * @version build2
  */
-public class MainPlayPhaseController {
+public class MainPlayPhaseController implements Serializable {
 
 	/**
 	 *  Creating scanner variable to get input from user
@@ -32,6 +38,9 @@ public class MainPlayPhaseController {
 	private Phase playPhase;
 
 	private static MainPlayPhaseController mainPlayPhaseController;
+	GameProgress gameProgress;
+	GameModel d_gameModel;
+	MapModel d_mapModel;
 
 	/**
 	 * constructor for initializing main play phase controller elements
@@ -42,6 +51,10 @@ public class MainPlayPhaseController {
 		gException=new GeneralException();
 		mainPlayPhaseBusinessCommands = new MainPlayPhaseBusinessCommands();
 		setPlayPhase(mainPlayPhaseBusinessCommands);
+		gameProgress = new GameProgress();
+		gameProgress = new GameProgress();
+		d_gameModel = GameModel.getInstance();
+		d_mapModel = MapModel.getInstance();
 
 	}
 
@@ -147,6 +160,15 @@ public class MainPlayPhaseController {
 
 			case "editcontinent":
 				return playPhase.editContinent(null, null);
+
+			case "savegame":
+				if (gameProgress.SaveGame(d_gameModel, d_mapModel, l_splitInitialSetupCommand[1])){
+					System.out.println("Saved Game successfully.");
+					System.out.println("Exiting Game Now.");
+					exit(0);
+				} else {
+					System.out.println("Could not save game.");
+				}
 
 			case "exit":
 				System.out.println("Player exit. Ending Game Now!");

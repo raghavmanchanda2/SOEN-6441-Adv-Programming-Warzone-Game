@@ -1,7 +1,10 @@
 package model;
 
+import Constants.ProjectConfig;
+import GamePhase.MapPhaseState;
 import logger.LogEntryBuffer;
 
+import java.io.*;
 import java.util.*;
 
 
@@ -11,7 +14,7 @@ import java.util.*;
  * @version build 2
  *
  */
-public class MapModel {
+public class MapModel implements Serializable {
 	/**
 	 * string map name
 	 */
@@ -48,13 +51,15 @@ public class MapModel {
 	 */
 	HashMap<String, Country> countryHashMap = new HashMap<>();
 
+	private FileReader d_mapFileReader;
+	private BufferedReader d_bufferReader;
+
 	
 	
 	/**
 	 * default constructor
 	 */
 	public MapModel() {
-		
 	}
 
 	/**
@@ -398,7 +403,104 @@ public class MapModel {
 	}
 	
 
-	
+	public ResponseWrapper MapModelBuilder(MapModel d_MapModel) {
+		this.clearMap();
+		try {
+
+			d_mapFileReader = new FileReader(ProjectConfig.D_MAP_FILES_PATH+ MapPhaseState.D_CURRENT_MAP);
+			d_bufferReader = new BufferedReader(d_mapFileReader);
+
+		} catch (FileNotFoundException p_e) {
+			// Log
+			p_e.printStackTrace();
+		}
+
+		String l_mapFileLine ;
+		boolean l_isMapContent , l_isCountriesTableContent,l_isContinentTableContent,l_isBorderTableContent;
+		l_isMapContent = l_isCountriesTableContent = l_isContinentTableContent = l_isBorderTableContent = false;
+
+		try {
+			while ((l_mapFileLine = d_bufferReader.readLine()) != null) {
+				if(l_mapFileLine.equals("MAP")) {
+					l_isMapContent = true;
+					l_isCountriesTableContent = l_isContinentTableContent = l_isBorderTableContent = false;
+					continue;
+				}else if(l_mapFileLine.equals("CONTINENTS_TABLE")) {
+					l_isContinentTableContent = true;
+					l_isMapContent = l_isCountriesTableContent = l_isBorderTableContent = false;
+					continue;
+				}else if(l_mapFileLine.equals("COUNTRIES_TABLE")) {
+					l_isCountriesTableContent = true;
+					l_isMapContent = l_isContinentTableContent = l_isBorderTableContent = false;
+					continue;
+				}else if(l_mapFileLine.equals("BORDERS_TABLE")) {
+					l_isBorderTableContent = true;
+					l_isMapContent = l_isCountriesTableContent = l_isContinentTableContent = false;
+					continue;
+				}
+
+				if(l_isMapContent) {
+					d_MapModel.setMapName(l_mapFileLine);
+				}else if(l_isContinentTableContent) {
+					String[] l_continentRow = l_mapFileLine.trim().split("\\s+");
+					try {
+						d_MapModel.addContinent(new Continent(Integer.parseInt(l_continentRow[0]),l_continentRow[1],l_continentRow[2]));
+					}catch(IndexOutOfBoundsException ex) {
+
+					}
+
+				}else if(l_isCountriesTableContent) {
+					String[] l_countryRow = l_mapFileLine.trim().split("\\s+");
+					try {
+						Country l_country = new Country(Integer.parseInt(l_countryRow[0]), l_countryRow[1]);
+
+						if(d_MapModel.getContinents().size() <= Integer.parseInt(l_countryRow[2])) {
+							d_MapModel.addContinentCountries(null, l_country);
+						}else {
+							d_MapModel.addContinentCountries(d_MapModel.getContinents().get(Integer.parseInt(l_countryRow[2])), l_country);
+						}
+
+					}catch(IndexOutOfBoundsException ex) {
+						System.out.println(ex);
+					}
+
+
+				}else if(l_isBorderTableContent) {
+					String[] l_borderRow = l_mapFileLine.trim().split("\\s+");
+					Country l_mainCountry = null ;
+					try {
+						if(d_MapModel.getCountries().size() > Integer.parseInt(l_borderRow[0])){
+							l_mainCountry = d_MapModel.getCountries().get(Integer.parseInt(l_borderRow[0]));
+						}else {
+
+						}
+
+					}catch(IndexOutOfBoundsException ex) {
+						System.out.println(ex+"nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
+					}
+
+					for(int counter = 1; counter<l_borderRow.length; counter++) {
+						try {
+							if(d_MapModel.getCountries().size() <= Integer.parseInt(l_borderRow[counter])) {
+								d_MapModel.addBorders(l_mainCountry,null);
+							}else {
+								d_MapModel.addBorders(l_mainCountry, d_MapModel.getCountries().get(Integer.parseInt(l_borderRow[counter])));
+							}
+
+						}catch(IndexOutOfBoundsException | NullPointerException ex) {
+
+						}
+
+					}
+				}
+
+			}
+		} catch (IOException p_e) {
+
+			p_e.printStackTrace();
+		}
+		return new ResponseWrapper(200, "Successfully loaded Map");
+	}
 	
 	
 	

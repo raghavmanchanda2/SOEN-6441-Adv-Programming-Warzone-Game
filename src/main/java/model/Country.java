@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.*;
 
 
@@ -9,7 +10,7 @@ import java.util.*;
  * @author Ishaan Bajaj
  * @version build 2
  */
-public class Country {
+public class Country implements Serializable {
 	/**
 	 * Integer unique country id
 	 */

@@ -2,6 +2,7 @@ package persistence;
 
 import model.*;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import controller.MainPlayPhaseController;
  * @author Rohit
  * @version build 2
  */
-public class GameModelAlteration {
+public class GameModelAlteration implements Serializable {
 	/**
 	 * Object of gamemodel class
 	 */

@@ -11,7 +11,9 @@ import model.MapModel;
 import model.Player;
 import model.ResponseWrapper;
 
-public class BenevolentStrategy extends PlayerStrategy{
+import java.io.Serializable;
+
+public class BenevolentStrategy extends PlayerStrategy implements Serializable {
 
 	private final String strategyName = "HUMAN";
 	static int phase = 1;
@@ -23,6 +25,9 @@ public class BenevolentStrategy extends PlayerStrategy{
 	public String getStrategyName() {
 
 		return strategyName;
+	}
+
+	public BenevolentStrategy() {
 	}
 
 	public BenevolentStrategy(Player p_player, MapModel p_mapModel, MainPlayPhaseController p_mainPlayPhaseController, MainPlayPhaseBusinessCommands p_mainPlayPhaseBusinessCommands) {
@@ -100,20 +105,23 @@ public class BenevolentStrategy extends PlayerStrategy{
 	@Override
 	protected Country toDefend() {
 
-		Country weakest = getWeakest();
+		weakest = getWeakest();
 
 		return weakest;
 	}
 
 	private Country getWeakest() {
 
-		Country weakest = d_player.getCountriesHold().get(0);
+		if(!d_player.getCountriesHold().isEmpty()) {
+			weakest = d_player.getCountriesHold().get(0);
 
-		for(Country country : d_player.getCountriesHold()) {
-			if(weakest.getArmies() > country.getArmies()) {
-				weakest = country;
+			for(Country country : d_player.getCountriesHold()) {
+				if(weakest.getArmies() > country.getArmies()) {
+					weakest = country;
+				}
 			}
 		}
+
 
 		return weakest;
 
@@ -121,13 +129,16 @@ public class BenevolentStrategy extends PlayerStrategy{
 
 	private Country getStrongest() {
 
-		Country strongest = d_player.getCountriesHold().get(0);
+		if(!d_player.getCountriesHold().isEmpty()) {
+			strongest = d_player.getCountriesHold().get(0);
 
-		for(Country country : d_player.getCountriesHold()) {
-			if(strongest.getArmies() < country.getArmies()) {
-				strongest = country;
+			for(Country country : d_player.getCountriesHold()) {
+				if(strongest.getArmies() < country.getArmies()) {
+					strongest = country;
+				}
 			}
 		}
+
 
 		return strongest;
 

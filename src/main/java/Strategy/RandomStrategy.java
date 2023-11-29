@@ -1,5 +1,6 @@
 package Strategy;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -15,7 +16,7 @@ import model.MapModel;
 import model.Player;
 import model.ResponseWrapper;
 
-public class RandomStrategy extends PlayerStrategy{
+public class RandomStrategy extends PlayerStrategy implements Serializable {
 
 	private final String strategyName = "RANDOM";
 	static int phase = 1;
@@ -36,6 +37,9 @@ public class RandomStrategy extends PlayerStrategy{
 		return strategyName;
 	}
 
+	public RandomStrategy() {
+	}
+
 	public RandomStrategy(Player p_player, MapModel p_mapModel, MainPlayPhaseController p_mainPlayPhaseController, MainPlayPhaseBusinessCommands p_mainPlayPhaseBusinessCommands) {
 		super(p_player, p_mapModel, p_mainPlayPhaseController, p_mainPlayPhaseBusinessCommands);
 		random = new Random();
@@ -43,13 +47,13 @@ public class RandomStrategy extends PlayerStrategy{
 
 	@Override
 	public ResponseWrapper createOrder() throws GeneralException{
-
-		ResponseWrapper response;
 		
 		if(phase == 1) {
 
+			Country toDeploy = toDefend();
+
 			armiesIssuedPhase1 = d_player.getArmiesToIssue();
-			response = d_mainPlayPhaseBusinessCommands.deploy(d_player, toDefend().getCountryId(), d_player.getArmiesToIssue());
+			ResponseWrapper response = d_mainPlayPhaseBusinessCommands.deploy(d_player, toDeploy.getCountryId(), d_player.getArmiesToIssue());
 			
 			
 				++phase;
@@ -60,10 +64,13 @@ public class RandomStrategy extends PlayerStrategy{
 
 				destination_attack = toAttack();
 				source_attack = toAttackFrom();
-			
+
+			ResponseWrapper response = null;
+
 			if(destination_attack != null && source_attack != null) {
-				response = d_mainPlayPhaseBusinessCommands.advance(d_player, source_attack.getCountryId(), destination_attack.getCountryId(), d_player.getCurrentArmies() + armiesIssuedPhase1 - 1);
+				response = d_mainPlayPhaseBusinessCommands.advance(d_player, source_attack.getCountryId(), destination_attack.getCountryId(), source_attack.getArmies() - 1);
 				--phase;
+				d_player.performCommit();
 				return response;
 			}
 			else {
@@ -71,9 +78,10 @@ public class RandomStrategy extends PlayerStrategy{
 				source_move = toMoveFrom();
 				destination_move = toMoveTo();
 				
-				response = d_mainPlayPhaseBusinessCommands.advance(d_player, source_move.getCountryId(), destination_move.getCountryId(), d_player.getCurrentArmies() + armiesIssuedPhase1 - 1);
+				response = d_mainPlayPhaseBusinessCommands.advance(d_player, source_move.getCountryId(), destination_move.getCountryId(), source_move.getArmies() - 1);
  
 				--phase;
+				d_player.performCommit();
 				return response;
 				
 			}
@@ -94,10 +102,11 @@ public class RandomStrategy extends PlayerStrategy{
 			border_countries.add(country);
 		}
 
+		List<Country> border_countriesPlayerNotOwner = new ArrayList<>();
 		//Remove all countries that belong to player
 		for(Country country : border_countries) {
-			if(d_player.getCountriesHold().contains(country)) {
-				border_countries.remove(country);
+			if(country.getCountryOwner() != d_player) {
+				border_countriesPlayerNotOwner.add(country);
 			}
 		}
 

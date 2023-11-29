@@ -9,6 +9,7 @@ import model.ResponseWrapper;
 import business.Order.*;
 import logger.GeneralException;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -20,7 +21,7 @@ import java.util.Set;
  * @author ishaan
  * @version build 2
  */
-public class MainPlayPhaseBusinessCommands extends Phase {
+public class MainPlayPhaseBusinessCommands extends Phase implements Serializable {
 
 	/**
 	 * Object of MapModel class
@@ -80,10 +81,14 @@ public class MainPlayPhaseBusinessCommands extends Phase {
 	 */
 
 	public ResponseWrapper endGame(ResponseWrapper mainPlaySetUpResponse) throws GeneralException {
+		if (gameModel.numberOfTries >= gameModel.getMaxNumberOfTurns()){
+			mainPlaySetUpResponse.setStatusValue(1000);
+			return new ResponseWrapper(1000, "Number of turns have been reached/exceeded!");
+		}
 		for(Player player : gameModel.getPlayers()) {
 			if(player.getCountriesHold().size() == mapModel.getCountries().size()) {
 				mainPlaySetUpResponse.setStatusValue(201);
-				return new ResponseWrapper(200, "Player: " + player.getPlayerName() + " CAPTURED ALL COUNTRIES IN THE MAP! GAME ENDS");
+				return new ResponseWrapper(201, "Player: " + player.getPlayerName() + " CAPTURED ALL COUNTRIES IN THE MAP! GAME ENDS");
 			}
 		}
 		return null;

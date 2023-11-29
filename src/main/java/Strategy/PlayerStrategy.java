@@ -9,12 +9,17 @@ import model.MapModel;
 import model.Player;
 import model.ResponseWrapper;
 
-public abstract class PlayerStrategy {
+import java.io.Serializable;
 
-	Player d_player;
+public abstract class PlayerStrategy implements Serializable {
+
+	Player d_player = new Player("");
 	MapModel d_mapModel;
 	MainPlayPhaseController d_mainPlayPhaseController;
 	MainPlayPhaseBusinessCommands d_mainPlayPhaseBusinessCommands;
+
+	public PlayerStrategy() {
+	}
 
 	public PlayerStrategy(Player p_player, MapModel p_mapModel, MainPlayPhaseController p_mainPlayPhaseController, MainPlayPhaseBusinessCommands p_mainPlayPhaseBusinessCommands)
 	{
@@ -35,5 +40,26 @@ public abstract class PlayerStrategy {
 	protected abstract Country toMoveTo();
 
 	protected abstract Country toDefend();
+
+	public static PlayerStrategy getStrategy(String p_Strategy) {
+		switch (p_Strategy) {
+			case "human": {
+				return new HumanStrategy();
+			}
+			case "random": {
+				return new RandomStrategy();
+			}
+			case "benevolent": {
+				return new BenevolentStrategy();
+			}
+			case "aggressive": {
+				return new AggressiveStrategy();
+			}
+			case "cheater": {
+				return new CheaterStrategy();
+			}
+		}
+		throw new IllegalStateException("not a valid player type");
+	}
 
 }

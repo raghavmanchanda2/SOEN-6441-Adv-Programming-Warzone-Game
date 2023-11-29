@@ -1,10 +1,15 @@
 import GamePhase.MapPhaseState;
 
+import business.GameProgress;
+import business.MainPlayPhaseBusinessCommands;
+import business.Phase;
 import controller.WarzoneEngineController;
 import logger.ConsoleWriter;
 import logger.LogGenerator;
 import logger.LogEntryBuffer;
 import model.ResponseWrapper;
+
+import java.util.Scanner;
 
 /**
  * Class to start the game with multiple options to the user.
@@ -39,6 +44,10 @@ public class WarzoneEngine {
 	private ConsoleWriter d_consoleWriter;
 
 	private SingleGameModePlayEngine singleGameModePlayEngine;
+	private TournamentEngine tournamentEngine;
+	private Phase playPhase;
+	private MainPlayPhaseBusinessCommands mainPlayPhaseBusinessCommands;
+	GameProgress gameProgress;
 
 	/**
 	 * constructor for WarZoneEngine
@@ -48,12 +57,16 @@ public class WarzoneEngine {
 		d_mapEngine = new MapEngine();
 		d_logGenrator = LogGenerator.getInstance();
 		singleGameModePlayEngine = new SingleGameModePlayEngine();
+		mainPlayPhaseBusinessCommands = new MainPlayPhaseBusinessCommands();
+		tournamentEngine = new TournamentEngine();
 		d_consoleWriter = new ConsoleWriter();
 		d_logger = new LogEntryBuffer();
 		d_logger.addObserver(d_consoleWriter);
 		d_logger.addObserver(d_logGenrator);
+		gameProgress = new GameProgress();
 
 	}
+
 
 	/**
 	 * method to print all the available commands at the start New Game, Load Game,
@@ -76,6 +89,8 @@ public class WarzoneEngine {
 		d_logger.setLogMessage("****************************************");
 		d_logger.setLogMessage("");
 		d_logger.setLogMessage("-> To start the game: gamestart -new");
+		d_logger.setLogMessage("-> To enter tournament mode: gamestart -tournament");
+		d_logger.setLogMessage("-> To load an existing game: gamestart -loadgame");
 		d_logger.setLogMessage("-> To end the game: gameend -end");
 		d_logger.setLogMessage("");
 		d_logger.setLogMessage("***** Input any command to proceed *****");
@@ -111,7 +126,11 @@ public class WarzoneEngine {
 				
 				break;
 			}
-			else if(userInput.equals("gameend -end")) {
+			else if (userInput.equals("gamestart -tournament")){
+				tournamentEngine.startTournamentMode();
+			} else if (userInput.equals("gamestart -loadgame")) {
+				gameProgress.LoadGame("");
+			} else if(userInput.equals("gameend -end")) {
 				System.out.println("Game Ending!");
 				System.exit(0);
 			} else {

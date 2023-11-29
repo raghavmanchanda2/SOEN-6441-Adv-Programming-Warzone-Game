@@ -8,7 +8,9 @@ import model.MapModel;
 import model.Player;
 import model.ResponseWrapper;
 
-public class CheaterStrategy extends PlayerStrategy{
+import java.io.Serializable;
+
+public class CheaterStrategy extends PlayerStrategy implements Serializable {
 
 	private final String strategyName = "CHEATER";
 
@@ -17,6 +19,8 @@ public class CheaterStrategy extends PlayerStrategy{
 		return strategyName;
 	}
 
+	public CheaterStrategy() {
+	}
 
 	public CheaterStrategy(Player p_player, MapModel p_mapModel, MainPlayPhaseController p_mainPlayPhaseController, MainPlayPhaseBusinessCommands p_mainPlayPhaseBusinessCommands) {
 		super(p_player, p_mapModel, p_mainPlayPhaseController, p_mainPlayPhaseBusinessCommands);

@@ -1,4 +1,5 @@
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -17,8 +18,9 @@ import model.*;
  * @author ishaanbajaj
  * @version build 2
  */
-public class SingleGameModePlayEngine {
+public class SingleGameModePlayEngine implements Serializable {
 
+	int currentTry;
 	/**
 	 * SingleGameModePlayEngineController object
 	 */
@@ -89,6 +91,7 @@ public class SingleGameModePlayEngine {
 		System.out.println("-> To add a player to the game: gameplayer -add playername");
 		System.out.println("-> To remove a player to the game: gameplayer -remove playername");
 		System.out.println("-> To assign the countries to all the players: assigncountries");
+		System.out.println("-> To save the game: savegame filename");
 		System.out.println("-> To continue to the StartUp Phase: continue");
 		System.out.println("-> To exit the game: exit");
 		System.out.println(" ");
@@ -121,6 +124,7 @@ public class SingleGameModePlayEngine {
 		System.out.println("-> Blockade Order Command: blockade countryID");
 		System.out.println("-> Diplomacy Order Command: negotiate playerID");
 		System.out.println("-> Commit Orders: commit");
+		System.out.println("-> To save the game: savegame filename");
 		System.out.println("-> Exit Game: exit");
 		System.out.println(" ");
 		System.out.println("***** Input any command to proceed *****");
@@ -153,10 +157,13 @@ public class SingleGameModePlayEngine {
 			}
 		}
 
-		// Reinforcement attack and fortification
-		ResponseWrapper mainPlaySetUpResponse;
-		while(true) {
+		return continueGamePlay();
 
+	}
+
+	public ResponseWrapper continueGamePlay() throws GeneralException{
+		ResponseWrapper mainPlaySetUpResponse = null;
+		while(true) {
 			if(gameModel.getPlayers()==null)
 			{
 				System.out.println("Cannot Continue with GamePlay Phase as players are not defined or map is not choosen");
@@ -181,87 +188,97 @@ public class SingleGameModePlayEngine {
 				player.endTurnCardReset();
 			}
 
-			while(true) {
-				// get player's turn
-				this.printMainPlaySetupCommands();
-				Player currentPlayer = gameModel.getNextPlayer();
-				System.out.println("***********************************************************************");
-				System.out.println(" Current Player  !  Initial Assigned  !  Left Armies  !  Strategy Name");
-				System.out.println("***********************************************************************");
-				System.out.format(l_Table2, currentPlayer.getPlayerName(), currentPlayer.getCurrentArmies(),  currentPlayer.getArmiesToIssue(), currentPlayer.getStrategy().getStrategyName());
-				System.out.println("*****************************************************");
-				String country_title = "Country Name";
-				String armies_title = "Country Armies";
-				String neighbors_title = "Neighbors";
-				System.out.format(l_Columns, country_title, armies_title, neighbors_title);
-				System.out.format("*****************************************************%n");
+			if (gameModel.numberOfTries <= gameModel.getMaxNumberOfTurns()){
+				gameModel.incrementNumberOfTries();
+				while(true) {
+					// get player's turn
+					this.printMainPlaySetupCommands();
+					Player currentPlayer = gameModel.getNextPlayer();
+					System.out.println("***********************************************************************");
+					System.out.println(" Current Player  !  Initial Assigned  !  Left Armies  !  Strategy Name");
+					System.out.println("***********************************************************************");
+					System.out.format(l_Table2, currentPlayer.getPlayerName(), currentPlayer.getCurrentArmies(),  currentPlayer.getArmiesToIssue(), currentPlayer.getStrategy().getStrategyName());
+					System.out.println("*****************************************************");
+					String country_title = "Country Name";
+					String armies_title = "Country Armies";
+					String neighbors_title = "Neighbors";
+					System.out.format(l_Columns, country_title, armies_title, neighbors_title);
+					System.out.format("*****************************************************%n");
 
-				Map<Country, List<Country>> neighbors = this.mapModel.getBorders();
-				for (Country l_Country : currentPlayer.getCountriesHold()) {
-					if (neighbors.containsKey(l_Country)){
-						System.out.format(l_Table, l_Country.getCountryId(), l_Country.getArmies(), this.getCountriesList(neighbors.get(l_Country)));
+					Map<Country, List<Country>> neighbors = this.mapModel.getBorders();
+					for (Country l_Country : currentPlayer.getCountriesHold()) {
+						if (neighbors.containsKey(l_Country)){
+							System.out.format(l_Table, l_Country.getCountryId(), l_Country.getArmies(), this.getCountriesList(neighbors.get(l_Country)));
+						}
 					}
-				}
-				System.out.format("*****************************************************\n\n");
+					System.out.format("*****************************************************\n\n");
 
-				System.out.format("*****************************************************\n");
-				String neutralCountry_title = "Neutral Countries";
+					System.out.format("*****************************************************\n");
+					String neutralCountry_title = "Neutral Countries";
 
-				System.out.format(l_NColumns, neutralCountry_title, armies_title);
-				System.out.format("*****************************************************\n");
-				for(Country country : mapModel.getCountries()) {
-					if(country.getCountryOwner() == null) {
-						System.out.format(l_NTable, country.getCountryId(), country.getArmies());
+					System.out.format(l_NColumns, neutralCountry_title, armies_title);
+					System.out.format("*****************************************************\n");
+					for(Country country : mapModel.getCountries()) {
+						if(country.getCountryOwner() == null) {
+							System.out.format(l_NTable, country.getCountryId(), country.getArmies());
+						}
 					}
+					System.out.format("*****************************************************\n");
+
+					gameModel.printCardsListForCurrentPlayer();
+					// ask for attack commands phase  with player
+
+
+					mainPlaySetUpResponse = currentPlayer.issueOrder();
+
+
+
+					System.out.println(mainPlaySetUpResponse.getDescription());
+
+
+
+
+
+					if(gameModel.checkAllCommit()) {
+						mainPlayPhaseBusinessCommands.executeOrders();
+						break;
+					}
+
 				}
-				System.out.format("*****************************************************\n");
-
-				gameModel.printCardsListForCurrentPlayer();
-				// ask for attack commands phase  with player
-
-
-				mainPlaySetUpResponse = currentPlayer.issueOrder();
-
-
-
-				System.out.println(mainPlaySetUpResponse.getDescription());
-
-
-
-
-
-				if(gameModel.checkAllCommit()) {
-					mainPlayPhaseBusinessCommands.executeOrders();
-					break;
-				}
-
 			}
+
 			// in execution if player capture country he will get card
 			// in execution if player going to win
+			else {
+
+			}
 			mainPlayPhaseBusinessCommands.endGame(mainPlaySetUpResponse);
 
 			if(mainPlaySetUpResponse.getStatusValue() == 201) {
 
 				System.out.println("WINNER OF GAME");
-				System.out.println("--------------");
+				System.out.println("**************");
 
 				for(Player player : gameModel.getPlayers()) {
 					if(player.getCountriesHold().size() > 0) {
 						System.out.println(player.getPlayerName());
+						gameModel.setWinner(player);
 					}
 				}
 
-				System.out.println("---------");
+				System.out.println("*********");
 				System.out.println("GAME ENDS");
-				System.out.println("---------");
+				System.out.println("*********");
+				break;
+			} else if (mainPlaySetUpResponse.getStatusValue() == 1000){
+				System.out.println("THE GAME ENDED IN A DRAW IN " + gameModel.getMaxNumberOfTurns() + " TURNS.");
+				System.out.println("************************");
 				break;
 			}
 
 
 		}
-
 		return null;
-
 	}
 
 	/**

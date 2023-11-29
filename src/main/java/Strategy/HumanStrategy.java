@@ -9,13 +9,18 @@ import model.MapModel;
 import model.Player;
 import model.ResponseWrapper;
 
-public class HumanStrategy extends PlayerStrategy{
+import java.io.Serializable;
+
+public class HumanStrategy extends PlayerStrategy implements Serializable {
 
 	private final String strategyName = "HUMAN";
 
 	@Override
 	public String getStrategyName() {
 		return strategyName;
+	}
+
+	public HumanStrategy() {
 	}
 
 	public HumanStrategy(Player p_player, MapModel p_mapModel, MainPlayPhaseController p_mainPlayPhaseController, MainPlayPhaseBusinessCommands p_mainPlayPhaseBusinessCommands) {

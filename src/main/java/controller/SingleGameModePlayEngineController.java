@@ -2,10 +2,15 @@ package controller;
 
 import java.util.Scanner;
 
+import business.GameProgress;
 import business.Phase;
 import business.SingleGamePlayerCommands;
 import logger.GeneralException;
+import model.GameModel;
+import model.MapModel;
 import model.ResponseWrapper;
+
+import static java.lang.System.exit;
 
 /**
  * SingleGameModePlayEngineController class
@@ -18,7 +23,7 @@ public class SingleGameModePlayEngineController {
 	/**
 	 * scanner
 	 */
-	private Scanner d_inputForInitialSetupCommands;
+	private static Scanner d_inputForInitialSetupCommands;
 	/**
 	 * General Exception
 	 */
@@ -43,6 +48,10 @@ public class SingleGameModePlayEngineController {
 	 * Object of Phase class - singlePlayPhase
 	 */
 	Phase singlePlayPhase;
+	GameModel d_gameModel;
+	MapModel d_mapModel;
+	GameProgress gameProgress;
+
 
 	/**
 	 * Default Constructor
@@ -52,6 +61,9 @@ public class SingleGameModePlayEngineController {
 		gException=new GeneralException();
 		singleGamePlayerCommands = new SingleGamePlayerCommands();
 		setPlayPhase(singleGamePlayerCommands);
+		d_gameModel = GameModel.getInstance();
+		d_mapModel = MapModel.getInstance();
+		gameProgress = new GameProgress();
 		}
 
 	/**
@@ -91,9 +103,10 @@ public class SingleGameModePlayEngineController {
 		switch (l_splitInitialSetupCommand[0]) {
 
 		case "loadmap":
-			System.out.print("in load map");
+			System.out.print("In Load Map....");
 			loadMapFirst=true;
 			return singlePlayPhase.loadMap(l_splitInitialSetupCommand[1]);
+
 			
 			
 		case "showmap":
@@ -102,8 +115,15 @@ public class SingleGameModePlayEngineController {
 				return new ResponseWrapper(404, LOAD_MAP_FIRST);
 			}
 			return singlePlayPhase.showMap();
-			
-			
+
+			case "savegame":
+				if (gameProgress.SaveGame(d_gameModel, d_mapModel, l_splitInitialSetupCommand[1])){
+					System.out.println("Saved Game successfully.");
+					System.out.println("Exiting Game Now.");
+					exit(0);
+				} else {
+					System.out.println("Could not save game.");
+				}
 			
 		case "gameplayer":
 			
@@ -199,7 +219,7 @@ public class SingleGameModePlayEngineController {
 
 			case "exit":
 				System.out.println("Ending Game!");
-				System.exit(0);
+				exit(0);
 			
 		default:
 			return new ResponseWrapper(404, INCORRECT_COMMAND); // nothing entered please enter proper

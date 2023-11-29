@@ -1,13 +1,7 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Queue;
-import java.util.Scanner;
+import java.io.Serializable;
+import java.util.*;
 
 import Strategy.AggressiveStrategy;
 import Strategy.BenevolentStrategy;
@@ -23,15 +17,17 @@ import controller.MainPlayPhaseController;
  * @author ishaanbajaj
  * @version build 2
  */
-public class GameModel {
+public class GameModel implements Serializable {
 	/**
 	 * List of players in the game
 	 */
-	private List<Player> players;
+	private List<Player> players = new ArrayList<>();
+	private HashMap<String, Player> d_Players = new HashMap<>();
 	/**
 	 * Object of player class to get current player
 	 */
 	private Player currentPlayer;
+	public static Scanner scanner;
 	/**
 	 * Map of players who have committed
 	 */
@@ -39,7 +35,7 @@ public class GameModel {
 	/**
 	 * Queue of players
 	 */
-	private Queue<Player> playerQ;
+	private Queue<Player> playerQ = new LinkedList<>();
 
 	/**
 	 * Object of GameModel class
@@ -48,10 +44,18 @@ public class GameModel {
 
 	private boolean permanentStrategy = false;
 
+	public int numberOfTries = 1;
+
+	public int maxNumberOfTurns = 10;
+
+	private Player winner;
+	private Boolean isGameLoaded = false;
+	MapModel mapModel = new MapModel();
+
 	/**
 	 * Default constructor
 	 */
-	private GameModel() {
+	public GameModel() {
 
 	}
 
@@ -70,6 +74,22 @@ public class GameModel {
 		return gameModel;
 	}
 
+	public int getMaxNumberOfTurns() {
+		return maxNumberOfTurns;
+	}
+
+	public void setMaxNumberOfTurns(int maxNumberOfTurns) {
+		this.maxNumberOfTurns = maxNumberOfTurns;
+	}
+
+	public Boolean getGameLoaded() {
+		return isGameLoaded;
+	}
+
+	public void setGameLoaded(Boolean gameLoaded) {
+		isGameLoaded = gameLoaded;
+	}
+
 	/**
 	 * method to get list of players
 	 * @return players
@@ -84,6 +104,22 @@ public class GameModel {
 	 */
 	public void setPlayers(List<Player> players) {
 		this.players = players;
+	}
+
+	public HashMap<String, Player> getD_Players() {
+		return d_Players;
+	}
+
+	public void setD_Players(HashMap<String, Player> d_Players) {
+		this.d_Players = d_Players;
+	}
+
+	public Player getWinner() {
+		return winner;
+	}
+
+	public void setWinner(Player winner) {
+		this.winner = winner;
 	}
 
 	/**
@@ -173,6 +209,18 @@ public class GameModel {
 		}
 	}
 
+	public int getNumberOfTries() {
+		return numberOfTries;
+	}
+
+	public void setNumberOfTries(int numberOfTries) {
+		this.numberOfTries = numberOfTries;
+	}
+
+	public void incrementNumberOfTries(){
+		++numberOfTries;
+	}
+
 	/**
 	 * method to reset peace for all players
 	 */
@@ -207,7 +255,7 @@ public class GameModel {
 		Player put_back = null;
 		boolean found = false;
 		while(!found) {
-			next = playerQ.poll();
+			next =  playerQ.poll();
 			put_back = next;
 			if(next.getCommit()) {
 				playerQ.add(next);
@@ -247,7 +295,7 @@ public class GameModel {
 
 
 	public void editStrategy(MainPlayPhaseController p_mainPlayPhaseController) {
-		Scanner scanner = new Scanner(System.in);
+		scanner = new Scanner(System.in);
 
 		boolean found = false;
 
@@ -361,6 +409,7 @@ public class GameModel {
 	}
 
 	//--------------------------------------------------------------------------------------------------
+
 
 
 

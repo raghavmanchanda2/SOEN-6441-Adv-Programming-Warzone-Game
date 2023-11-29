@@ -1,4 +1,5 @@
 package Strategy;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,7 +15,7 @@ import model.MapModel;
 import model.Player;
 import model.ResponseWrapper;
 
-public class AggressiveStrategy extends PlayerStrategy{
+public class AggressiveStrategy extends PlayerStrategy implements Serializable {
 
 	private final String strategyName = "AGGRESSIVE";
 	int phase = 1;
@@ -28,6 +29,9 @@ public class AggressiveStrategy extends PlayerStrategy{
 	@Override
 	public String getStrategyName() {
 		return strategyName;
+	}
+
+	public AggressiveStrategy() {
 	}
 
 	public AggressiveStrategy(Player p_player, MapModel p_mapModel, MainPlayPhaseController p_mainPlayPhaseController, MainPlayPhaseBusinessCommands p_mainPlayPhaseBusinessCommands) {
@@ -76,7 +80,7 @@ public class AggressiveStrategy extends PlayerStrategy{
 
 				if(move_source != null && move_destination != null) {
 					
-						response = d_mainPlayPhaseBusinessCommands.advance(d_player, move_source.getCountryId(), move_destination.getCountryId(), attack_source.getArmies() - 1);
+						response = d_mainPlayPhaseBusinessCommands.advance(d_player, move_source.getCountryId(), move_destination.getCountryId(), move_source.getArmies() - 1);
 					}
 				
 				--phase;
@@ -186,13 +190,18 @@ public class AggressiveStrategy extends PlayerStrategy{
 
 	private Country getStrongest() {
 
-		Country strongest = d_player.getCountriesHold().get(0);
+		if(!d_player.getCountriesHold().isEmpty()) {
+			strongest = d_player.getCountriesHold().get(0);
 
-		for(Country country : d_player.getCountriesHold()) {
-			if(strongest.getArmies() < country.getArmies()) {
-				strongest = country;
+			for(Country country : d_player.getCountriesHold()) {
+				if(strongest.getArmies() < country.getArmies()) {
+					strongest = country;
+				}
 			}
 		}
+
+
+
 
 		return strongest;
 

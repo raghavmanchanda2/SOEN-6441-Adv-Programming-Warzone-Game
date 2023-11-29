@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.*;
 
 import Strategy.CheaterStrategy;
@@ -13,7 +14,7 @@ import logger.GeneralException;
  * @author Rohit, Kevins
  * @version build 2
  */
-public class Player {
+public class Player implements Serializable {
 
 	/**
 	 * string max cards limit
@@ -28,6 +29,8 @@ public class Player {
 	 * integer base armies
 	 */
 	private int baseArmies = 5;
+
+	public static Scanner scanner;
 	/**
 	 * integer armies to issue
 	 */
@@ -55,7 +58,7 @@ public class Player {
 	/**
 	 * list of countries held by player
 	 */
-	private List<Country> countriesHold;
+	private List<Country> countriesHold = new ArrayList<>();
 	/**
 	 * map of countries and current armies in the country
 	 */
@@ -167,6 +170,10 @@ public class Player {
 		this.playerName = playerName;
 		d_can_get_card_this_turn = false;
 		commit = false;
+	}
+
+	public Player(PlayerStrategy strategy) {
+		this.strategy = strategy;
 	}
 
 	/**
@@ -393,11 +400,11 @@ public class Player {
 
 		while(true)
 		{
-			Scanner scan = new Scanner(System.in);
+			scanner = new Scanner(System.in);
 
 
-			if(scan.hasNextInt()) {
-				card_num = scan.nextInt();
+			if(scanner.hasNextInt()) {
+				card_num = scanner.nextInt();
 
 				if(card_num >= 0 && card_num <= MAX_CARD_LIMIT) {
 					break;
