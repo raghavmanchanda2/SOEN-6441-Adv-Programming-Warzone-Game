@@ -1,3 +1,4 @@
+Strategy/CheaterStrategy.class
 logger/LogEntryBuffer.class
 GameEngine.class
 business/MainPlayPhaseBusinessCommands.class
@@ -21,16 +22,21 @@ persistence/MapFileAlteration.class
 model/Continent.class
 model/Card$CardType.class
 business/Phase.class
+Strategy/HumanStrategy.class
 controller/WarzoneEngineController.class
 business/Order/DiplomacyOrder.class
 model/Player.class
+Strategy/PlayerStrategy.class
+Strategy/AggressiveStrategy.class
 controller/SingleGameModePlayEngineController.class
 MapEngine.class
 persistence/GameModelAlteration.class
+Strategy/RandomStrategy.class
 business/ExecuteMapsCommands.class
 business/Order/AirliftOrder.class
 model/Country.class
 model/ResponseWrapper.class
+Strategy/BenevolentStrategy.class
 logger/ConsoleWriter.class
 business/Order/Order.class
 controller/MainPlayPhaseController.class
