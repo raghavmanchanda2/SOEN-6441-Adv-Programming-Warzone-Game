@@ -82,7 +82,10 @@ public class Player {
 
 	private PlayerStrategy strategy;
 
-
+/**
+ *  To set the strategy of the player
+ * @param p_strat the player strategy to be set
+ */
 	public void setStrategy(PlayerStrategy p_strat) {
 		strategy = p_strat;
 	}
@@ -95,7 +98,11 @@ public class Player {
 		return strategy;
 	}
 
-
+/**
+ *  To issue the order 
+ * @return the response wrapper
+ * @throws GeneralException the general exception
+ */
 	public ResponseWrapper issueOrder() throws GeneralException{
 
 		if(strategy instanceof CheaterStrategy) {

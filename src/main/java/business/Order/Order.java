@@ -28,6 +28,7 @@ public interface Order {
 	
 	/**
 	 * get the status of the orders
+	 * @return returning the response wrapper
 	 */
 	public ResponseWrapper getOrderStatus();
 	
