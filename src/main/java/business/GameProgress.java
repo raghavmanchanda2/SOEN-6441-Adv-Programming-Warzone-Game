@@ -2,6 +2,7 @@ package business;
 
 import GamePhase.MapPhaseState;
 import logger.ConsoleWriter;
+import logger.GeneralException;
 import logger.LogEntryBuffer;
 import logger.LogGenerator;
 import model.GameModel;
@@ -19,8 +20,10 @@ public class GameProgress implements Serializable{
     private LogEntryBuffer d_logger;
     private ConsoleWriter d_consoleWriter;
     private LogGenerator d_logGenrator;
-    static MapModel mapModel;
+    MapModel mapModel;
+    GameModel gameModel;
     private final static Scanner l_Scanner = new Scanner(System.in);
+    LoadGameEngine loadGameEngine;
 
 
     public GameProgress() {
@@ -30,6 +33,8 @@ public class GameProgress implements Serializable{
         d_logger.addObserver(d_consoleWriter);
         d_logger.addObserver(d_logGenrator);
         mapModel = MapModel.getInstance();
+        gameModel = GameModel.getInstance();
+        loadGameEngine = new LoadGameEngine();
     }
 
     public boolean SaveGame(GameModel p_GameModel, MapModel p_MapModel, String p_Name){
@@ -46,7 +51,7 @@ public class GameProgress implements Serializable{
             return true;
 
         } catch (IOException e) {
-            e.fillInStackTrace();
+            e.printStackTrace();
             return false;
         }
     }
@@ -78,14 +83,16 @@ public class GameProgress implements Serializable{
             MapPhaseState.D_CURRENT_MAP = l_loadedMapModel.getMapName();
             d_logger.setLogMessage("The game is loaded successfully will continue from where it last stopped.");
 
+            MapModel.getInstance().MapModelBuilder(l_loadedMapModel);
+            GameModel.getInstance().GameModelBuilder(l_loadedGameModel);
+            loadGameEngine.continueGamePlay(l_loadedGameModel, l_loadedMapModel);
             l_Os.close();
             l_Os1.close();
 
-            MapModel.getInstance().MapModelBuilder(l_loadedMapModel);
-            GameModel.getInstance().GameModelBuilder(l_loadedGameModel);
 
-        } catch (IOException | ClassNotFoundException p_Exception) {
+        } catch (IOException | ClassNotFoundException | GeneralException p_Exception) {
             d_logger.setLogMessage("The file could not be loaded.");
+            p_Exception.printStackTrace();
         }
     }
 

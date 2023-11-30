@@ -52,7 +52,6 @@ public class MainPlayPhaseController implements Serializable {
 		mainPlayPhaseBusinessCommands = new MainPlayPhaseBusinessCommands();
 		setPlayPhase(mainPlayPhaseBusinessCommands);
 		gameProgress = new GameProgress();
-		gameProgress = new GameProgress();
 		d_gameModel = GameModel.getInstance();
 		d_mapModel = MapModel.getInstance();
 

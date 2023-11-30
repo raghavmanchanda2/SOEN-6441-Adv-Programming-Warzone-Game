@@ -425,13 +425,13 @@ public class GameModel implements Serializable {
 
 	//--------------------------------------------------------------------------------------------------
 
-	public ResponseWrapper GameModelBuilder(GameModel d_GameModel){
+	public void GameModelBuilder(GameModel d_GameModel){
 		this.setPlayers(d_GameModel.getPlayers());
 		this.setCurrentPlayer(d_GameModel.getCurrentPlayer());
 		this.setCommitState(d_GameModel.getCommitState());
 		this.setPlayerQ(d_GameModel.getPlayerQ());
 		this.setWinner(d_GameModel.getWinner());
-		return new ResponseWrapper(200, "Successfully loaded Game Stats");
+		System.out.println("Loaded Game Model successfully...");
 	}
 
 	public void clearGameModel() {

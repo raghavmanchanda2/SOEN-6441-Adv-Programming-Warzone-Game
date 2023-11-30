@@ -2,6 +2,7 @@ package logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Paths;
 import java.util.Observable;
 import java.util.Observer;
@@ -17,7 +18,7 @@ import java.util.logging.SimpleFormatter;
  * @author Raghav
  * @version build 2
  */
-public class LogGenerator extends Formatter implements Observer {
+public class LogGenerator extends Formatter implements Observer, Serializable {
 
 	/**
      * Logger instance defining the name of the log file

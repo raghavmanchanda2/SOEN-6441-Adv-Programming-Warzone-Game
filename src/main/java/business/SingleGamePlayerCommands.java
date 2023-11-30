@@ -1,14 +1,19 @@
 package business;
 
 
+import Constants.ProjectConfig;
 import GamePhase.MapPhaseState;
 import logger.GeneralException;
 import model.Continent;
 import model.Country;
 import model.Player;
 import model.ResponseWrapper;
+import persistence.Adaptee;
+import persistence.Adapter;
 import persistence.GameModelAlteration;
 import persistence.MapFileAlteration;
+
+import java.io.*;
 
 /**
  * @author ishaanbajaj
@@ -29,15 +34,17 @@ public class SingleGamePlayerCommands extends Phase{
 	 */
 	private GameModelAlteration gameModelAlteration;
 
+	private Adapter d_adapter = new Adapter(new Adaptee());
+
 	/**
 	 * Default Constructor of SingleGmePlayerCommands
 	 */
 	public SingleGamePlayerCommands() {
 		d_mapFileAlteration = new MapFileAlteration();
 		gameModelAlteration = new GameModelAlteration();
-		
+
 	}
-	
+
 	/**
 	 * method to check if the map is valid
 	 * @param p_map - map name that has to be loaded
@@ -45,35 +52,54 @@ public class SingleGamePlayerCommands extends Phase{
 	 */
 	@Override
 	public ResponseWrapper loadMap(String p_map) throws GeneralException{
-		
+
 		MapPhaseState.D_CURRENT_MAP = p_map;
-		d_mapFileAlteration.readMapFile();
-		
-		return this.d_mapFileAlteration.validateMap();
-		
+		boolean l_UseConquestAdapter = true;
+		File l_File = new File(ProjectConfig.D_MAP_FILES_PATH+MapPhaseState.D_CURRENT_MAP);
+		try {
+			BufferedReader l_BufferedReader = new BufferedReader(new FileReader(l_File));
+			while(l_BufferedReader.ready()) {
+				String l_FirstLine = l_BufferedReader.readLine();
+				if(! l_FirstLine.isEmpty()) {
+					if (l_FirstLine.contains(";")) {
+						l_UseConquestAdapter = false;
+					}
+					l_BufferedReader.close();
+				}}
+		} catch (IOException e) {
+			// Do Nothing.
+		}
+		if (l_UseConquestAdapter){
+			d_adapter.readMapFile();
+		} else {
+			d_mapFileAlteration.readMapFile();
+		}
+
+		return new ResponseWrapper(200, "");
+
 	}
-	
+
 	/**
-     * Add a player to the game
-     *
-     * @param p_playerName - player name to be added
-     * @return A {@link ResponseWrapper} object indicating the result of the operation
-     */
+	 * Add a player to the game
+	 *
+	 * @param p_playerName - player name to be added
+	 * @return A {@link ResponseWrapper} object indicating the result of the operation
+	 */
 	@Override
 	public ResponseWrapper addPlayerInGame(String p_playerName) throws GeneralException {
-		
+
 		return this.gameModelAlteration.addPlayerInGame(p_playerName);
 	}
 
 	/**
-     * Remove a player from the game
-     *
-     * @param p_playerName - player name to be removed
-     * @return A {@link ResponseWrapper} object indicating the result of the operation
-     */
+	 * Remove a player from the game
+	 *
+	 * @param p_playerName - player name to be removed
+	 * @return A {@link ResponseWrapper} object indicating the result of the operation
+	 */
 	@Override
 	public ResponseWrapper removeplayerFromGame(String p_playerName) throws GeneralException {
-		
+
 		return this.gameModelAlteration.removePlayerFromGame(p_playerName);
 	}
 
@@ -83,7 +109,7 @@ public class SingleGamePlayerCommands extends Phase{
 	 */
 	@Override
 	public ResponseWrapper assignCountries() throws GeneralException {
-		
+
 		return this.gameModelAlteration.assignCountries();
 	}
 
@@ -97,7 +123,7 @@ public class SingleGamePlayerCommands extends Phase{
 	 */
 	@Override
 	public ResponseWrapper advance(Player p_currentPlayer, String p_countryNameFrom, String p_countryNameTo,
-			int p_numerOfarmies) throws GeneralException {
+								   int p_numerOfarmies) throws GeneralException {
 		return printInvalidCommandInState();
 	}
 
@@ -123,34 +149,34 @@ public class SingleGamePlayerCommands extends Phase{
 	}
 
 	/**
-     * Edit a continent to the map.
-     *
-     * @param p_continent - The continent to be added or removed
-     * @param p_command - The command to be added or removed
-     * @return A {@link ResponseWrapper} object indicating the result of the operation.
-     */
+	 * Edit a continent to the map.
+	 *
+	 * @param p_continent - The continent to be added or removed
+	 * @param p_command - The command to be added or removed
+	 * @return A {@link ResponseWrapper} object indicating the result of the operation.
+	 */
 	@Override
 	public ResponseWrapper editContinent(Continent p_continent, String p_command) throws GeneralException {
 		return printInvalidCommandInState();
 	}
 
 	/**
-     * Commit the reinforcement
-     * @return A {@link ResponseWrapper} object indicating the result of the operation
-     */
+	 * Commit the reinforcement
+	 * @return A {@link ResponseWrapper} object indicating the result of the operation
+	 */
 	@Override
 	public ResponseWrapper afterCommitReinforcement() throws GeneralException {
 		return printInvalidCommandInState();
 	}
 
 	/**
-     * Edit a neighbor of the country to the map.
-     *
-     * @param p_mainCountry - The country where neighboring country has to be added or removed
-     * @param p_neighbourCountry - The neighboring country to be added or removed
-     * @param p_command - Check command is add or remove
-     * @return A {@link ResponseWrapper} object indicating the result of the operation
-     */
+	 * Edit a neighbor of the country to the map.
+	 *
+	 * @param p_mainCountry - The country where neighboring country has to be added or removed
+	 * @param p_neighbourCountry - The neighboring country to be added or removed
+	 * @param p_command - Check command is add or remove
+	 * @return A {@link ResponseWrapper} object indicating the result of the operation
+	 */
 	@Override
 	public ResponseWrapper editNeighbour(Country p_mainCountry, Country p_neighbourCountry, String p_command)
 			throws GeneralException {
@@ -158,12 +184,12 @@ public class SingleGamePlayerCommands extends Phase{
 	}
 
 	/**
-     * Edit a country to the map.
-     *
-     * @param p_country - The country to be added or removed
-     * @param p_command - The command to be added or removed
-     * @return A {@link ResponseWrapper} object indicating the result of the operation.
-     */
+	 * Edit a country to the map.
+	 *
+	 * @param p_country - The country to be added or removed
+	 * @param p_command - The command to be added or removed
+	 * @return A {@link ResponseWrapper} object indicating the result of the operation.
+	 */
 	@Override
 	public ResponseWrapper editCountry(Country p_country, String p_command) throws GeneralException {
 		return printInvalidCommandInState();
@@ -220,7 +246,7 @@ public class SingleGamePlayerCommands extends Phase{
 	public ResponseWrapper blockade(Player p_currentPlayer, String p_targetCountryName) throws GeneralException {
 		return printInvalidCommandInState();
 	}
-	
+
 	/**
 	 * Method that converts input string commands into objects to be used for airlift execution
 	 * @param p_currentPlayer - Current player object that is inputing string command
@@ -233,7 +259,7 @@ public class SingleGamePlayerCommands extends Phase{
 	public ResponseWrapper airlift(Player p_currentPlayer, String p_countryNameFrom, String p_countryNameTo, int p_numArmies)  throws GeneralException {
 		return printInvalidCommandInState();
 	}
-	
+
 	/**
 	 * Method that converts input string commands into objects to be used for diplomacy execution
 	 * @param p_currentPlayer - player executing diplomacy with another player
@@ -275,6 +301,6 @@ public class SingleGamePlayerCommands extends Phase{
 		this.d_mapFileAlteration = d_mapFileAlteration;
 	}
 
-	
+
 
 }

@@ -9,8 +9,6 @@ import logger.LogGenerator;
 import logger.LogEntryBuffer;
 import model.ResponseWrapper;
 
-import java.util.Scanner;
-
 /**
  * Class to start the game with multiple options to the user.
  * @author Rohit

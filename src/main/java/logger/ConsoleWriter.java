@@ -1,5 +1,6 @@
 package logger;
 
+import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -11,7 +12,7 @@ import java.util.Observer;
  * @version build 2
  *
  */
-public class ConsoleWriter implements Observer {
+public class ConsoleWriter implements Observer, Serializable {
 
 	private String d_logMsg;
 	

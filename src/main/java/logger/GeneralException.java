@@ -1,5 +1,6 @@
 package logger;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * @author Raghav
  * @version build 2
  */
-public class GeneralException extends Exception {
+public class GeneralException extends Exception implements Serializable {
 
 	/**
 	 * default constructor

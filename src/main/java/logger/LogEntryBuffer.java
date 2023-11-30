@@ -1,5 +1,6 @@
 package logger;
 
+import java.io.Serializable;
 import java.util.Observable;
 
 
@@ -8,7 +9,7 @@ import java.util.Observable;
  * @author Raghav
  * @version build 2
  */
-public class LogEntryBuffer extends Observable {
+public class LogEntryBuffer extends Observable implements Serializable {
 	
 	/**
 	 * log message

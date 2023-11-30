@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import Strategy.HumanStrategy;
+import business.GameProgress;
 import business.MainPlayPhaseBusinessCommands;
 import controller.MainPlayPhaseController;
 import controller.SingleGameModePlayEngineController;
@@ -47,6 +48,9 @@ public class SingleGameModePlayEngine implements Serializable {
 	 * Console Writer
 	 */
 	private ConsoleWriter d_consoleWriter;
+
+	WarzoneEngine warzoneEngine;
+	GameProgress gameProgress;
 	/**
 	 * table pattern
 	 */
