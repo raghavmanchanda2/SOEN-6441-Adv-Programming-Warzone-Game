@@ -337,5 +337,96 @@ class MapModelTest {
 		assertEquals("Test Observer Pattern",l_mockObserver2.getLogMsg());
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@Test
+	public void testObserverPattern1() {
+		LogEntryBuffer l_logBuffer = new LogEntryBuffer();
+
+		ConsoleWriter l_mockObserver1 = new ConsoleWriter();
+		ConsoleWriter l_mockObserver2 = new ConsoleWriter();
+		
+		
+
+		l_logBuffer.addObserver(l_mockObserver1);
+		l_logBuffer.addObserver(l_mockObserver2);
+
+		l_logBuffer.setLogMessage("Test Observer Pattern");
+
+		
+		assertEquals("Test Observer Pattern",l_mockObserver1.getLogMsg());
+		assertEquals("Test Observer Pattern",l_mockObserver2.getLogMsg());
+	}
+	
+	@Test
+	public void testObserverPattern2() {
+		LogEntryBuffer l_logBuffer = new LogEntryBuffer();
+
+		ConsoleWriter l_mockObserver1 = new ConsoleWriter();
+		ConsoleWriter l_mockObserver2 = new ConsoleWriter();
+		
+		
+
+		l_logBuffer.addObserver(l_mockObserver1);
+		l_logBuffer.addObserver(l_mockObserver2);
+
+		l_logBuffer.setLogMessage("Test Observer Pattern");
+
+		
+		assertEquals("Test Observer Pattern",l_mockObserver1.getLogMsg());
+		assertEquals("Test Observer Pattern",l_mockObserver2.getLogMsg());
+	}
+	
+	@Test
+	public void testObserverPattern3() {
+		LogEntryBuffer l_logBuffer = new LogEntryBuffer();
+
+		ConsoleWriter l_mockObserver1 = new ConsoleWriter();
+		ConsoleWriter l_mockObserver2 = new ConsoleWriter();
+		
+		
+
+		l_logBuffer.addObserver(l_mockObserver1);
+		l_logBuffer.addObserver(l_mockObserver2);
+
+		l_logBuffer.setLogMessage("Test Observer Pattern");
+
+		
+		assertEquals("Test Observer Pattern",l_mockObserver1.getLogMsg());
+		assertEquals("Test Observer Pattern",l_mockObserver2.getLogMsg());
+	}
+	
 
 }
