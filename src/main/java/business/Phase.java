@@ -187,7 +187,7 @@ public abstract class Phase  implements Serializable {
 	 * @throws GeneralException if anything goes wrong
 	 * @return alert message that map has successfully been saved
 	 */
-	public abstract ResponseWrapper saveMap(String p_mapFileName) throws GeneralException;
+	public abstract ResponseWrapper saveMap(String p_mapFileName, Boolean saveAsConquest) throws GeneralException;
 	
 	/**
 	 * It will open the map if the map is already in the map folder or else it will create a new map in the

@@ -437,7 +437,7 @@ public class MainPlayPhaseBusinessCommands extends Phase implements Serializable
 	 * @return alert message that map has successfully been saved
 	 */
 	@Override
-	public ResponseWrapper saveMap(String p_mapFileName) throws GeneralException {
+	public ResponseWrapper saveMap(String p_mapFileName, Boolean saveAsConquest) throws GeneralException {
 		return printInvalidCommandInState();
 	}
 

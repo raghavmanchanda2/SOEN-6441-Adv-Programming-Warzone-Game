@@ -210,7 +210,7 @@ public class MapFileAlteration {
 	 * Use buffer variable to efficiently transfer data
 	 * @param p_mapFileName - name of map file
 	 */
-	private void writeMapFile(String p_mapFileName) {
+	private void writeMapFile(String p_mapFileName, Boolean saveAsConquest) {
 		try {
 			if(! MapPhaseState.D_CURRENT_MAP.equals(p_mapFileName)) {
 				try{
@@ -338,8 +338,8 @@ public class MapFileAlteration {
 	 * @param p_mapFileName - name of map file
 	 * @return alert to show map has been successfully saved
 	 */
-	public ResponseWrapper saveMap(String p_mapFileName) {
-		this.writeMapFile(p_mapFileName);
+	public ResponseWrapper saveMap(String p_mapFileName, Boolean saveAsConquest) {
+		this.writeMapFile(p_mapFileName,saveAsConquest);
 		return new ResponseWrapper(200, "Save Map successfully ");
 	}
 

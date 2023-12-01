@@ -143,7 +143,7 @@ public class MainPlayPhaseController implements Serializable {
 
 			case "savemap":
 
-				return playPhase.saveMap(null);
+				return playPhase.saveMap(null, null);
 
 
 			case "validatemap":

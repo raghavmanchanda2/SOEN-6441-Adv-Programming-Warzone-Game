@@ -183,7 +183,7 @@ public class SingleGameModePlayEngineController {
 				return new ResponseWrapper(404, LOAD_MAP_FIRST);
 			}
 			
-			return singlePlayPhase.saveMap(null);
+			return singlePlayPhase.saveMap(null, null);
 			
 
 		case "validatemap":

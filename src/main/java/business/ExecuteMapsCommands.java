@@ -129,8 +129,8 @@ public class ExecuteMapsCommands extends Phase {
 	 * @return alert message that map has successfully been saved
 	 */
 	@Override
-	public ResponseWrapper saveMap(String p_mapFileName) throws GeneralException{
-		return this.d_mapFileAlteration.saveMap(p_mapFileName);
+	public ResponseWrapper saveMap(String p_mapFileName, Boolean saveAsConquest) throws GeneralException{
+		return this.d_mapFileAlteration.saveMap(p_mapFileName, saveAsConquest);
 	}
 	
 	/**

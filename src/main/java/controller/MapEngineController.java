@@ -13,10 +13,13 @@
 package controller;
 
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 import business.ExecuteMapsCommands;
 import business.Phase;
+import logger.ConsoleWriter;
 import logger.GeneralException;
+import logger.LogEntryBuffer;
 import logger.LogGenerator;
 import model.Continent;
 import model.Country;
@@ -63,6 +66,9 @@ public class MapEngineController {
 	 */
 	private GeneralException gException = new GeneralException();
 
+	private LogEntryBuffer d_logger;
+	private ConsoleWriter d_consoleWriter;
+
 	/**
 	 * Enumerates the supported map-related commands.
 	 */
@@ -106,6 +112,10 @@ public class MapEngineController {
 		d_executeMapsCommands = new ExecuteMapsCommands();
 		this.d_logGenrator = LogGenerator.getInstance();
 		setMapPhase(d_executeMapsCommands);
+		d_consoleWriter = new ConsoleWriter();
+		d_logger = new LogEntryBuffer();
+		d_logger.addObserver(d_consoleWriter);
+		d_logger.addObserver(d_logGenrator);
 	}
 
 	/**
@@ -190,8 +200,18 @@ public class MapEngineController {
 				return mapPhase.showMap();
 
 			case "savemap":
-
-				return mapPhase.saveMap(l_splittedCommands[1]);
+				d_logger.setLogMessage(" Select the map file format you want to save the map in:");
+				d_logger.setLogMessage("1. Domination map");
+				d_logger.setLogMessage("2. Conquest map");
+				String userInputForMap = d_inputForMapCommands.nextLine();
+				if (userInputForMap.equals("1")) {
+					return mapPhase.saveMap(l_splittedCommands[1], false);
+				}else if (userInputForMap.equals("2")){
+					return mapPhase.saveMap(l_splittedCommands[1], true);
+				}
+				else {
+					return new ResponseWrapper(300, "Please enter the right value");
+				}
 
 			case "validatemap":
 
