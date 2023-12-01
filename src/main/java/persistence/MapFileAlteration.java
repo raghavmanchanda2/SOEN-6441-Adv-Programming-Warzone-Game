@@ -396,13 +396,13 @@ public class MapFileAlteration {
 
 		System.out.format("\nCountries allotted to players: ");
 
-		System.out.format("\n**************************************************%n");
-		System.out.format("     Players     !     Allotted Countries       %n");
-		System.out.format("**************************************************%n");
+		System.out.format("\n*****************************************************************%n");
+		System.out.format("     Players     !     Strategy     !     Allotted Countries       %n");
+		System.out.format("*******************************************************************%n");
 
 		if(this.gameModel.getPlayers() != null ) {
 			for(Player player : gameModel.getPlayers()) {
-				System.out.format("    " + player.getPlayerName() + "   !   " );
+				System.out.format("     " + player.getPlayerName() + "     !     " +player.getStrategy().getStrategyName() + "     !     ");
 				if(player.getCountriesHold() != null) {
 					for(Country country : player.getCountriesHold())
 						System.out.format(" -" + country.getCountryId());
@@ -411,7 +411,7 @@ public class MapFileAlteration {
 			}
 		}
 
-		System.out.format("**************************************************%n");
+		System.out.format("*******************************************************************%n");
 
 		return new ResponseWrapper(200," Show Map Done Successfully");
 
