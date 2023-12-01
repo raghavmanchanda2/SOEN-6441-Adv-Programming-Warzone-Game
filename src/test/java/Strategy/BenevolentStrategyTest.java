@@ -56,9 +56,9 @@ class BenevolentStrategyTest {
     
     @Test
     void testToMoveFrom() {
-        d_Player.addCountryHold(d_Canada);
-        d_Player.addCountryHold(d_USA);
-        d_Player.addCountryHold(d_Mexico);
+        d_Player.addCountry(d_Canada);
+        d_Player.addCountry(d_USA);
+        d_Player.addCountry(d_Mexico);
         
         d_Canada.setArmy(10);
         d_USA.setArmy(20); // Strongest country
@@ -77,8 +77,8 @@ class BenevolentStrategyTest {
         d_Mexico.setArmy(15); 
 
         
-        d_Player.addCountryHold(d_Canada);
-        d_Player.addCountryHold(d_Mexico);
+        d_Player.addCountry(d_Canada);
+        d_Player.addCountry(d_Mexico);
         d_Mexico.getNeighbors().add(d_USA); 
         d_USA.getNeighbors().add(d_Mexico); 
 
@@ -90,6 +90,38 @@ class BenevolentStrategyTest {
        
         assertEquals(d_USA, actualCountry);
     }
-
+    
+    
+    @Test
+    void testgetStrongest() {
+    	 d_Canada.setArmy(10);
+         d_USA.setArmy(5);      
+         d_Mexico.setArmy(15);
+         
+         d_Player.addCountry(d_Canada);
+         d_Player.addCountry(d_USA);
+         d_Player.addCountry(d_Mexico);
+         
+         Country strongest = d_BenevolentStrategy.getStrongest();
+         
+         assertEquals(strongest, d_Mexico);
+         
+    }
+    
+    @Test
+    void testgetWeakest() {
+    	 d_Canada.setArmy(10);
+         d_USA.setArmy(5);      
+         d_Mexico.setArmy(15);
+         
+         d_Player.addCountry(d_Canada);
+         d_Player.addCountry(d_USA);
+         d_Player.addCountry(d_Mexico);
+         
+         Country weakest = d_BenevolentStrategy.getWeakest();
+         
+         assertEquals(weakest, d_USA);
+         
+    }
 
 }

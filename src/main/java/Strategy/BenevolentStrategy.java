@@ -110,7 +110,7 @@ public class BenevolentStrategy extends PlayerStrategy implements Serializable {
 		return weakest;
 	}
 
-	private Country getWeakest() {
+	public Country getWeakest() {
 
 		if(!d_player.getCountriesHold().isEmpty()) {
 			weakest = d_player.getCountriesHold().get(0);
@@ -127,7 +127,7 @@ public class BenevolentStrategy extends PlayerStrategy implements Serializable {
 
 	}
 
-	private Country getStrongest() {
+	public Country getStrongest() {
 
 		if(!d_player.getCountriesHold().isEmpty()) {
 			strongest = d_player.getCountriesHold().get(0);

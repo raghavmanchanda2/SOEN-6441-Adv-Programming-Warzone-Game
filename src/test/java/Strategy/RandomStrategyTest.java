@@ -14,7 +14,7 @@ import model.Country;
 import model.Player;
 import persistence.MapFileAlteration;
 
-class RandomStrat {
+class RandomStrategyTest {
 
 	MapFileAlteration d_MFA;
 	Continent d_America;

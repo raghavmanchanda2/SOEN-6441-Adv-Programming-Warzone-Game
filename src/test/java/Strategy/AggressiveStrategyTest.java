@@ -41,7 +41,8 @@ class AggressiveStrategyTest {
 
         d_MapModel.addBorders(d_Canada, d_USA);
         d_MapModel.addBorders(d_USA, d_Mexico);
-        d_MapModel.addBorders(d_Mexico, d_Canada);
+        d_MapModel.addBorders(d_USA, d_Canada);
+        d_MapModel.addBorders(d_Mexico, d_Mexico);
     }
 
     @Test
@@ -52,9 +53,9 @@ class AggressiveStrategyTest {
     
     @Test
     void testToDefend() {
-        d_Player.addCountryHold(d_Canada);
-        d_Player.addCountryHold(d_USA);
-        d_Player.addCountryHold(d_Mexico);
+        d_Player.addCountry(d_Canada);
+        d_Player.addCountry(d_USA);
+        d_Player.addCountry(d_Mexico);
 
         d_Canada.setArmy(5);
         d_USA.setArmy(10);
@@ -66,12 +67,30 @@ class AggressiveStrategyTest {
     
     @Test
     void testToAttackFrom() {
-        d_Player.addCountryHold(d_Mexico);
+        d_Player.addCountry(d_Mexico);
         d_Mexico.setArmy(20);
         d_AggressiveStrategy.toDefend();
 
         Country l_Result = d_AggressiveStrategy.toAttackFrom();
         assertEquals(d_Mexico, l_Result);
     }
+    
+    
+    @Test
+    void testToAttack() {
+    	d_Player.addCountry(d_USA);
+    	
+    	 d_Canada.setArmy(5);
+         d_USA.setArmy(10);
+         d_Mexico.setArmy(15);
+         
+         d_AggressiveStrategy.toDefend();
+         
+         Country l_Result = d_AggressiveStrategy.toAttack();
+         assertEquals(d_Canada, l_Result);
+         
+    }
+    
+    
 }
 
