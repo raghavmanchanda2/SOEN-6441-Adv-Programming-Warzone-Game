@@ -19,7 +19,7 @@ class MainPlayPhaseBusinessCommandsTest {
 
 	private MainPlayPhaseBusinessCommands mainPlayPhaseBusinessCommands = new MainPlayPhaseBusinessCommands();
 	
-	private ResponseWrapper finalResponse = new ResponseWrapper(0,"");
+	private ResponseWrapper finalResponse = new ResponseWrapper(201,"");
 	
 	private MapModel mapModel = MapModel.getInstance();
 	private GameModel gameModel = GameModel.getInstance();
