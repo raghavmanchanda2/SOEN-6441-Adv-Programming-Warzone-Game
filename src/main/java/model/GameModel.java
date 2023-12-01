@@ -319,7 +319,7 @@ public class GameModel implements Serializable {
 				String input = scanner.next();
 
 				if(input.equalsIgnoreCase("exit")) {
-					scanner.close();
+					
 					break;
 				}
 				else {
