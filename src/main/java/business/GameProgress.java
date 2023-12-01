@@ -85,7 +85,7 @@ public class GameProgress implements Serializable{
 
             MapModel.getInstance().MapModelBuilder(l_loadedMapModel);
             GameModel.getInstance().GameModelBuilder(l_loadedGameModel);
-            loadGameEngine.continueGamePlay(l_loadedGameModel, l_loadedMapModel);
+            loadGameEngine.continueGamePlay(gameModel, mapModel);
             l_Os.close();
             l_Os1.close();
 

@@ -11,7 +11,7 @@ import business.MainPlayPhaseBusinessCommands;
 import model.MapModel;
 import model.Player;
 
-class HumanStrat {
+class HumanStrategyTest {
 	
 	PlayerStrategy  strategy;
 	
