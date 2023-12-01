@@ -13,18 +13,48 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Scanner;
 
+/**
+ * Class to save and load game
+ */
 public class GameProgress implements Serializable{
 
+    /**
+     * path where all the files are saved
+     */
     static final String PATH = "savedFiles/";
 
+    /**
+     * LogEntrybuffer
+     */
     private LogEntryBuffer d_logger;
+    /**
+     * ConsoleWriter
+     */
     private ConsoleWriter d_consoleWriter;
+    /**
+     * LogGenerator
+     */
     private LogGenerator d_logGenrator;
+    /**
+     * MapModel object
+     */
     MapModel mapModel;
+    /**
+     * GameModel object
+     */
     GameModel gameModel;
+    /**
+     * Scanner
+     */
     private final static Scanner l_Scanner = new Scanner(System.in);
+    /**
+     * LoadGameEngine object
+     */
     LoadGameEngine loadGameEngine;
 
+    /**
+     * default constructor
+     */
 
     public GameProgress() {
         d_logger = new LogEntryBuffer();
@@ -37,6 +67,13 @@ public class GameProgress implements Serializable{
         loadGameEngine = new LoadGameEngine();
     }
 
+    /**
+     * Method to save game
+     * @param p_GameModel gamemodel
+     * @param p_MapModel mapmodel
+     * @param p_Name filename
+     * @return boolean
+     */
     public boolean SaveGame(GameModel p_GameModel, MapModel p_MapModel, String p_Name){
         try {
             ObjectOutputStream outputStream =
@@ -56,6 +93,11 @@ public class GameProgress implements Serializable{
         }
     }
 
+    /**
+     * method to load the game from file
+     * @param p_fileName filename
+     * @throws IOException if anything goes wrong
+     */
     public void LoadGame(String p_fileName) throws IOException {
         showLoadFiles();
         String l_Command = l_Scanner.nextLine();
@@ -96,6 +138,12 @@ public class GameProgress implements Serializable{
         }
     }
 
+    /**
+     * method to loadgame
+     * @param p_fileName filename
+     * @return boolean
+     * @throws IOException if anything goes wrong
+     */
     public boolean LoadGameTestMethod(String p_fileName) throws IOException {
         showLoadFiles();
 
@@ -133,6 +181,10 @@ public class GameProgress implements Serializable{
     }
 
 
+    /**
+     * method to show files which can be loaded
+     * @throws IOException if anything goes wrong
+     */
     public void showLoadFiles() throws IOException {
         d_logger.setLogMessage("****************************************");
         d_logger.setLogMessage("************** LOAD GAME ***************");
@@ -152,6 +204,11 @@ public class GameProgress implements Serializable{
         d_logger.setLogMessage("****************************************");
     }
 
+    /**
+     * method to parse command from user
+     * @param command user command
+     * @return string filename
+     */
     private String parseCommand(String command) {
         String[] l_Commands = command.split(" ");
         if (l_Commands.length == 2 && l_Commands[0].equals("loadgame")) {
